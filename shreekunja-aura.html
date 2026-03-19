@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Shreekunja Optical | श्रीकुञ्ज अप्टिकल</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@300;400;500;600;700&family=Bebas+Neue&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,200;0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+
+<style>
+/* ══════════════════════════════════════════════════════
+   ROOT VARIABLES — OLED CYBER-MEDICAL PALETTE
+══════════════════════════════════════════════════════ */
+:root {
+  --black:    #050505;
+  --black2:   #0a0a0a;
+  --black3:   #0f0f0f;
+  --glass:    rgba(255,255,255,0.04);
+  --glass2:   rgba(255,255,255,0.07);
+  --border:   rgba(255,255,255,0.07);
+  --border-em:rgba(46,224,113,0.25);
+  --em:       #2ee071;
+  --em2:      #1db855;
+  --em-glow:  rgba(46,224,113,0.15);
+  --em-deep:  rgba(46,224,113,0.06);
+  --silver:   #c8d0d8;
+  --silver2:  #e8edf2;
+  --t1:       #f0f4f8;
+  --t2:       #7a8694;
+  --t3:       #3a4450;
+  --r:        40px;
+  --r2:       24px;
+  --r3:       16px;
+}
+
+/* ══════════════════════════════════════════════════════
+   RESET & BASE
+══════════════════════════════════════════════════════ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { font-size:16px; scroll-behavior:smooth; }
+
+body {
+  background: var(--black);
+  color: var(--t1);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  min-height: 100vh;
+  overflow-x: hidden;
+  /* Mobile-first max width centered */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--black); }
+::-webkit-scrollbar-thumb { background: var(--em2); border-radius: 2px; }
+
+/* ══════════════════════════════════════════════════════
+   PHONE SHELL — centers and constrains mobile layout
+══════════════════════════════════════════════════════ */
+.phone {
+  width: 100%;
+  max-width: 420px;
+  min-height: 100vh;
+  background: var(--black);
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-bottom: 100px;
+  /* ambient glow */
+  box-shadow: 0 0 120px rgba(46,224,113,0.04), 0 0 280px rgba(46,224,113,0.02);
+}
+
+/* Desktop frame hint */
+@media (min-width:500px) {
+  body { background: #020202; padding: 20px 0; align-items: center; min-height: 100vh; }
+  .phone {
+    border-radius: 44px;
+    border: 1px solid rgba(255,255,255,0.06);
+    max-height: 92vh;
+    overflow-y: auto;
+    box-shadow: 0 40px 120px rgba(0,0,0,0.9), 0 0 80px rgba(46,224,113,0.06), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+}
+
+/* ══════════════════════════════════════════════════════
+   NOISE TEXTURE OVERLAY
+══════════════════════════════════════════════════════ */
+.phone::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  max-width: 420px;
+}
+
+/* ══════════════════════════════════════════════════════
+   STICKY GLASSMORPHISM HEADER
+══════════════════════════════════════════════════════ */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 22px;
+  background: rgba(5,5,5,0.75);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border-bottom: 1px solid var(--border);
+}
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--em), transparent);
+  opacity: 0.3;
+}
+
+.logo-block { display: flex; flex-direction: column; gap: 1px; }
+.logo-en {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, var(--silver2), var(--silver), #a0a8b0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+.logo-ne {
+  font-family: 'Noto Sans Devanagari', sans-serif;
+  font-weight: 400;
+  font-size: 11px;
+  color: var(--em);
+  letter-spacing: 0.5px;
+  line-height: 1;
+}
+.header-actions { display: flex; align-items: center; gap: 10px; }
+.hdr-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--glass2);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.hdr-btn:hover { background: var(--em-glow); border-color: var(--border-em); }
+
+/* ══════════════════════════════════════════════════════
+   HERO SECTION
+══════════════════════════════════════════════════════ */
+.hero {
+  position: relative;
+  padding: 48px 24px 40px;
+  overflow: hidden;
+  text-align: center;
+}
+/* Ambient orb */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -60px; left: 50%; transform: translateX(-50%);
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(46,224,113,0.09) 0%, transparent 65%);
+  pointer-events: none;
+  animation: pulse-orb 4s ease-in-out infinite;
+}
+@keyframes pulse-orb {
+  0%,100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+  50% { opacity: 1; transform: translateX(-50%) scale(1.08); }
+}
+
+/* Status pill */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  background: var(--em-deep);
+  border: 1px solid var(--border-em);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--em);
+  margin-bottom: 24px;
+  animation: fadeIn 0.8s ease both;
+}
+.status-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--em);
+  animation: blink 2s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+.hero-en {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(54px, 15vw, 72px);
+  line-height: 0.92;
+  letter-spacing: 4px;
+  background: linear-gradient(180deg, var(--t1) 0%, rgba(200,208,216,0.7) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: slideUp 0.9s 0.1s ease both;
+}
+.hero-ne {
+  font-family: 'Noto Sans Devanagari', sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  color: var(--em);
+  letter-spacing: 1px;
+  margin-top: 10px;
+  opacity: 0.85;
+  animation: slideUp 0.9s 0.2s ease both;
+}
+.hero-sub {
+  font-size: 12px;
+  color: var(--t2);
+  margin-top: 16px;
+  letter-spacing: 1px;
+  line-height: 1.7;
+  max-width: 280px;
+  margin-left: auto;
+  margin-right: auto;
+  animation: slideUp 0.9s 0.3s ease both;
+}
+
+/* Eye scan graphic */
+.eye-scan {
+  width: 120px; height: 60px;
+  margin: 28px auto 0;
+  position: relative;
+  animation: slideUp 0.9s 0.4s ease both;
+}
+.eye-scan svg { width: 100%; height: 100%; }
+
+@keyframes slideUp {
+  from { opacity:0; transform:translateY(24px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity:0; } to { opacity:1; }
+}
+
+/* ══════════════════════════════════════════════════════
+   SECTION LABEL
+══════════════════════════════════════════════════════ */
+.sec-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 24px;
+  margin-bottom: 14px;
+}
+.sec-label-line { flex:1; height:1px; background: linear-gradient(90deg, var(--border), transparent); }
+.sec-label-text {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--t3);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* ══════════════════════════════════════════════════════
+   LENS SIMULATOR
+══════════════════════════════════════════════════════ */
+.sim-section { padding: 0 20px 36px; }
+.sim-card {
+  border-radius: var(--r);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--black2);
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.02);
+}
+.sim-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent 10%, var(--em) 50%, transparent 90%);
+  opacity: 0.4;
+  z-index: 5;
+}
+
+.sim-labels {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 20px 10px;
+  position: relative;
+  z-index: 4;
+}
+.sim-lbl {
+  font-family: 'Noto Sans Devanagari', sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.sim-lbl-ne { font-size: 11px; font-weight: 500; color: var(--t2); }
+.sim-lbl-en { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; }
+.sim-lbl.bad .sim-lbl-ne { color: #ff6b6b; }
+.sim-lbl.bad .sim-lbl-en { color: rgba(255,107,107,0.6); }
+.sim-lbl.good .sim-lbl-ne { color: var(--em); }
+.sim-lbl.good .sim-lbl-en { color: rgba(46,224,113,0.6); }
+
+/* Canvas viewer */
+.sim-viewer {
+  position: relative;
+  height: 220px;
+  cursor: ew-resize;
+  overflow: hidden;
+  user-select: none;
+}
+#cvA, #cvB { position: absolute; inset:0; width:100%; height:100%; }
+#cvA { z-index:1; }
+#cvB { z-index:2; }
+
+/* Slider */
+.sim-slider-line {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, var(--em) 20%, var(--em) 80%, transparent);
+  z-index: 10;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.sim-slider-knob {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: rgba(5,5,5,0.9);
+  border: 2px solid var(--em);
+  box-shadow: 0 0 20px rgba(46,224,113,0.5), 0 0 40px rgba(46,224,113,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; color: var(--em);
+  z-index: 11;
+  pointer-events: none;
+  animation: knob-pulse 3s ease-in-out infinite;
+}
+@keyframes knob-pulse {
+  0%,100% { box-shadow: 0 0 16px rgba(46,224,113,0.45), 0 0 32px rgba(46,224,113,0.15); }
+  50%      { box-shadow: 0 0 28px rgba(46,224,113,0.7), 0 0 56px rgba(46,224,113,0.3); }
+}
+
+/* Sim mode tabs */
+.sim-modes {
+  display: flex;
+  gap: 6px;
+  padding: 12px 16px 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.sim-modes::-webkit-scrollbar { display: none; }
+.sim-mode {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: transparent;
+  font-family: 'Noto Sans Devanagari', sans-serif;
+  font-size: 11px;
+  color: var(--t2);
+  cursor: pointer;
+  transition: all 0.25s;
+  white-space: nowrap;
+}
+.sim-mode.on {
+  background: var(--em-deep);
+  border-color: var(--border-em);
+  color: var(--em);
+  box-shadow: 0 0 12px rgba(46,224,113,0.1);
+}
+
+/* ══════════════════════════════════════════════════════
+   GLASS FEATURE CARDS
+══════════════════════════════════════════════════════ */
+.cards-section { padding: 0 20px 32px; }
+.cards-grid { display: flex; flex-direction: column; gap: 12px; }
+
+.feat-card {
+  border-radius: var(--r2);
+  border: 1px solid var(--border);
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: all 0.35s;
+  position: relative;
+  overflow: hidden;
+}
+.feat-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 60%);
+  border-radius: inherit;
+  pointer-events: none;
+}
+.feat-card:hover {
+  border-color: var(--border-em);
+  background: var(--em-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 20px rgba(46,224,113,0.08);
+}
+.feat-card:active { transform: scale(0.98); }
+
+.feat-icon-wrap {
+  width: 56px; height: 56px;
+  border-radius: 18px;
+  background: var(--glass2);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+  flex-shrink: 0;
+  position: relative;
+  transition: all 0.3s;
+}
+.feat-card:hover .feat-icon-wrap {
+  background: var(--em-deep);
+  border-color: var(--border-em);
+  box-shadow: 0 0 20px rgba(46,224,113,0.15);
+}
+
+.feat-text { flex: 1; }
+.feat-ne {
+  font-family: 'Noto Sans Devanagari', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--t1);
+  line-height: 1.2;
+}
+.feat-en {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--t2);
+  margin-top: 3px;
+}
+.feat-tag {
+  font-size: 9px;
+  padding: 3px 8px;
+  border-radius: 8px;
+  background: var(--em-deep);
+  border: 1px solid var(--border-em);
+  color: var(--em);
+  letter-spacing: 1px;
+  margin-top: 6px;
+  display: inline-block;
+}
+.feat-arrow {
+  color: var(--t3);
+  font-size: 18px;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+.feat-card:hover .feat-arrow { color: var(--em); transform: translateX(4px); }
+
+/* ══════════════════════════════════════════════════════
+   STATS ROW
+══════════════════════════════════════════════════════ */
+.stats-section { padding: 0 20px 32px; }
+.stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+.stat-card {
+  border-radius: var(--r2);
+  border: 1px solid var(--border);
+  background: var(--glass);
+  padding: 16px 12px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--em), transparent);
+  opacity: 0.4;
+}
+.stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  color: var(--em);
+  line-height: 1;
+  letter-spacing: 1px;
+}
+.stat-lbl-en { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--t2); margin-top: 3px; }
+.stat-lbl-ne { font-family: 'Noto Sans Devanagari', sans-serif; font-size: 10px; color: var(--t3); margin-top: 2px; }
+
+/* ══════════════════════════════════════════════════════
+   INFO SECTION
+══════════════════════════════════════════════════════ */
+.info-section { padding: 0 20px 32px; }
+.info-card {
+  border-radius: var(--r);
+  border: 1px solid var(--border);
+  background: var(--glass);
+  overflow: hidden;
+}
+.info-card-top {
+  padding: 22px;
+  border-bottom: 1px solid var(--border);
+}
+.info-brand-ne {
+  font-family: 'Noto Sans Devanagari', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--t1);
+}
+.info-brand-tag {
+  font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--em); margin-top: 2px;
+}
+
+.info-rows { padding: 6px 0; }
+.info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 22px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  cursor: pointer;
+  transition: background 0.25s;
+}
+.info-row:last-child { border-bottom: none; }
+.info-row:hover { background: rgba(46,224,113,0.03); }
+.info-icon {
+  width: 34px; height: 34px;
+  border-radius: 12px;
+  background: var(--glass2);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+.info-content { flex: 1; }
+.info-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--t3); margin-bottom: 3px; }
+.info-val { font-size: 13px; color: var(--t1); line-height: 1.5; }
+.info-val a { color: var(--em); text-decoration: none; }
+.info-val-ne { font-family: 'Noto Sans Devanagari', sans-serif; font-size: 11px; color: var(--t2); margin-top: 1px; }
+.info-chevron { color: var(--t3); font-size: 14px; align-self: center; }
+
+/* MAP LINK ROW */
+.map-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 22px;
+  text-decoration: none;
+  transition: background 0.25s;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.map-row:hover { background: rgba(46,224,113,0.04); }
+.map-badge {
+  flex:1;
+  display: flex; align-items: center; gap: 8px;
+}
+.map-badge-text { font-size: 13px; color: var(--em); }
+.map-badge-ne { font-family: 'Noto Sans Devanagari', sans-serif; font-size: 10px; color: var(--t2); }
+
+/* ══════════════════════════════════════════════════════
+   CTA BUTTON
+══════════════════════════════════════════════════════ */
+.cta-section { padding: 0 20px 20px; }
+.cta-btn {
+  width: 100%;
+  padding: 18px 24px;
+  border-radius: var(--r2);
+  background: linear-gradient(135deg, var(--em2) 0%, #16a348 50%, var(--em2) 100%);
+  background-size: 200% 200%;
+  border: none;
+  color: #050505;
+  font-family: 'Noto Sans Devanagari', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.35s;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(46,224,113,0.3), 0 0 0 1px rgba(46,224,113,0.2);
+  animation: btn-grad 4s linear infinite;
+}
+@keyframes btn-grad { 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
+.cta-btn::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+  border-radius: inherit;
+}
+.cta-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 48px rgba(46,224,113,0.4), 0 0 0 1px rgba(46,224,113,0.3);
+}
+.cta-btn:active { transform: scale(0.97); }
+.cta-en {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+  opacity: 0.7; display: block; margin-top: 2px;
+}
+
+/* ══════════════════════════════════════════════════════
+   BOTTOM NAV DOCK
+══════════════════════════════════════════════════════ */
+.bottom-nav {
+  position: sticky;
+  bottom: 0;
+  z-index: 200;
+  padding: 0 24px 20px;
+  background: linear-gradient(0deg, rgba(5,5,5,0.98) 0%, rgba(5,5,5,0.7) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.nav-dock {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: rgba(15,15,15,0.9);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  padding: 12px 8px;
+  position: relative;
+  box-shadow: 0 -4px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.02);
+}
+/* green underglow */
+.nav-dock::before {
+  content: '';
+  position: absolute;
+  bottom: -8px; left: 20%; right: 20%; height: 8px;
+  background: radial-gradient(ellipse, rgba(46,224,113,0.25) 0%, transparent 70%);
+  filter: blur(6px);
+}
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 16px;
+  border-radius: 18px;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+}
+.nav-item.active { background: var(--em-deep); }
+.nav-item.active .nav-icon { color: var(--em); }
+.nav-item.active .nav-ne { color: var(--em); }
+.nav-icon { font-size: 20px; color: var(--t3); transition: all 0.3s; }
+.nav-ne {
+  font-family: 'Noto Sans Devanagari', sans-serif;
+  font-size: 9px;
+  color: var(--t3);
+  transition: all 0.3s;
+}
+/* Active indicator dot */
+.nav-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 50%; transform: translateX(-50%);
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--em);
+  box-shadow: 0 0 6px var(--em);
+}
+
+/* ══════════════════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════════════════ */
+.site-footer {
+  padding: 20px 24px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  margin-top: 8px;
+}
+.footer-brand {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, var(--silver), var(--silver2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.footer-ne {
+  font-family: 'Noto Sans Devanagari', sans-serif;
+  font-size: 10px;
+  color: var(--t3);
+  margin-top: 2px;
+}
+.footer-divider { width: 40px; height: 1px; background: linear-gradient(90deg, transparent, var(--em), transparent); margin: 10px auto; opacity: 0.4; }
+.footer-copy { font-size: 9px; color: var(--t3); letter-spacing: 1px; }
+.footer-design { font-size: 8px; color: rgba(120,132,148,0.4); letter-spacing: 2px; font-style: italic; margin-top: 4px; }
+
+/* ══════════════════════════════════════════════════════
+   SCAN LINE ANIMATION (cyber effect)
+══════════════════════════════════════════════════════ */
+@keyframes scan {
+  from { transform: translateY(-100%); }
+  to   { transform: translateY(100vh); }
+}
+.scan-line {
+  position: fixed;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(46,224,113,0.08), transparent);
+  z-index: 999;
+  pointer-events: none;
+  animation: scan 8s linear infinite;
+}
+
+/* ══════════════════════════════════════════════════════
+   PARTICLE DOTS (ambient bg detail)
+══════════════════════════════════════════════════════ */
+.particles {
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  max-width: 420px;
+}
+.particle {
+  position: absolute;
+  width: 2px; height: 2px;
+  border-radius: 50%;
+  background: var(--em);
+  opacity: 0;
+  animation: float-p var(--dur, 6s) var(--del, 0s) ease-in-out infinite;
+}
+@keyframes float-p {
+  0% { opacity: 0; transform: translateY(100vh) scale(0); }
+  10% { opacity: 0.3; }
+  90% { opacity: 0.1; }
+  100% { opacity: 0; transform: translateY(-10vh) scale(1); }
+}
+</style>
+</head>
+<body>
+
+<div class="scan-line"></div>
+
+<!-- PARTICLES -->
+<div class="particles" id="particles"></div>
+
+<!-- ══════ PHONE SHELL ══════ -->
+<div class="phone" id="phone">
+
+  <!-- ══ HEADER ══ -->
+  <header class="header">
+    <div class="logo-block">
+      <div class="logo-en">Shreekunja</div>
+      <div class="logo-ne">श्रीकुञ्ज अप्टिकल</div>
+    </div>
+    <div class="header-actions">
+      <div class="hdr-btn" title="Search">🔍</div>
+      <div class="hdr-btn" title="Profile">👤</div>
+    </div>
+  </header>
+
+  <!-- ══ HERO ══ -->
+  <section class="hero">
+    <div class="status-pill">
+      <div class="status-dot"></div>
+      BP Eye Hospital · Kathmandu
+    </div>
+    <div class="hero-en">VISION<br>REDEFINED</div>
+    <div class="hero-ne">दृष्टि पुनःपरिभाषित</div>
+    <p class="hero-sub">Kathmandu's premier optical boutique — where science meets clarity.</p>
+
+    <!-- Eye SVG -->
+    <div class="eye-scan">
+      <svg viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 30 Q60 6 114 30 Q60 54 6 30 Z" stroke="rgba(46,224,113,0.35)" stroke-width="1" fill="none"/>
+        <path d="M18 30 Q60 14 102 30 Q60 46 18 30 Z" stroke="rgba(46,224,113,0.5)" stroke-width="1" fill="none"/>
+        <circle cx="60" cy="30" r="14" stroke="rgba(46,224,113,0.6)" stroke-width="1.2" fill="none"/>
+        <circle cx="60" cy="30" r="8" stroke="rgba(46,224,113,0.8)" stroke-width="1" fill="none"/>
+        <circle cx="60" cy="30" r="3" fill="rgba(46,224,113,0.9)"/>
+        <!-- scan lines -->
+        <line x1="6" y1="30" x2="44" y2="30" stroke="rgba(46,224,113,0.25)" stroke-width="0.5" stroke-dasharray="3 4"/>
+        <line x1="76" y1="30" x2="114" y2="30" stroke="rgba(46,224,113,0.25)" stroke-width="0.5" stroke-dasharray="3 4"/>
+        <!-- tick marks -->
+        <g stroke="rgba(46,224,113,0.4)" stroke-width="0.8">
+          <line x1="6" y1="27" x2="6" y2="33"/>
+          <line x1="114" y1="27" x2="114" y2="33"/>
+          <line x1="60" y1="14" x2="60" y2="18"/>
+          <line x1="60" y1="42" x2="60" y2="46"/>
+        </g>
+        <circle cx="54" cy="26" r="2" fill="rgba(255,255,255,0.5)"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ══ LENS SIMULATOR ══ -->
+  <section class="sim-section">
+    <div class="sec-label">
+      <div class="sec-label-line"></div>
+      <div class="sec-label-text">लेन्स तुलना / Lens Comparison</div>
+      <div class="sec-label-line"></div>
+    </div>
+    <div class="sim-card">
+      <div class="sim-labels">
+        <div class="sim-lbl bad">
+          <span class="sim-lbl-ne">साधारण लेन्स</span>
+          <span class="sim-lbl-en">Standard Lens</span>
+        </div>
+        <div class="sim-lbl good">
+          <span class="sim-lbl-ne">प्रिमियम लेन्स</span>
+          <span class="sim-lbl-en">Premium Lens</span>
+        </div>
+      </div>
+
+      <div class="sim-viewer" id="simViewer">
+        <canvas id="cvA"></canvas>
+        <canvas id="cvB"></canvas>
+        <div class="sim-slider-line" id="simLine"></div>
+        <div class="sim-slider-knob" id="simKnob">◀▶</div>
+      </div>
+
+      <div class="sim-modes">
+        <button class="sim-mode on" data-mode="bluecut">ब्लु कट</button>
+        <button class="sim-mode" data-mode="antiglare">एन्टी-ग्लेयर</button>
+        <button class="sim-mode" data-mode="polarized">पोलाराइज्ड</button>
+        <button class="sim-mode" data-mode="progressive">प्रोग्रेसिभ</button>
+        <button class="sim-mode" data-mode="transition">ट्रान्जिसन</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ STATS ══ -->
+  <section class="stats-section">
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-num">28+</div>
+        <div class="stat-lbl-en">Years</div>
+        <div class="stat-lbl-ne">वर्षको अनुभव</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">5K+</div>
+        <div class="stat-lbl-en">Patients</div>
+        <div class="stat-lbl-ne">सन्तुष्ट ग्राहक</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">50+</div>
+        <div class="stat-lbl-en">Brands</div>
+        <div class="stat-lbl-ne">ब्र्यान्ड</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FEATURE CARDS ══ -->
+  <section class="cards-section">
+    <div class="sec-label">
+      <div class="sec-label-line"></div>
+      <div class="sec-label-text">सेवाहरू / Services</div>
+      <div class="sec-label-line"></div>
+    </div>
+    <div class="cards-grid">
+
+      <div class="feat-card" onclick="alert('भर्चुअल ट्राई-अन — Virtual Try-On coming soon!')">
+        <div class="feat-icon-wrap">🥽</div>
+        <div class="feat-text">
+          <div class="feat-ne">भर्चुअल ट्राई-अन</div>
+          <div class="feat-en">Virtual Try-On</div>
+          <div class="feat-tag">AR सक्षम</div>
+        </div>
+        <div class="feat-arrow">›</div>
+      </div>
+
+      <div class="feat-card" onclick="alert('डिजिटल Rx भल्ट — Digital Prescription Vault coming soon!')">
+        <div class="feat-icon-wrap">📋</div>
+        <div class="feat-text">
+          <div class="feat-ne">डिजिटल Rx भल्ट</div>
+          <div class="feat-en">Digital Rx Vault</div>
+          <div class="feat-tag">सुरक्षित भण्डारण</div>
+        </div>
+        <div class="feat-arrow">›</div>
+      </div>
+
+      <div class="feat-card" onclick="alert('AI दृष्टि खेल — AI Vision Game coming soon!')">
+        <div class="feat-icon-wrap">👁️</div>
+        <div class="feat-text">
+          <div class="feat-ne">AI दृष्टि खेल</div>
+          <div class="feat-en">AI Vision Game</div>
+          <div class="feat-tag">AI-संचालित</div>
+        </div>
+        <div class="feat-arrow">›</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ INFO / CONTACT ══ -->
+  <section class="info-section">
+    <div class="sec-label">
+      <div class="sec-label-line"></div>
+      <div class="sec-label-text">सम्पर्क / Contact</div>
+      <div class="sec-label-line"></div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-top">
+        <div class="info-brand-ne">श्रीकुञ्ज अप्टिकल</div>
+        <div class="info-brand-tag">Shreekunja Optical · Kathmandu</div>
+      </div>
+      <div class="info-rows">
+
+        <!-- Address -->
+        <div class="info-row">
+          <div class="info-icon">📍</div>
+          <div class="info-content">
+            <div class="info-label">ठेगाना / Address</div>
+            <div class="info-val">M9C3+JJ6, Kathmandu 44600</div>
+            <div class="info-val-ne">BP Eye Hospital (ENT & Rehabilitation)</div>
+          </div>
+          <div class="info-chevron">›</div>
+        </div>
+
+        <!-- Map Link -->
+        <a class="map-row" href="https://maps.app.goo.gl/h5bhpfajS9Mp6WMd9" target="_blank" rel="noopener">
+          <div class="info-icon">🗺️</div>
+          <div class="map-badge">
+            <div>
+              <div class="map-badge-text">Google Maps मा खोल्नुहोस्</div>
+              <div class="map-badge-ne">Open in Google Maps ↗</div>
+            </div>
+          </div>
+          <div class="info-chevron" style="color:var(--em);">›</div>
+        </a>
+
+        <!-- Phone / WhatsApp -->
+        <div class="info-row" onclick="window.open('https://wa.me/9841623999','_blank')">
+          <div class="info-icon">💬</div>
+          <div class="info-content">
+            <div class="info-label">फोन / WhatsApp</div>
+            <div class="info-val"><a href="tel:9841623999">984-1623999</a></div>
+            <div class="info-val-ne">WhatsApp उपलब्ध छ</div>
+          </div>
+          <div class="info-chevron">›</div>
+        </div>
+
+        <!-- Hours -->
+        <div class="info-row">
+          <div class="info-icon">🕐</div>
+          <div class="info-content">
+            <div class="info-label">समय / Hours</div>
+            <div class="info-val">Mon–Fri: 08:00 AM – 6:00 PM</div>
+            <div class="info-val-ne">शनिबार: ८:०० – ५:०० बजे</div>
+          </div>
+          <div class="info-chevron">›</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CTA ══ -->
+  <section class="cta-section">
+    <button class="cta-btn" onclick="window.open('https://wa.me/9841623999?text=नमस्ते, म आँखा जाँच अपोइन्टमेन्ट बुक गर्न चाहन्छु।','_blank')">
+      अपोइन्टमेन्ट बुक गर्नुहोस्
+      <span class="cta-en">Book Appointment via WhatsApp</span>
+    </button>
+  </section>
+
+  <!-- ══ FOOTER ══ -->
+  <footer class="site-footer">
+    <div class="footer-brand">Shreekunja Optical</div>
+    <div class="footer-ne">श्रीकुञ्ज अप्टिकल · काठमाडौं</div>
+    <div class="footer-divider"></div>
+    <!-- Facebook Button -->
+    <a href="https://www.facebook.com/share/189MRtoXEY/" target="_blank" rel="noopener"
+      style="display:inline-flex;align-items:center;gap:8px;margin:6px auto 14px;padding:9px 20px;border-radius:20px;
+      background:rgba(24,119,242,0.12);border:1px solid rgba(24,119,242,0.35);color:#5890ff;
+      text-decoration:none;font-size:12px;font-family:'DM Sans',sans-serif;letter-spacing:1.5px;
+      text-transform:uppercase;transition:all 0.3s;"
+      onmouseover="this.style.background='rgba(24,119,242,0.2)';this.style.boxShadow='0 0 18px rgba(24,119,242,0.2)'"
+      onmouseout="this.style.background='rgba(24,119,242,0.12)';this.style.boxShadow='none'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="#5890ff" xmlns="http://www.w3.org/2000/svg">
+        <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.413c0-3.025 1.791-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.513c-1.491 0-1.956.93-1.956 1.883v2.269h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/>
+      </svg>
+      Facebook पेज हेर्नुहोस्
+    </a>
+    <div class="footer-copy">© 2025 Shreekunja Optical · All Rights Reserved</div>
+    <div class="footer-design">Web Developer: Mr. Dipesh</div>
+  </footer>
+
+  <!-- ══ BOTTOM NAV ══ -->
+  <nav class="bottom-nav">
+    <div class="nav-dock">
+      <div class="nav-item active" onclick="setNav(this)">
+        <div class="nav-icon">🏠</div>
+        <div class="nav-ne">गृह</div>
+      </div>
+      <div class="nav-item" onclick="setNav(this)">
+        <div class="nav-icon">🔍</div>
+        <div class="nav-ne">खोज</div>
+      </div>
+      <div class="nav-item" onclick="window.open('https://wa.me/9841623999','_blank')">
+        <div class="nav-icon">💬</div>
+        <div class="nav-ne">सम्पर्क</div>
+      </div>
+      <div class="nav-item" onclick="window.open('https://www.facebook.com/share/189MRtoXEY/','_blank')">
+        <div class="nav-icon">👤</div>
+        <div class="nav-ne">प्रोफाइल</div>
+      </div>
+    </div>
+  </nav>
+
+</div><!-- /phone -->
+
+<script>
+// ═══════════════════════════════════════
+//  PARTICLES
+// ═══════════════════════════════════════
+const pWrap = document.getElementById('particles');
+for (let i = 0; i < 18; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  p.style.cssText = `left:${Math.random()*100}%;--dur:${5+Math.random()*8}s;--del:${Math.random()*8}s;`;
+  pWrap.appendChild(p);
+}
+
+// ═══════════════════════════════════════
+//  NAV
+// ═══════════════════════════════════════
+function setNav(el) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ═══════════════════════════════════════
+//  LENS SIMULATOR
+// ═══════════════════════════════════════
+const viewer = document.getElementById('simViewer');
+const cvA = document.getElementById('cvA');    // premium — right
+const cvB = document.getElementById('cvB');    // standard — left (clipped)
+const ctxA = cvA.getContext('2d');
+const ctxB = cvB.getContext('2d');
+const simLine = document.getElementById('simLine');
+const simKnob = document.getElementById('simKnob');
+
+let sliderPct = 50;
+let dragging = false;
+let currentMode = 'bluecut';
+
+function sizeCanvases() {
+  const W = viewer.clientWidth, H = viewer.clientHeight;
+  [cvA, cvB].forEach(c => { c.width = W; c.height = H; });
+  render();
+}
+
+// deterministic pseudo-random
+function dr(a, b) { return ((Math.sin(a * 127.1 + b * 311.7) * 43758.5453) % 1 + 1) % 1; }
+
+function render() {
+  const W = cvA.width, H = cvA.height;
+  drawSceneA(ctxA, W, H); // premium
+  drawSceneB(ctxB, W, H); // standard
+  // clip standard to left side
+  cvB.style.clipPath = `inset(0 ${100 - sliderPct}% 0 0)`;
+  simLine.style.left = sliderPct + '%';
+  simKnob.style.left = sliderPct + '%';
+}
+
+/* ---- PREMIUM SCENE ---- */
+function drawSceneA(ctx, W, H) {
+  ctx.clearRect(0, 0, W, H);
+  if (currentMode === 'bluecut' || currentMode === 'progressive') drawOffice(ctx, W, H, true);
+  else if (currentMode === 'antiglare') drawNight(ctx, W, H, true);
+  else if (currentMode === 'polarized') drawRoad(ctx, W, H, true);
+  else drawSun(ctx, W, H, true);
+}
+
+/* ---- STANDARD SCENE ---- */
+function drawSceneB(ctx, W, H) {
+  ctx.clearRect(0, 0, W, H);
+  if (currentMode === 'bluecut' || currentMode === 'progressive') drawOffice(ctx, W, H, false);
+  else if (currentMode === 'antiglare') drawNight(ctx, W, H, false);
+  else if (currentMode === 'polarized') drawRoad(ctx, W, H, false);
+  else drawSun(ctx, W, H, false);
+}
+
+/* ---- OFFICE SCENE ---- */
+function drawOffice(ctx, W, H, prem) {
+  // BG
+  const bg = ctx.createLinearGradient(0,0,0,H);
+  bg.addColorStop(0, prem?'#080e18':'#060c14');
+  bg.addColorStop(1, prem?'#0a1420':'#070e18');
+  ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
+  // Desk
+  ctx.fillStyle=prem?'#111826':'#0d1320';
+  ctx.fillRect(0,H*.65,W,H*.35);
+  // Monitor
+  const mx=W*.2,my=H*.05,mw=W*.6,mh=H*.55;
+  ctx.fillStyle='#12182a'; ctx.fillRect(mx,my,mw,mh);
+  const sc=ctx.createLinearGradient(mx,my,mx+mw,my+mh);
+  sc.addColorStop(0,prem?'#060e28':'#0c1638');
+  sc.addColorStop(1,prem?'#080c20':'#0a1230');
+  ctx.fillStyle=sc; ctx.fillRect(mx+2,my+2,mw-4,mh-4);
+  // Screen text rows
+  for(let i=0;i<8;i++){
+    const a=prem?0.45+dr(3,i)*.4:0.1+dr(3,i)*.12;
+    ctx.fillStyle=`rgba(80,160,255,${a})`;
+    ctx.fillRect(mx+10,my+12+i*22,(mw-20)*(0.35+dr(3,i+8)*.5),5);
+  }
+  // Blue glow
+  const gl=ctx.createRadialGradient(mx+mw/2,my+mh/2,0,mx+mw/2,my+mh/2,mw);
+  gl.addColorStop(0,prem?'rgba(30,70,200,0.08)':'rgba(40,90,255,0.4)');
+  gl.addColorStop(1,'rgba(30,70,200,0)');
+  ctx.fillStyle=gl; ctx.fillRect(0,0,W,H);
+  if(prem){ ctx.fillStyle='rgba(255,215,140,0.05)'; ctx.fillRect(0,0,W,H); }
+  else { ctx.fillStyle='rgba(60,100,255,0.08)'; ctx.fillRect(0,0,W,H); }
+  // Keyboard
+  ctx.fillStyle=prem?'rgba(70,80,100,0.5)':'rgba(50,60,80,0.35)';
+  ctx.fillRect(W*.18,H*.72,W*.64,H*.07);
+  for(let i=0;i<48;i++){
+    ctx.fillStyle='rgba(200,210,230,0.12)';
+    ctx.fillRect(W*.2+i*W*.012,H*.73,W*.009,H*.045);
+  }
+}
+
+/* ---- NIGHT SCENE ---- */
+function drawNight(ctx, W, H, prem) {
+  const bg=ctx.createLinearGradient(0,0,0,H);
+  bg.addColorStop(0,prem?'#040810':'#06090f');
+  bg.addColorStop(1,prem?'#080d18':'#050810');
+  ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
+  // Road
+  ctx.fillStyle=prem?'#0d1020':'#090c18';
+  ctx.fillRect(0,H*.6,W,H*.4);
+  ctx.save(); ctx.setLineDash([18,12]);
+  ctx.strokeStyle=prem?'rgba(255,255,180,0.5)':'rgba(255,255,180,0.2)';
+  ctx.lineWidth=1.5; ctx.beginPath();
+  ctx.moveTo(W/2,H*.6); ctx.lineTo(W/2,H); ctx.stroke(); ctx.restore();
+  // Buildings
+  [[0,.6,.12,.4],[.1,.42,.12,.58],[.2,.52,.1,.48],[.3,.36,.14,.64],[.42,.46,.12,.54],[.53,.4,.11,.6],[.62,.52,.13,.48],[.74,.38,.15,.62],[.88,.58,.13,.42]].forEach(([bx,by,bw,bh],bi)=>{
+    ctx.fillStyle=`hsl(220,18%,${prem?10:7}%)`;
+    ctx.fillRect(W*bx,H*by,W*bw,H*bh);
+    for(let wy=H*(by+.03);wy<H*(by+bh)-5;wy+=10)
+      for(let wx=W*bx+4;wx<W*(bx+bw)-4;wx+=9)
+        if(dr(bi,wx+wy)>.42){ ctx.fillStyle=`rgba(255,225,90,${prem?0.3+dr(bi,wx)*.5:0.08+dr(bi,wx)*.12})`; ctx.fillRect(wx,wy,4,3); }
+  });
+  // Neon
+  [['HOTEL',.1,.28,'#ff4444'],['BAR',.44,.3,'#44ffaa'],['24/7',.65,.26,'#4499ff']].forEach(([t,sx,sy,col])=>{
+    ctx.font=`bold ${W*.038}px sans-serif`;
+    ctx.shadowColor=col; ctx.shadowBlur=prem?12:4;
+    ctx.fillStyle=prem?col:col+'66'; ctx.fillText(t,W*sx,H*sy); ctx.shadowBlur=0;
+  });
+  // Headlights
+  [[.26,.7],[.32,.7],[.58,.68],[.64,.68]].forEach(([lx,ly])=>{
+    const r=prem?W*.07:W*.22;
+    const lg=ctx.createRadialGradient(W*lx,H*ly,0,W*lx,H*ly,r);
+    lg.addColorStop(0,'rgba(255,255,220,.98)');
+    lg.addColorStop(prem?.28:.12,prem?'rgba(255,255,180,.3)':'rgba(255,255,210,.82)');
+    lg.addColorStop(1,'rgba(255,255,160,0)');
+    ctx.fillStyle=lg; ctx.fillRect(0,0,W,H);
+    if(!prem){ // starburst
+      ctx.save(); ctx.translate(W*lx,H*ly);
+      for(let a=0;a<8;a++){ ctx.rotate(Math.PI/4); const sg=ctx.createLinearGradient(0,0,W*.18,0); sg.addColorStop(0,'rgba(255,255,180,.45)'); sg.addColorStop(1,'rgba(255,255,180,0)'); ctx.fillStyle=sg; ctx.fillRect(0,-2,W*.18,4); }
+      ctx.restore();
+    }
+  });
+  if(!prem){ ctx.fillStyle='rgba(160,180,255,.06)'; ctx.fillRect(0,0,W,H); }
+}
+
+/* ---- ROAD SCENE ---- */
+function drawRoad(ctx, W, H, prem) {
+  const sky=ctx.createLinearGradient(0,0,0,H*.55);
+  sky.addColorStop(0,prem?'#163060':'#2856a0');
+  sky.addColorStop(1,prem?'#2266a8':'#4878c0');
+  ctx.fillStyle=sky; ctx.fillRect(0,0,W,H*.55);
+  ctx.fillStyle=prem?'#20242e':'#282c3a';
+  ctx.fillRect(0,H*.55,W,H*.45);
+  ctx.save(); ctx.setLineDash([20,14]); ctx.strokeStyle=prem?'rgba(255,255,180,.5)':'rgba(255,255,180,.22)'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(W/2,H*.55); ctx.lineTo(W/2,H); ctx.stroke(); ctx.restore();
+  // Mountains
+  ctx.fillStyle=prem?'rgba(16,34,70,.85)':'rgba(30,52,90,.65)';
+  ctx.beginPath(); ctx.moveTo(0,H*.55);
+  [0,.13,.22,.34,.5,.62,.74,.86,1].forEach((x,i)=>ctx.lineTo(W*x,H*(i%2===0?.34:.22)));
+  ctx.lineTo(W,H*.55); ctx.closePath(); ctx.fill();
+  // Glare
+  if(!prem){
+    const gl=ctx.createLinearGradient(0,H*.55,0,H);
+    gl.addColorStop(0,'rgba(150,185,240,.65)'); gl.addColorStop(.4,'rgba(150,185,240,.35)'); gl.addColorStop(1,'rgba(80,120,180,.08)');
+    ctx.fillStyle=gl; ctx.fillRect(0,H*.55,W,H*.45);
+    for(let i=0;i<10;i++){ const sg=ctx.createLinearGradient(W*(i/10),H*.56,W*(i/10+.15),H*.74); sg.addColorStop(0,'rgba(200,218,255,.36)'); sg.addColorStop(1,'rgba(200,218,255,0)'); ctx.fillStyle=sg; ctx.fillRect(W*(i/10),H*.55,W*.13,H*.4); }
+  } else {
+    ctx.fillStyle='rgba(28,60,120,.1)'; ctx.fillRect(0,H*.55,W,H*.45);
+  }
+}
+
+/* ---- SUN SCENE ---- */
+function drawSun(ctx, W, H, prem) {
+  const sky=ctx.createLinearGradient(0,0,0,H*.62);
+  sky.addColorStop(0,prem?'#154070':'#2c60b0');
+  sky.addColorStop(1,prem?'#2a76b8':'#4e8fd4');
+  ctx.fillStyle=sky; ctx.fillRect(0,0,W,H*.62);
+  ctx.fillStyle=prem?'#2c5020':'#385e28';
+  ctx.fillRect(0,H*.62,W,H*.38);
+  const sx=W*.72,sy=H*.15;
+  const sg=ctx.createRadialGradient(sx,sy,0,sx,sy,prem?W*.1:W*.28);
+  sg.addColorStop(0,'rgba(255,252,200,1)'); sg.addColorStop(.3,prem?'rgba(255,220,60,.5)':'rgba(255,255,255,.85)'); sg.addColorStop(1,'rgba(255,200,50,0)');
+  ctx.fillStyle=sg; ctx.fillRect(0,0,W,H*.62);
+  // Trees
+  for(let i=0;i<8;i++){ const tx=W*(.06+i*.12),ty=H*(.5+dr(7,i)*.08); ctx.fillStyle=prem?'rgba(14,28,12,.9)':'rgba(22,42,18,.75)'; ctx.beginPath(); ctx.moveTo(tx,ty); ctx.lineTo(tx-W*.028,H*.62); ctx.lineTo(tx+W*.028,H*.62); ctx.closePath(); ctx.fill(); }
+  if(prem){ ctx.fillStyle='rgba(60,40,0,.24)'; ctx.fillRect(0,0,W,H); }
+}
+
+// ─── DRAG ───
+function getPct(e) {
+  const r = viewer.getBoundingClientRect();
+  const cx = e.touches ? e.touches[0].clientX : e.clientX;
+  return Math.max(4, Math.min(96, (cx - r.left) / r.width * 100));
+}
+viewer.addEventListener('mousedown',  e=>{ dragging=true; sliderPct=getPct(e); render(); });
+window.addEventListener('mousemove',  e=>{ if(dragging){ sliderPct=getPct(e); render(); } });
+window.addEventListener('mouseup',    ()=>{ dragging=false; });
+viewer.addEventListener('touchstart', e=>{ dragging=true; sliderPct=getPct(e); render(); },{passive:true});
+window.addEventListener('touchmove',  e=>{ if(dragging){ sliderPct=getPct(e); render(); } },{passive:true});
+window.addEventListener('touchend',   ()=>{ dragging=false; });
+
+// ─── MODE SWITCH ───
+document.querySelectorAll('.sim-mode').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.sim-mode').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+    currentMode = btn.dataset.mode;
+    render();
+  });
+});
+
+// ─── INIT ───
+const ro = new ResizeObserver(sizeCanvases);
+ro.observe(viewer);
+sizeCanvases();
+
+// Intro slider sweep
+setTimeout(()=>{
+  let s=80;
+  const id=setInterval(()=>{ s=Math.max(50,s-2); sliderPct=s; render(); if(s<=50) clearInterval(id); },16);
+},900);
+</script>
+</body>
+</html>
