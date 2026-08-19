@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shreekunja Optical — Admin Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════
+   ROOT — same brand palette as the storefront (deep graphite +
+   emerald), kept consistent across customer/admin surfaces.
+   Admin UI otherwise prioritizes productivity over animation
+   (spec section 42) — tables and forms, not glassmorphism showpieces.
+══════════════════════════════════════════════════════ */
+:root {
+  --black:    #0a0d0c;
+  --black2:   #101613;
+  --black3:   #161d19;
+  --panel:    #131a17;
+  --glass:    rgba(255,255,255,0.03);
+  --border:   rgba(255,255,255,0.08);
+  --border-em:rgba(46,224,113,0.3);
+  --em:       #2ee071;
+  --em2:      #1db855;
+  --em-glow:  rgba(46,224,113,0.12);
+  --danger:   #ff6b6b;
+  --warn:     #ffb84d;
+  --t1:       #f0f4f8;
+  --t2:       #8a95a1;
+  --t3:       #4a5560;
+  --r:        14px;
+  --r2:       10px;
+}
+* , *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { font-size:15px; }
+body {
+  background: var(--black); color: var(--t1);
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  min-height: 100vh;
+}
+.font-display { font-family: 'Syne', sans-serif; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+input, textarea, select {
+  font-family: inherit; background: var(--black3); color: var(--t1);
+  border: 1px solid var(--border); border-radius: var(--r2);
+  padding: 9px 12px; font-size: 13px; width: 100%;
+}
+input:focus, textarea:focus, select:focus { outline: none; border-color: var(--border-em); }
+textarea { resize: vertical; min-height: 70px; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* ── LOGIN SCREEN ── */
+#loginScreen {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px;
+}
+.login-card {
+  width: 100%; max-width: 380px; background: var(--panel); border: 1px solid var(--border);
+  border-radius: 20px; padding: 36px 30px;
+}
+.login-brand { text-align: center; margin-bottom: 6px; }
+.login-brand-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: 0.5px; }
+.login-brand-sub { font-size: 10px; letter-spacing: 3px; color: var(--em); text-transform: uppercase; margin-top: 4px; }
+.login-tagline { text-align: center; color: var(--t2); font-size: 12px; margin: 14px 0 26px; }
+.field { margin-bottom: 14px; }
+.field-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--t3); margin-bottom: 6px; display: block; }
+.btn-primary {
+  width: 100%; padding: 12px; border-radius: var(--r2); border: none;
+  background: var(--em); color: #051006; font-weight: 700; font-size: 13px; margin-top: 6px;
+}
+.btn-primary:disabled { opacity: .5; cursor: not-allowed; }
+.btn-secondary {
+  padding: 9px 16px; border-radius: var(--r2); border: 1px solid var(--border);
+  background: transparent; color: var(--t1); font-size: 12px; font-weight: 500;
+}
+.btn-secondary:hover { border-color: var(--border-em); }
+.btn-danger { color: var(--danger); border-color: rgba(255,107,107,0.3); }
+.err-text { color: var(--danger); font-size: 11px; margin-top: 8px; min-height: 14px; }
+
+/* ── APP SHELL ── */
+#app { display: none; min-height: 100vh; }
+#app.active { display: flex; }
+
+.sidebar {
+  width: 220px; flex: none; background: var(--panel); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; padding: 20px 0; position: sticky; top: 0; height: 100vh;
+}
+.sidebar-brand { padding: 0 20px 20px; border-bottom: 1px solid var(--border); margin-bottom: 14px; }
+.sidebar-brand-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; }
+.sidebar-brand-sub { font-size: 9px; letter-spacing: 2px; color: var(--em); text-transform: uppercase; margin-top: 3px; }
+.nav-group-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--t3); padding: 14px 20px 6px; }
+.nav-link {
+  display: flex; align-items: center; gap: 10px; padding: 10px 20px; font-size: 13px;
+  color: var(--t2); cursor: pointer; border-left: 2px solid transparent;
+}
+.nav-link:hover { color: var(--t1); background: var(--glass); }
+.nav-link.active { color: var(--t1); background: var(--em-glow); border-left-color: var(--em); }
+.nav-icon { width: 16px; text-align: center; font-size: 14px; }
+.sidebar-footer { margin-top: auto; padding: 14px 20px 0; border-top: 1px solid var(--border); }
+.session-name { font-size: 11px; color: var(--t1); font-weight: 600; }
+.session-role { font-size: 9px; letter-spacing: 1px; color: var(--em); text-transform: uppercase; margin: 2px 0 10px; }
+
+.main { flex: 1; min-width: 0; }
+.topbar {
+  display: none; align-items: center; justify-content: space-between; padding: 14px 18px;
+  border-bottom: 1px solid var(--border); background: var(--panel); position: sticky; top: 0; z-index: 40;
+}
+.hamburger { background: none; border: none; color: var(--t1); font-size: 20px; }
+.content { padding: 24px; max-width: 1200px; }
+.page-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 20px; margin-bottom: 4px; }
+.page-sub { color: var(--t2); font-size: 12px; margin-bottom: 22px; }
+
+/* ── DASHBOARD ── */
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 26px; }
+.stat-card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--r); padding: 16px; }
+.stat-value { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; }
+.stat-label { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--t2); margin-top: 4px; }
+.panel { background: var(--panel); border: 1px solid var(--border); border-radius: var(--r); padding: 18px; margin-bottom: 18px; }
+.panel-title { font-size: 13px; font-weight: 700; margin-bottom: 12px; }
+
+/* ── TABLES ── */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+th { text-align: left; padding: 10px 12px; color: var(--t3); font-weight: 600; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid var(--border); white-space: nowrap; }
+td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+.pill { display: inline-block; padding: 3px 9px; border-radius: 20px; font-size: 10px; font-weight: 600; text-transform: capitalize; }
+.pill-pending, .pill-out_of_stock { background: rgba(255,107,107,0.15); color: var(--danger); }
+.pill-confirmed, .pill-processing, .pill-low_stock { background: rgba(255,184,77,0.15); color: var(--warn); }
+.pill-ready, .pill-shipped { background: rgba(100,160,255,0.15); color: #7fb0ff; }
+.pill-delivered, .pill-in_stock, .pill-active, .pill-published { background: var(--em-glow); color: var(--em); }
+.pill-cancelled, .pill-returned, .pill-disabled { background: rgba(255,255,255,0.06); color: var(--t3); }
+.row-actions { display: flex; gap: 6px; }
+.icon-btn {
+  background: none; border: 1px solid var(--border); border-radius: 8px; color: var(--t2);
+  padding: 5px 9px; font-size: 11px;
+}
+.icon-btn:hover { border-color: var(--border-em); color: var(--t1); }
+.icon-btn.danger:hover { border-color: rgba(255,107,107,0.4); color: var(--danger); }
+.toolbar { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+.state-msg { text-align: center; color: var(--t3); font-size: 12px; padding: 30px; }
+
+/* ── MODAL ── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200;
+  align-items: center; justify-content: center; padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal-box { width: 100%; max-width: 460px; max-height: 88vh; overflow-y: auto; background: var(--panel); border: 1px solid var(--border); border-radius: var(--r); padding: 24px; }
+.modal-box.wide { max-width: 640px; }
+.modal-box-title { font-size: 15px; font-weight: 700; margin-bottom: 18px; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 18px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.toast {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: var(--panel); border: 1px solid var(--border-em); color: var(--t1);
+  padding: 10px 20px; border-radius: 30px; font-size: 12px; z-index: 300; display: none;
+}
+.toast.show { display: block; }
+.toast.error { border-color: rgba(255,107,107,0.4); }
+
+.locked-note { font-size: 11px; color: var(--t3); background: var(--glass); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; margin-bottom: 14px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 860px) {
+  .sidebar { position: fixed; left: -240px; top: 0; z-index: 100; transition: left .2s; box-shadow: 0 0 40px rgba(0,0,0,0.5); }
+  .sidebar.open { left: 0; }
+  .topbar { display: flex; }
+  .content { padding: 18px 16px; }
+  .grid-2 { grid-template-columns: 1fr; }
+}
+.sidebar-scrim { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 90; }
+.sidebar-scrim.open { display: block; }
+</style>
+</head>
+<body>
+
+<!-- ══ LOGIN ══ -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-brand">
+      <div class="login-brand-title">SHREEKUNJA OPTICAL</div>
+      <div class="login-brand-sub">Admin Console</div>
+    </div>
+    <div class="login-tagline">Staff sign-in — श्रीकुञ्ज अप्टिकल</div>
+
+    <div class="field">
+      <label class="field-label">Email</label>
+      <input id="loginEmail" type="email" placeholder="admin@shreekunjaoptical.com"/>
+    </div>
+    <div class="field">
+      <label class="field-label">Password</label>
+      <input id="loginPassword" type="password" placeholder="••••••••"/>
+    </div>
+    <button class="btn-primary" id="loginBtn" onclick="doLogin()">Sign In</button>
+    <div class="err-text" id="loginErr"></div>
+  </div>
+</div>
+
+<!-- ══ APP SHELL ══ -->
+<div id="app">
+  <div class="sidebar-scrim" id="sidebarScrim" onclick="toggleSidebar(false)"></div>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-title font-display">SHREEKUNJA</div>
+      <div class="sidebar-brand-sub">Admin Console</div>
+    </div>
+
+    <div class="nav-group-label">Overview</div>
+    <div class="nav-link active" data-page="dashboard" onclick="goPage('dashboard')"><span class="nav-icon">📊</span> Dashboard</div>
+
+    <div class="nav-group-label">Catalog</div>
+    <div class="nav-link" data-page="products" onclick="goPage('products')"><span class="nav-icon">🕶️</span> Products</div>
+    <div class="nav-link" data-page="categories" onclick="goPage('categories')"><span class="nav-icon">🗂️</span> Categories</div>
+    <div class="nav-link" data-page="services" onclick="goPage('services')"><span class="nav-icon">🔧</span> Services</div>
+
+    <div class="nav-group-label">Sales</div>
+    <div class="nav-link" data-page="orders" onclick="goPage('orders')"><span class="nav-icon">📦</span> Orders</div>
+    <div class="nav-link" data-page="customers" onclick="goPage('customers')"><span class="nav-icon">👤</span> Customers</div>
+
+    <div class="nav-group-label">Content</div>
+    <div class="nav-link" data-page="blog" onclick="goPage('blog')"><span class="nav-icon">📰</span> Blog</div>
+
+    <div class="nav-group-label">System</div>
+    <div class="nav-link" data-page="settings" onclick="goPage('settings')"><span class="nav-icon">⚙️</span> Settings</div>
+    <div class="nav-link super-only" data-page="audit" onclick="goPage('audit')"><span class="nav-icon">📜</span> Audit Logs</div>
+    <div class="nav-link super-only" data-page="admins" onclick="goPage('admins')"><span class="nav-icon">🔐</span> Admins</div>
+
+    <div class="sidebar-footer">
+      <div class="session-name" id="sessionName">—</div>
+      <div class="session-role" id="sessionRole">—</div>
+      <button class="btn-secondary" style="width:100%;" onclick="doLogout()">Sign Out</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <button class="hamburger" onclick="toggleSidebar(true)">☰</button>
+      <div class="font-display" style="font-weight:700;font-size:14px;">Shreekunja Admin</div>
+      <div style="width:20px;"></div>
+    </div>
+    <div class="content" id="content">
+      <!-- Page content rendered by goPage() -->
+    </div>
+  </div>
+</div>
+
+<!-- ══ GENERIC MODAL ══ -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this) closeModal()">
+  <div class="modal-box" id="modalBox"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════
+//  API CONFIG
+// ═══════════════════════════════════════
+const API_BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+  ? 'http://localhost:5050/api'
+  : 'https://shreekunja-optical.onrender.com/api';
+
+async function apiFetch(path, options = {}) {
+  const res = await fetch(`${API_BASE}${path}`, {
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
+    ...options
+  });
+  let body = null;
+  try { body = await res.json(); } catch (e) { /* non-JSON */ }
+  if (!res.ok) throw new Error(body?.error?.message || `Request failed (${res.status})`);
+  return body;
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str == null ? '' : String(str);
+  return div.innerHTML;
+}
+function formatRs(amount) { return 'Rs ' + Number(amount).toLocaleString('en-IN'); }
+function formatDate(d) { if (!d) return '—'; try { return new Date(d).toLocaleDateString('en-NP', { year: 'numeric', month: 'short', day: 'numeric' }); } catch (e) { return '—'; } }
+
+function showToast(message, isError) {
+  const t = document.getElementById('toast');
+  t.textContent = message;
+  t.className = 'toast show' + (isError ? ' error' : '');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ═══════════════════════════════════════
+//  SESSION
+// ═══════════════════════════════════════
+let session = null; // { id, name, email, role }
+
+async function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const errEl = document.getElementById('loginErr');
+  const btn = document.getElementById('loginBtn');
+  errEl.textContent = '';
+
+  if (!email || !password) { errEl.textContent = 'Enter both email and password.'; return; }
+
+  btn.disabled = true; btn.textContent = 'Signing in…';
+  try {
+    const result = await apiFetch('/admin/login', { method: 'POST', body: JSON.stringify({ email, password }) });
+    session = result.data;
+    enterApp();
+  } catch (err) {
+    errEl.textContent = err.message || 'Login failed.';
+  } finally {
+    btn.disabled = false; btn.textContent = 'Sign In';
+  }
+}
+
+async function doLogout() {
+  try { await apiFetch('/admin/logout', { method: 'POST' }); } catch (e) { /* ignore */ }
+  session = null;
+  document.getElementById('app').classList.remove('active');
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('loginPassword').value = '';
+}
+
+function enterApp() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('app').classList.add('active');
+  document.getElementById('sessionName').textContent = session.name;
+  document.getElementById('sessionRole').textContent = session.role;
+
+  const isSuper = session.role === 'SUPER_ADMIN';
+  document.querySelectorAll('.super-only').forEach(el => el.style.display = isSuper ? 'flex' : 'none');
+
+  goPage('dashboard');
+}
+
+// Try to resume an existing session (cookie) on load.
+async function tryResumeSession() {
+  try {
+    const result = await apiFetch('/admin/me');
+    session = result.data;
+    enterApp();
+  } catch (err) {
+    // Not logged in — show login screen (default state).
+  }
+}
+document.addEventListener('DOMContentLoaded', tryResumeSession);
+
+document.getElementById('loginPassword')?.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+// ═══════════════════════════════════════
+//  NAVIGATION / SIDEBAR
+// ═══════════════════════════════════════
+function toggleSidebar(open) {
+  document.getElementById('sidebar').classList.toggle('open', open);
+  document.getElementById('sidebarScrim').classList.toggle('open', open);
+}
+
+const PAGE_RENDERERS = {
+  dashboard: renderDashboard,
+  products: renderProducts,
+  categories: renderCategories,
+  services: renderServices,
+  orders: renderOrders,
+  customers: renderCustomers,
+  blog: renderBlog,
+  settings: renderSettings,
+  audit: renderAudit,
+  admins: renderAdmins
+};
+
+function goPage(page) {
+  document.querySelectorAll('.nav-link').forEach(el => el.classList.toggle('active', el.dataset.page === page));
+  toggleSidebar(false);
+  const renderer = PAGE_RENDERERS[page];
+  if (renderer) renderer();
+}
+
+function pageHeader(title, sub) {
+  return `<div class="page-title font-display">${title}</div><div class="page-sub">${sub || ''}</div>`;
+}
+
+// ═══════════════════════════════════════
+//  MODAL HELPERS
+// ═══════════════════════════════════════
+function openModal(html, wide) {
+  document.getElementById('modalBox').className = 'modal-box' + (wide ? ' wide' : '');
+  document.getElementById('modalBox').innerHTML = html;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+// ═══════════════════════════════════════
+//  DASHBOARD
+// ═══════════════════════════════════════
+async function renderDashboard() {
+  const content = document.getElementById('content');
+  content.innerHTML = pageHeader('Dashboard', 'Today at a glance.') + `<div class="state-msg">Loading…</div>`;
+
+  try {
+    const result = await apiFetch('/admin/dashboard');
+    const d = result.data;
+
+    const lowStockRows = (d.lowStockProducts || []).map(p => `
+      <tr>
+        <td>${escapeHtml(p.name_en)}</td>
+        <td>${escapeHtml(p.sku)}</td>
+        <td>${p.stock}</td>
+      </tr>`).join('') || `<tr><td colspan="3" class="state-msg">Nothing low on stock.</td></tr>`;
+
+    content.innerHTML = pageHeader('Dashboard', `Welcome back, ${escapeHtml(session.name.split(' ')[0])}.`) + `
+      <div class="stat-grid">
+        <div class="stat-card"><div class="stat-value">${d.todaysOrders}</div><div class="stat-label">Today's Orders</div></div>
+        <div class="stat-card"><div class="stat-value">${d.pendingOrders}</div><div class="stat-label">Pending Orders</div></div>
+        <div class="stat-card"><div class="stat-value">${formatRs(d.revenueLast30Days)}</div><div class="stat-label">Revenue (30d)</div></div>
+        <div class="stat-card"><div class="stat-value">${d.ordersLast30Days}</div><div class="stat-label">Orders (30d)</div></div>
+        <div class="stat-card"><div class="stat-value">${d.totalCustomers}</div><div class="stat-label">Customers</div></div>
+        <div class="stat-card"><div class="stat-value">${d.totalProducts}</div><div class="stat-label">Active Products</div></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">⚠️ Low Stock</div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Product</th><th>SKU</th><th>Stock</th></tr></thead>
+          <tbody>${lowStockRows}</tbody>
+        </table></div>
+      </div>`;
+  } catch (err) {
+    content.innerHTML = pageHeader('Dashboard') + `<div class="state-msg">Couldn't load dashboard: ${escapeHtml(err.message)}</div>`;
+  }
+}
+
+// ═══════════════════════════════════════
+//  PRODUCTS
+// ═══════════════════════════════════════
+async function renderProducts() {
+  const content = document.getElementById('content');
+  content.innerHTML = pageHeader('Products', 'Manage catalog, pricing, and stock.') +
+    `<div class="toolbar"><span></span><button class="btn-primary" style="width:auto;" onclick="openProductForm()">＋ New Product</button></div>
+     <div class="panel"><div class="table-wrap" id="productsTableWrap"><div class="state-msg">Loading…</div></div></div>`;
+
+  try {
+    const result = await apiFetch('/products?limit=100');
+    const items = result.data;
+    const wrap = document.getElementById('productsTableWrap');
+
+    if (!items.length) { wrap.innerHTML = `<div class="state-msg">No products yet — add your first one above.</div>`; return; }
+
+    wrap.innerHTML = `<table>
+      <thead><tr><th>Name</th><th>SKU</th><th>Price</th><th>Stock</th><th>Status</th><th></th></tr></thead>
+      <tbody>${items.map(p => `
+        <tr>
+          <td>${escapeHtml(p.name_en)}</td>
+          <td>${escapeHtml(p.sku)}</td>
+          <td>${formatRs(p.price)}</td>
+          <td>${p.stock}</td>
+          <td><span class="pill pill-${p.stock_status}">${p.stock_status.replace('_',' ')}</span></td>
+          <td class="row-actions">
+            <button class="icon-btn" onclick='openProductForm(${JSON.stringify(p).replace(/'/g,"&#39;")})'>Edit</button>
+            <button class="icon-btn danger" onclick="deleteProduct('${p.id}','${escapeHtml(p.name_en)}')">Delete</button>
+          </td>
+        </tr>`).join('')}</tbody>
+    </table>`;
+  } catch (err) {
+    document.getElementById('productsTableWrap').innerHTML = `<div class="state-msg">Couldn't load products: ${escapeHtml(err.message)}</div>`;
+  }
+}
+
+function openProductForm(p) {
+  const isEdit = Boolean(p);
+  openModal(`
+    <div class="modal-box-title">${isEdit ? 'Edit Product' : 'New Product'}</div>
+    <div class="grid-2">
+      <div class="field"><label class="field-label">Name (EN) *</label><input id="pfName" value="${isEdit ? escapeHtml(p.name_en) : ''}"/></div>
+      <div class="field"><label class="field-label">SKU ${isEdit ? '' : '*'}</label><input id="pfSku" value="${isEdit ? escapeHtml(p.sku) : ''}" ${isEdit ? 'disabled' : ''}/></div>
+      <div class="field"><label class="field-label">Price (Rs) *</label><input id="pfPrice" type="number" value="${isEdit ? p.price : ''}"/></div>
+      <div class="field"><label class="field-label">Stock</label><input id="pfStock" type="number" value="${isEdit ? p.stock : 0}"/></div>
+      <div class="field"><label class="field-label">Brand</label><input id="pfBrand" value="${isEdit ? escapeHtml(p.brand || '') : ''}"/></div>
+      <div class="field"><label class="field-label">Frame Type</label><input id="pfFrameType" value="${isEdit ? escapeHtml(p.frame_type || '') : ''}"/></div>
+    </div>
+    <div class="field"><label class="field-label">Features (separate with ·)</label><input id="pfFeatures" value="${isEdit && p.features_en ? escapeHtml(p.features_en.join(' · ')) : ''}"/></div>
+    <div class="field" style="display:flex;gap:16px;">
+      <label style="font-size:12px;display:flex;align-items:center;gap:6px;"><input type="checkbox" id="pfFeatured" style="width:auto;" ${isEdit && p.featured ? 'checked' : ''}/> Featured</label>
+      <label style="font-size:12px;display:flex;align-items:center;gap:6px;"><input type="checkbox" id="pfNewArrival" style="width:auto;" ${isEdit && p.new_arrival ? 'checked' : ''}/> New Arrival</label>
+      <label style="font-size:12px;display:flex;align-items:center;gap:6px;"><input type="checkbox" id="pfBestSeller" style="width:auto;" ${isEdit && p.best_seller ? 'checked' : ''}/> Best Seller</label>
+    </div>
+    <div class="err-text" id="pfErr"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" style="width:auto;" onclick="saveProduct(${isEdit ? `'${p.id}'` : 'null'}, this)">${isEdit ? 'Save Changes' : 'Create Product'}</button>
+    </div>`);
+}
+
+function slugify(text) { return String(text).toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''); }
+
+async function saveProduct(id, btn) {
+  const errEl = document.getElementById('pfErr');
+  const name = document.getElementById('pfName').value.trim();
+  const price = parseFloat(document.getElementById('pfPrice').value);
+  const stock = parseInt(document.getElementById('pfStock').value, 10) || 0;
+  const sku = document.getElementById('pfSku').value.trim();
+  const featuresRaw = document.getElementById('pfFeatures').value.trim();
+
+  if (!name) { errEl.textContent = 'Name is required.'; return; }
+  if (!price || price <= 0) { errEl.textContent = 'Enter a valid price.'; return; }
+  if (!id && !sku) { errEl.textContent = 'SKU is required for new products.'; return; }
+
+  const payload = {
+    nameEn: name,
+    price,
+    stock,
+    brand: document.getElementById('pfBrand').value.trim() || null,
+    frameType: document.getElementById('pfFrameType').value.trim() || null,
+    featuresEn: featuresRaw ? featuresRaw.split('·').map(s => s.trim()).filter(Boolean) : [],
+    featured: document.getElementById('pfFeatured').checked,
+    newArrival: document.getElementById('pfNewArrival').checked,
+    bestSeller: document.getElementById('pfBestSeller').checked
+  };
+  if (!id) { payload.sku = sku; payload.slug = slugify(name) + '-' + sku.toLowerCase(); }
+
+  btn.disabled = true; btn.textContent = 'Saving…';
+  try {
+    if (id) {
+      await apiFetch(`/products/${id}`, { method: 'PATCH', body: JSON.stringify(payload) });
+    } else {
+      await apiFetch('/products', { method: 'POST', body: JSON.stringify(payload) });
+    }
+    closeModal();
+    showToast(id ? 'Product updated.' : 'Product created.');
+    renderProducts();
+  } catch (err) {
+    errEl.textContent = err.message;
+  } finally {
+    btn.disabled = false; btn.textContent = id ? 'Save Changes' : 'Create Product';
+  }
+}
+
+async function deleteProduct(id, name) {
+  if (!confirm(`Delete "${name}"? This cannot be undone.`)) return;
+  try {
+    await apiFetch(`/products/${id}`, { method: 'DELETE' });
+    showToast('Product deleted.');
+    renderProducts();
+  } catch (err) {
+    showToast(err.message, true);
+  }
+}
+
+// ═══════════════════════════════════════
+//  CATEGORIES
+// ═══════════════════════════════════════
+async function renderCategories() {
+  const content = document.getElementById('content');
+  content.innerHTML = pageHeader('Categories', 'Organize how products are browsed.') +
+    `<div class="toolbar"><span></span><button class="btn-primary" style="width:auto;" onclick="openCategoryForm()">＋ New Category</button></div>
+     <div class="panel"><div class="table-wrap" id="catTableWrap"><div class="state-msg">Loading…</div></div></div>`;
+
+  try {
+    const result = await apiFetch('/categories');
+    const items = result.data;
+    const wrap = document.getElementById('catTableWrap');
+    if (!items.length) { wrap.innerHTML = `<div class="state-msg">No categories yet.</div>`; return; }
+
+    wrap.innerHTML = `<table>
+      <thead><tr><th>Name (EN)</th><th>Name (NE)</th><th>Slug</th><th>Status</th><th></th></tr></thead>
+      <tbody>${items.map(c => `
+        <tr>
+          <td>${escapeHtml(c.name_en)}</td>
+          <td>${escapeHtml(c.name_ne || '—')}</td>
+          <td>${escapeHtml(c.slug)}</td>
+          <td><span class="pill pill-${c.active ? 'active' : 'disabled'}">${c.active ? 'active' : 'inactive'}</span></td>
+          <td class="row-actions">
+            <button class="icon-btn" onclick='openCategoryForm(${JSON.stringify(c).replace(/'/g,"&#39;")})'>Edit</button>
+            <button class="icon-btn danger" onclick="deleteCategory('${c.id}','${escapeHtml(c.name_en)}')">Delete</button>
+          </td>
+        </tr>`).join('')}</tbody>
+    </table>`;
+  } catch (err) {
+    document.getElementById('catTableWrap').innerHTML = `<div class="state-msg">Couldn't load categories: ${escapeHtml(err.message)}</div>`;
+  }
+}
+
+function openCategoryForm(c) {
+  const isEdit = Boolean(c);
+  openModal(`
+    <div class="modal-box-title">${isEdit ? 'Edit Category' : 'New Category'}</div>
+    <div class="field"><label class="field-label">Name (EN) *</label><input id="cfNameEn" value="${isEdit ? escapeHtml(c.name_en) : ''}"/></div>
+    <div class="field"><label class="field-label">Name (NE)</label><input id="cfNameNe" value="${isEdit ? escapeHtml(c.name_ne || '') : ''}"/></div>
+    <div class="field"><label class="field-label">Description</label><textarea id="cfDesc">${isEdit ? escapeHtml(c.description_en || '') : ''}</textarea></div>
+    <div class="err-text" id="cfErr"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" style="width:auto;" onclick="saveCategory(${isEdit ? `'${c.id}'` : 'null'}, this)">${isEdit ? 'Save' : 'Create'}</button>
+    </div>`);
+}
+
+async function saveCategory(id, btn) {
+  const errEl = document.getElementById('cfErr');
+  const nameEn = document.getElementById('cfNameEn').value.trim();
+  if (!nameEn) { errEl.textContent = 'Name is required.'; return; }
+
+  const payload = { nameEn, nameNe: document.getElementById('cfNameNe').value.trim() || null, descriptionEn: document.getElementById('cfDesc').value.trim() || null };
+
+  btn.disabled = true;
+  try {
+    if (id) await apiFetch(`/categories/${id}`, { method: 'PATCH', body: JSON.stringify(payload) });
+    else await apiFetch('/categories', { method: 'POST', body: JSON.stringify(payload) });
+    closeModal();
+    showToast(id ? 'Category updated.' : 'Category created.');
+    renderCategories();
+  } catch (err) {
+    errEl.textContent = err.message;
+    btn.disabled = false;
+  }
+}
+
+async function deleteCategory(id, name) {
+  if (!confirm(`Delete category "${name}"?`)) return;
+  try {
+    await apiFetch(`/categories/${id}`, { method: 'DELETE' });
+    showToast('Category deleted.');
+    renderCategories();
+  } catch (err) {
+    showToast(err.message, true);
+  }
+}
+
+// ═══════════════════════════════════════
+//  SERVICES
+// ═══════════════════════════════════════
+async function renderServices() {
+  const content = document.getElementById('content');
+  content.innerHTML = pageHeader('Services', 'Optical services offered in-store.') +
+    `<div class="toolbar"><span></span><button class="btn-primary" style="width:auto;" onclick="openServiceForm()">＋ New Service</button></div>
+     <div class="panel"><div class="table-wrap" id="svcTableWrap"><div class="state-msg">Loading…</div></div></div>`;
+
+  try {
+    const result = await apiFetch('/services');
+    const items = result.data;
+    const wrap = document.getElementById('svcTableWrap');
+    if (!items.length) { wrap.innerHTML = `<div class="state-msg">No services yet.</div>`; return; }
+
+    wrap.innerHTML = `<table>
+      <thead><tr><th>Name (EN)</th><th>Description</th><th></th></tr></thead>
+      <tbody>${items.map(s => `
+        <tr>
+          <td>${escapeHtml(s.name_en)}</td>
+          <td>${escapeHtml((s.description_en || '').slice(0, 60))}</td>
+          <td class="row-actions">
+            <button class="icon-btn" onclick='openServiceForm(${JSON.stringify(s).replace(/'/g,"&#39;")})'>Edit</button>
+            <button class="icon-btn danger" onclick="deleteService('${s.id}','${escapeHtml(s.name_en)}')">Delete</button>
+          </td>
+        </tr>`).join('')}</tbody>
+    </table>`;
+  } catch (err) {
+    document.getElementById('svcTableWrap').innerHTML = `<div class="state-msg">Couldn't load services: ${escapeHtml(err.message)}</div>`;
+  }
+}
+
+function openServiceForm(s) {
+  const isEdit = Boolean(s);
+  openModal(`
+    <div class="modal-box-title">${isEdit ? 'Edit Service' : 'New Service'}</div>
+    <div class="field"><label class="field-label">Name (EN) *</label><input id="sfNameEn" value="${isEdit ? escapeHtml(s.name_en) : ''}"/></div>
+    <div class="field"><label class="field-label">Name (NE)</label><input id="sfNameNe" value="${isEdit ? escapeHtml(s.name_ne || '') : ''}"/></div>
+    <div class="field"><label class="field-label">Description</label><textarea id="sfDesc">${isEdit ? escapeHtml(s.description_en || '') : ''}</textarea></div>
+    <div class="err-text" id="sfErr"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" style="width:auto;" onclick="saveService(${isEdit ? `'${s.id}'` : 'null'}, this)">${isEdit ? 'Save' : 'Create'}</button>
+    </div>`);
+}
+
+async function saveService(id, btn) {
+  const errEl = document.getElementById('sfErr');
+  const nameEn = document.getElementById('sfNameEn').value.trim();
+  if (!nameEn) { errEl.textContent = 'Name is required.'; return; }
+
+  const payload = { nameEn, nameNe: document.getElementById('sfNameNe').value.trim() || null, descriptionEn: document.getElementById('sfDesc').value.trim() || null };
+
+  btn.disabled = true;
+  try {
+    if (id) await apiFetch(`/services/${id}`, { method: 'PATCH', body: JSON.stringify(payload) });
+    else await apiFetch('/services', { method: 'POST', body: JSON.stringify(payload) });
+    closeModal();
+    showToast(id ? 'Service updated.' : 'Service created.');
+    renderServices();
+  } catch (err) {
+    errEl.textContent = err.message;
+    btn.disabled = false;
+  }
+}
+
+async function deleteService(id, name) {
+  if (!confirm(`Delete service "${name}"?`)) return;
+  try {
+    await apiFetch(`/services/${id}`, { method: 'DELETE' });
+    showToast('Service deleted.');
+    renderServices();
+  } catch (err) {
+    showToast(err.message, true);
+  }
+}
+
+// ═══════════════════════════════════════
+//  ORDERS
+// ═══════════════════════════════════════
+const ORDER_STATUSES = ['pending', 'confirmed', 'processing', 'ready', 'shipped', 'delivered', 'cancelled', 'returned'];
+
+async function renderOrders() {
+  const content = document.getElementById('content');
+  content.innerHTML = pageHeader('Orders', 'Track and update customer orders.') +
+    `<div class="toolbar">
+       <select id="orderStatusFilter" style="width:auto;" onchange="renderOrders()"><option value="">All statuses</option>${ORDER_STATUSES.map(s => `<option value="${s}">${s}</option>`).join('')}</select>
+       <span></span>
+     </div>
+     <div class="panel"><div class="table-wrap" id="ordersTableWrap"><div class="state-msg">Loading…</div></div></div>`;
+
+  const filter = document.getElementById('orderStatusFilter')?.value || '';
+  // restore selected filter after re-render
+  if (filter) document.getElementById('orderStatusFilter').value = filter;
+
+  try {
+    const qs = filter ? `?status=${filter}` : '';
+    const result = await apiFetch(`/orders${qs}`);
+    const items = result.data;
+    const wrap = document.getElementById('ordersTableWrap');
+    if (!items.length) { wrap.innerHTML = `<div class="state-msg">No orders${filter ? ' with this status' : ''} yet.</div>`; return; }
+
+    wrap.innerHTML = `<table>
+      <thead><tr><th>Order #</th><th>Customer</th><th>Phone</th><th>Total</th><th>Status</th><th>Placed</th><th></th></tr></thead>
+      <tbody>${items.map(o => `
+        <tr>
+          <td>${escapeHtml(o.order_number)}</td>
+          <td>${escapeHtml(o.customer_name)}</td>
+          <td>${escapeHtml(o.customer_phone)}</td>
+          <td>${formatRs(o.total)}</td>
+          <td><span class="pill pill-${o.order_status}">${o.order_status}</span></td>
+          <td>${formatDate(o.created_at)}</td>
+          <td><button class="icon-btn" onclick='openOrderDetail(${JSON.stringify(o).replace(/'/g,"&#39;")})'>View</button></td>
+        </tr>`).join('')}</tbody>
+    </table>`;
+  } catch (err) {
+    document.getElementById('ordersTableWrap').innerHTML = `<div class="state-msg">Couldn't load orders: ${escapeHtml(err.message)}</div>`;
+  }
+}
+
+function openOrderDetail(o) {
+  openModal(`
+    <div class="modal-box-title">Order ${escapeHtml(o.order_number)}</div>
+    <div style="font-size:12px;color:var(--t2);line-height:1.8;margin-bottom:14px;">
+      <div><strong style="color:var(--t1);">${escapeHtml(o.customer_name)}</strong> · ${escapeHtml(o.customer_phone)}</div>
+      <div>${escapeHtml(o.shipping_address?.address_line || '')}, ${escapeHtml(o.shipping_address?.city || '')}</div>
+      ${o.customer_note ? `<div>Note: ${escapeHtml(o.customer_note)}</div>` : ''}
+      <div>Total: <strong style="color:var(--em);">${formatRs(o.total)}</strong> · ${escapeHtml(o.payment_method.toUpperCase())}</div>
+    </div>
+    <div class="field">
+      <label class="field-label">Update Status</label>
+      <select id="ofStatus">${ORDER_STATUSES.map(s => `<option value="${s}" ${s === o.order_status ? 'selected' : ''}>${s}</option>`).join('')}</select>
+    </div>
+    <div class="field"><label class="field-label">Admin Note</label><textarea id="ofNote">${escapeHtml(o.admin_note || '')}</textarea></div>
+    <div class="err-text" id="ofErr"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">Close</button>
+      <button class="btn-primary" style="width:auto;" onclick="updateOrderStatus('${o.id}', this)">Save Status</button>
+    </div>`, true);
+}
+
+async function updateOrderStatus(id, btn) {
+  const status = document.getElementById('ofStatus').value;
+  const adminNote = document.getElementById('ofNote').value.trim();
+  btn.disabled = true;
+  try {
+    await apiFetch(`/orders/${id}/status`, { method: 'PATCH', body: JSON.stringify({ status, adminNote: adminNote || null }) });
+    closeModal();
+    showToast('Order updated.');
+    renderOrders();
+  } catch (err) {
+    document.getElementById('ofErr').textContent = err.message;
+    btn.disabled = false;
+  }
+}
+
+// ═══════════════════════════════════════
+//  CUSTOMERS
+// ═══════════════════════════════════════
+async function renderCustomers() {
+  const content = document.getElementById('content');
+  content.innerHTML = pageHeader('Customers', 'Everyone who has an account or has ordered.') +
+    `<div class="panel"><div class="table-wrap" id="custTableWrap"><div class="state-msg">Loading…</div></div></div>`;
+
+  try {
+    const result = await apiFetch('/customers');
+    const items = result.data;
+    const wrap = document.getElementById('custTableWrap');
+    if (!items.length) { wrap.innerHTML = `<div class="state-msg">No customers yet.</div>`; return; }
+
+    wrap.innerHTML = `<table>
+      <thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>Orders</th><th>Total Spent</th><th>Status</th><th></th></tr></thead>
+      <tbody>${items.map(c => `
+        <tr>
+          <td>${escapeHtml(c.name)}</td>
+          <td>${escapeHtml(c.phone || '—')}</td>
+          <td>${escapeHtml(c.email || '—')}</td>
+          <td>${c.total_orders}</td>
+          <td>${formatRs(c.total_spent)}</td>
+          <td><span class="pill pill-${c.status === 'active' ? 'active' : 'disabled'}">${c.status}</span></td>
+          <td><button class="icon-btn ${c.status === 'active' ? 'danger' : ''}" onclick="toggleCustomerStatus('${c.id}','${c.status}')">${c.status === 'active' ? 'Disable' : 'Enable'}</button></td>
+        </tr>`).join('')}</tbody>
+    </table>`;
+  } catch (err) {
+    document.getElementById('custTableWrap').innerHTML = `<div class="state-msg">Couldn't load customers: ${escapeHtml(err.message)}</div>`;
+  }
+}
+
+async function toggleCustomerStatus(id, currentStatus) {
+  const next = currentStatus === 'active' ? 'disabled' : 'active';
+  try {
+    await apiFetch(`/customers/${id}/status`, { method: 'PATCH', body: JSON.stringify({ status: next }) });
+    showToast(`Customer ${next}.`);
+    renderCustomers();
+  } catch (err) {
+    showToast(err.message, true);
+  }
+}
+
+// ═══════════════════════════════════════
+//  BLOG
+// ═══════════════════════════════════════
+async function renderBlog() {
+  const content = document.getElementById('content');
+  content.innerHTML = pageHeader('Blog', 'Write and publish eye-care articles.') +
+    `<div class="toolbar"><span></span><button class="btn-primary" style="width:auto;" onclick="openBlogForm()">＋ New Post</button></div>
+     <div class="panel"><div class="table-wrap" id="blogTableWrap"><div class="state-msg">Loading…</div></div></div>`;
+
+  try {
+    const result = await apiFetch('/blog/admin');
+    const items = result.data;
+    const wrap = document.getElementById('blogTableWrap');
+    if (!items.length) { wrap.innerHTML = `<div class="state-msg">No posts yet.</div>`; return; }
+
+    wrap.innerHTML = `<table>
+      <thead><tr><th>Title</th><th>Category</th><th>Status</th><th>Date</th><th></th></tr></thead>
+      <tbody>${items.map(p => `
+        <tr>
+          <td>${escapeHtml(p.title_en)}</td>
+          <td>${escapeHtml(p.category || '—')}</td>
+          <td><span class="pill pill-${p.published ? 'published' : 'disabled'}">${p.published ? 'published' : 'draft'}</span></td>
+          <td>${formatDate(p.published_at || p.created_at)}</td>
+          <td class="row-actions">
+            <button class="icon-btn" onclick="toggleBlogPublish('${p.id}', ${p.published})">${p.published ? 'Unpublish' : 'Publish'}</button>
+            <button class="icon-btn danger" onclick="deleteBlogPost('${p.id}','${escapeHtml(p.title_en)}')">Delete</button>
+          </td>
+        </tr>`).join('')}</tbody>
+    </table>`;
+  } catch (err) {
+    document.getElementById('blogTableWrap').innerHTML = `<div class="state-msg">Couldn't load posts: ${escapeHtml(err.message)}</div>`;
+  }
+}
+
+function openBlogForm() {
+  openModal(`
+    <div class="modal-box-title">New Blog Post</div>
+    <div class="field"><label class="field-label">Title (EN) *</label><input id="bfTitle"/></div>
+    <div class="field"><label class="field-label">Category</label><input id="bfCategory" placeholder="Eye Care Tips"/></div>
+    <div class="field"><label class="field-label">Excerpt</label><textarea id="bfExcerpt"></textarea></div>
+    <div class="field"><label class="field-label">Content *</label><textarea id="bfContent" style="min-height:140px;"></textarea></div>
+    <div class="err-text" id="bfErr"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" style="width:auto;" onclick="createBlogPost(this)">Create Draft</button>
+    </div>`, true);
+}
+
+async function createBlogPost(btn) {
+  const errEl = document.getElementById('bfErr');
+  const titleEn = document.getElementById('bfTitle').value.trim();
+  const contentEn = document.getElementById('bfContent').value.trim();
+  if (!titleEn || !contentEn) { errEl.textContent = 'Title and content are required.'; return; }
+
+  btn.disabled = true;
+  try {
+    await apiFetch('/blog', {
+      method: 'POST',
+      body: JSON.stringify({
+        titleEn,
+        category: document.getElementById('bfCategory').value.trim() || null,
+        excerptEn: document.getElementById('bfExcerpt').value.trim() || null,
+        contentEn,
+        author: session.name
+      })
+    });
+    closeModal();
+    showToast('Draft created.');
+    renderBlog();
+  } catch (err) {
+    errEl.textContent = err.message;
+    btn.disabled = false;
+  }
+}
+
+async function toggleBlogPublish(id, currentlyPublished) {
+  try {
+    await apiFetch(`/blog/${id}/publish`, { method: 'PATCH', body: JSON.stringify({ published: !currentlyPublished }) });
+    showToast(currentlyPublished ? 'Post unpublished.' : 'Post published.');
+    renderBlog();
+  } catch (err) {
+    showToast(err.message, true);
+  }
+}
+
+async function deleteBlogPost(id, title) {
+  if (!confirm(`Delete "${title}"?`)) return;
+  try {
+    await apiFetch(`/blog/${id}`, { method: 'DELETE' });
+    showToast('Post deleted.');
+    renderBlog();
+  } catch (err) {
+    showToast(err.message, true);
+  }
+}
+
+// ═══════════════════════════════════════
+//  SETTINGS
+// ═══════════════════════════════════════
+async function renderSettings() {
+  const content = document.getElementById('content');
+  content.innerHTML = pageHeader('Settings', 'Store details, contact info, and Shreekunja AI configuration.') +
+    `<div class="state-msg">Loading…</div>`;
+
+  const isSuper = session.role === 'SUPER_ADMIN';
+
+  try {
+    const result = await apiFetch('/settings');
+    const s = result.data;
+
+    content.innerHTML = pageHeader('Settings', 'Store details, contact info, and Shreekunja AI configuration.') + `
+      <div class="panel">
+        <div class="panel-title">Store Info</div>
+        ${!isSuper ? `<div class="locked-note">Business name and AI settings are super-admin only — you can still edit contact and delivery info below.</div>` : ''}
+        <div class="grid-2">
+          <div class="field"><label class="field-label">Business Name (EN)</label><input id="stBizEn" value="${escapeHtml(s.business_name_en || '')}" ${isSuper ? '' : 'disabled'}/></div>
+          <div class="field"><label class="field-label">Business Name (NE)</label><input id="stBizNe" value="${escapeHtml(s.business_name_ne || '')}" ${isSuper ? '' : 'disabled'}/></div>
+          <div class="field"><label class="field-label">Phone</label><input id="stPhone" value="${escapeHtml(s.phone || '')}"/></div>
+          <div class="field"><label class="field-label">WhatsApp</label><input id="stWhatsapp" value="${escapeHtml(s.whatsapp || '')}"/></div>
+          <div class="field"><label class="field-label">Email</label><input id="stEmail" value="${escapeHtml(s.email || '')}"/></div>
+          <div class="field"><label class="field-label">Google Maps URL</label><input id="stMaps" value="${escapeHtml(s.google_maps_url || '')}"/></div>
+        </div>
+        <div class="field"><label class="field-label">Address (EN)</label><textarea id="stAddr">${escapeHtml(s.address_en || '')}</textarea></div>
+        <button class="btn-primary" style="width:auto;" onclick="saveSettings(this)">Save Store Info</button>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Shreekunja AI ${!isSuper ? '<span style="font-size:10px;color:var(--t3);">(super admin only)</span>' : ''}</div>
+        <div class="grid-2">
+          <div class="field"><label class="field-label">AI Name</label><input id="stAiName" value="${escapeHtml(s.ai_name || '')}" ${isSuper ? '' : 'disabled'}/></div>
+          <div class="field"><label class="field-label">Temperature</label><input id="stAiTemp" type="number" step="0.05" min="0" max="1" value="${s.ai_temperature}" ${isSuper ? '' : 'disabled'}/></div>
+        </div>
+        <div class="field"><label class="field-label">Personality / Instructions</label><textarea id="stAiPersonality" ${isSuper ? '' : 'disabled'}>${escapeHtml(s.ai_personality || '')}</textarea></div>
+        ${isSuper ? `<button class="btn-primary" style="width:auto;" onclick="saveAiSettings(this)">Save AI Settings</button>` : ''}
+      </div>
+      <div class="err-text" id="stErr"></div>`;
+  } catch (err) {
+    content.innerHTML = pageHeader('Settings') + `<div class="state-msg">Couldn't load settings: ${escapeHtml(err.message)}</div>`;
+  }
+}
+
+async function saveSettings(btn) {
+  const isSuper = session.role === 'SUPER_ADMIN';
+  const payload = {
+    phone: document.getElementById('stPhone').value.trim(),
+    whatsapp: document.getElementById('stWhatsapp').value.trim(),
+    email: document.getElementById('stEmail').value.trim(),
+    google_maps_url: document.getElementById('stMaps').value.trim(),
+    address_en: document.getElementById('stAddr').value.trim()
+  };
+  if (isSuper) {
+    payload.business_name_en = document.getElementById('stBizEn').value.trim();
+    payload.business_name_ne = document.getElementById('stBizNe').value.trim();
+  }
+
+  btn.disabled = true;
+  try {
+    await apiFetch('/settings', { method: 'PATCH', body: JSON.stringify(payload) });
+    showToast('Store info saved.');
+  } catch (err) {
+    document.getElementById('stErr').textContent = err.message;
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+async function saveAiSettings(btn) {
+  const payload = {
+    ai_name: document.getElementById('stAiName').value.trim(),
+    ai_temperature: parseFloat(document.getElementById('stAiTemp').value),
+    ai_personality: document.getElementById('stAiPersonality').value.trim()
+  };
+  btn.disabled = true;
+  try {
+    await apiFetch('/settings', { method: 'PATCH', body: JSON.stringify(payload) });
+    showToast('AI settings saved.');
+  } catch (err) {
+    document.getElementById('stErr').textContent = err.message;
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+// ═══════════════════════════════════════
+//  AUDIT LOGS (SUPER_ADMIN only)
+// ═══════════════════════════════════════
+async function renderAudit() {
+  const content = document.getElementById('content');
+  content.innerHTML = pageHeader('Audit Logs', 'Full record of admin actions — super admin only.') +
+    `<div class="panel"><div class="table-wrap" id="auditTableWrap"><div class="state-msg">Loading…</div></div></div>`;
+
+  try {
+    const result = await apiFetch('/admin/audit-logs?limit=100');
+    const items = result.data;
+    const wrap = document.getElementById('auditTableWrap');
+    if (!items.length) { wrap.innerHTML = `<div class="state-msg">No activity recorded yet.</div>`; return; }
+
+    wrap.innerHTML = `<table>
+      <thead><tr><th>When</th><th>Admin</th><th>Action</th><th>Entity</th></tr></thead>
+      <tbody>${items.map(a => `
+        <tr>
+          <td>${new Date(a.created_at).toLocaleString('en-NP')}</td>
+          <td>${escapeHtml(a.admin_name)}</td>
+          <td>${escapeHtml(a.action)}</td>
+          <td>${escapeHtml(a.entity_type || '—')}</td>
+        </tr>`).join('')}</tbody>
+    </table>`;
+  } catch (err) {
+    document.getElementById('auditTableWrap').innerHTML = `<div class="state-msg">Couldn't load audit logs: ${escapeHtml(err.message)}</div>`;
+  }
+}
+
+// ═══════════════════════════════════════
+//  ADMINS (SUPER_ADMIN only — activate/deactivate; never create/delete)
+// ═══════════════════════════════════════
+async function renderAdmins() {
+  const content = document.getElementById('content');
+  content.innerHTML = pageHeader('Admins', 'The three authorized admin accounts. New admins can only be added via the backend seed script, never from this panel.') +
+    `<div class="panel"><div class="table-wrap" id="adminsTableWrap"><div class="state-msg">Loading…</div></div></div>`;
+
+  try {
+    const result = await apiFetch('/admin/admins');
+    const items = result.data;
+    const wrap = document.getElementById('adminsTableWrap');
+
+    wrap.innerHTML = `<table>
+      <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Last Login</th><th></th></tr></thead>
+      <tbody>${items.map(a => `
+        <tr>
+          <td>${escapeHtml(a.name)}</td>
+          <td>${escapeHtml(a.email)}</td>
+          <td>${escapeHtml(a.role)}</td>
+          <td><span class="pill pill-${a.active ? 'active' : 'disabled'}">${a.active ? 'active' : 'inactive'}</span></td>
+          <td>${formatDate(a.last_login_at)}</td>
+          <td>${a.id === session.id ? '<span style="font-size:10px;color:var(--t3);">(you)</span>' : `<button class="icon-btn ${a.active ? 'danger' : ''}" onclick="toggleAdminStatus('${a.id}',${a.active})">${a.active ? 'Deactivate' : 'Reactivate'}</button>`}</td>
+        </tr>`).join('')}</tbody>
+    </table>`;
+  } catch (err) {
+    document.getElementById('adminsTableWrap').innerHTML = `<div class="state-msg">Couldn't load admins: ${escapeHtml(err.message)}</div>`;
+  }
+}
+
+async function toggleAdminStatus(id, currentlyActive) {
+  const action = currentlyActive ? 'deactivate' : 'reactivate';
+  if (!confirm(`Are you sure you want to ${action} this admin?`)) return;
+  try {
+    await apiFetch(`/admin/admins/${id}/status`, { method: 'PATCH', body: JSON.stringify({ active: !currentlyActive }) });
+    showToast(`Admin ${action}d.`);
+    renderAdmins();
+  } catch (err) {
+    showToast(err.message, true);
+  }
+}
+</script>
+</body>
+</html>

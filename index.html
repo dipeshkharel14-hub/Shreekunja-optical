@@ -2271,6 +2271,79 @@ body {
   90% { opacity: 0.1; }
   100% { opacity: 0; transform: translateY(-10vh) scale(1); }
 }
+
+/* ══════════════════════════════════════════════════════
+   CATEGORY FILTER CHIPS
+══════════════════════════════════════════════════════ */
+.cat-chips {
+  display: flex; gap: 8px; overflow-x: auto; padding: 4px 20px 14px;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none;
+}
+.cat-chips::-webkit-scrollbar { display: none; }
+.cat-chip {
+  flex: none; padding: 8px 16px; border-radius: 20px;
+  border: 1px solid var(--border); background: var(--glass);
+  color: var(--t2); font-size: 11px; font-weight: 500; white-space: nowrap;
+  cursor: pointer; transition: all .2s;
+}
+.cat-chip.active, .cat-chip:hover {
+  border-color: var(--border-em); background: var(--em-glow); color: var(--t1);
+}
+
+/* ══════════════════════════════════════════════════════
+   CART
+══════════════════════════════════════════════════════ */
+.cart-fab {
+  position: fixed; right: max(16px, calc((100vw - 420px) / 2 + 16px)); bottom: 90px;
+  z-index: 950; width: 52px; height: 52px; border-radius: 50%;
+  background: var(--em); color: #051006; display: flex; align-items: center; justify-content: center;
+  font-size: 22px; box-shadow: 0 8px 24px rgba(46,224,113,0.35); cursor: pointer; border: none;
+}
+.cart-fab-badge {
+  position: absolute; top: -4px; right: -4px; min-width: 20px; height: 20px; padding: 0 5px;
+  border-radius: 10px; background: #ff5a5a; color: #fff; font-size: 10px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; border: 2px solid var(--black);
+}
+.cart-drawer-overlay {
+  display: none; position: fixed; inset: 0; z-index: 970; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+}
+.cart-drawer-overlay.open { display: block; }
+.cart-drawer {
+  position: absolute; right: 0; top: 0; bottom: 0; width: min(92vw, 400px);
+  background: var(--black2); border-left: 1px solid var(--border);
+  display: flex; flex-direction: column; padding: 20px;
+}
+.cart-drawer-title { font-size: 16px; font-weight: 700; color: var(--t1); margin-bottom: 4px; display:flex; justify-content:space-between; align-items:center; }
+.cart-items { flex: 1; overflow-y: auto; margin: 14px 0; display: flex; flex-direction: column; gap: 10px; }
+.cart-item { display: flex; gap: 10px; padding: 10px; border: 1px solid var(--border); border-radius: 14px; background: var(--glass); }
+.cart-item-img { width: 52px; height: 52px; border-radius: 10px; background: var(--black3); display:flex; align-items:center; justify-content:center; font-size:18px; flex: none; overflow:hidden; }
+.cart-item-img img { width:100%; height:100%; object-fit:cover; }
+.cart-item-info { flex: 1; min-width: 0; }
+.cart-item-name { font-size: 12px; color: var(--t1); font-weight: 600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.cart-item-price { font-size: 11px; color: var(--em); margin-top: 2px; }
+.cart-qty-row { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+.cart-qty-btn { width: 22px; height: 22px; border-radius: 6px; border: 1px solid var(--border); background: var(--black3); color: var(--t1); cursor: pointer; font-size: 12px; }
+.cart-item-remove { align-self: flex-start; background: none; border: none; color: var(--t3); font-size: 14px; cursor: pointer; }
+.cart-summary { border-top: 1px solid var(--border); padding-top: 14px; }
+.cart-summary-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--t2); margin-bottom: 6px; }
+.cart-summary-total { font-size: 15px; font-weight: 700; color: var(--t1); }
+.cart-checkout-btn {
+  width: 100%; margin-top: 12px; padding: 14px; border-radius: 14px; border: none;
+  background: var(--em); color: #051006; font-weight: 700; font-size: 13px; cursor: pointer;
+}
+.cart-checkout-btn:disabled { opacity: .5; cursor: not-allowed; }
+.cart-empty { text-align: center; color: var(--t3); font-size: 12px; padding: 40px 0; }
+
+.checkout-field { margin-bottom: 12px; }
+.checkout-label { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--t3); margin-bottom: 5px; display: block; }
+.checkout-input, .checkout-textarea {
+  width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border);
+  background: var(--black3); color: var(--t1); font-size: 12px; font-family: inherit;
+}
+.checkout-textarea { resize: vertical; min-height: 60px; }
+.order-success { text-align: center; padding: 20px 0; }
+.order-success-icon { font-size: 42px; margin-bottom: 10px; }
+.order-success-number { font-size: 16px; font-weight: 700; color: var(--em); letter-spacing: 1px; }
 </style>
 </head>
 <body>
@@ -2517,115 +2590,14 @@ body {
       </a>
     </div>
 
+    <div class="cat-chips" id="catChips">
+      <!-- Populated by loadCategories() -->
+    </div>
+
     <div class="products-grid" id="productsGrid">
-
-      <!-- ════════════════════════════════════
-           PRODUCT 1
-           Image file: sunglasses1.jpg  (put in same folder as index.html)
-           ════════════════════════════════════ -->
-      <div class="product-card">
-        <div class="product-badge">NEW</div>      <!-- badge: NEW / SALE / HOT -->
-        <div class="product-img-wrap">
-          <img src="sunglasses1.jpg" alt="Ray-Ban Aviator Classic"
-               onerror="this.parentElement.innerHTML='<div class=\'product-img-placeholder\'><div class=\'ph-icon\'>🕶️</div></div>'"/>
-        </div>
-        <div class="product-info">
-          <div class="product-name">Ray-Ban Aviator Classic</div>
-          <div class="product-function">UV400 protection · Anti-glare · Metal frame · Polarized lens</div>
-          <div class="product-price">Rs 4,500 <span>/ pair</span></div>
-          <a class="product-wa-link"
-             href="https://wa.me/9841623999?text=नमस्ते! Ray-Ban Aviator Classic को बारेमा जानकारी चाहन्छु।"
-             target="_blank">📲 WhatsApp गर्नुहोस्</a>
-        </div>
-      </div>
-
-      <!-- ════════════════════════════════════
-           PRODUCT 2
-           Image file: eyeglasses1.jpg
-           ════════════════════════════════════ -->
-      <div class="product-card">
-        <div class="product-badge">NEW</div>
-        <div class="product-img-wrap">
-          <img src="eyeglasses1.jpg" alt="Titan Full Rim Eyeglasses"
-               onerror="this.parentElement.innerHTML='<div class=\'product-img-placeholder\'><div class=\'ph-icon\'>🕶️</div></div>'"/>
-        </div>
-        <div class="product-info">
-          <div class="product-name">Titan Full Rim Eyeglasses</div>
-          <div class="product-function">Blue-cut lens · Lightweight · Comfortable fit · Prescription ready</div>
-          <div class="product-price">Rs 3,200 <span>/ pair</span></div>
-          <a class="product-wa-link"
-             href="https://wa.me/9841623999?text=नमस्ते! Titan Full Rim को बारेमा जानकारी चाहन्छु।"
-             target="_blank">📲 WhatsApp गर्नुहोस्</a>
-        </div>
-      </div>
-
-      <!-- ════════════════════════════════════
-           PRODUCT 3
-           Image file: sunglasses2.jpg
-           ════════════════════════════════════ -->
-      <div class="product-card">
-        <div class="product-badge sale">SALE</div>     <!-- "sale" class = red badge -->
-        <div class="product-img-wrap">
-          <img src="IMG_20260608_131156.jpg" alt="prada high copy"
-               onerror="this.parentElement.innerHTML='<div class=\'product-img-placeholder\'><div class=\'ph-icon\'>🕶️</div></div>'"/>
-        </div>
-        <div class="product-info">
-          <div class="product-name">prada high copy</div>
-          <div class="product-function">Polarized wrap-around · Impact resistant · Outdoor &amp; driving use</div>
-          <div class="product-price">Rs 5,800 <span>/ pair</span></div>
-          <a class="product-wa-link"
-             href="https://wa.me/9841623999?text=नमस्ते! Oakley Sport Shield को बारेमा जानकारी चाहन्छु।"
-             target="_blank">📲 WhatsApp गर्नुहोस्</a>
-        </div>
-      </div>
-
-      <!-- ════════════════════════════════════
-           PRODUCT 4
-           Image file: eyeglasses2.jpg
-           ════════════════════════════════════ -->
-      <div class="product-card">
-        <div class="product-badge">NEW</div>
-        <div class="product-img-wrap">
-          <img src="eyeglasses2.jpg" alt="Lenskart Air TR90"
-               onerror="this.parentElement.innerHTML='<div class=\'product-img-placeholder\'><div class=\'ph-icon\'>🕶️</div></div>'"/>
-        </div>
-        <div class="product-info">
-          <div class="product-name">Lenskart Air TR90</div>
-          <div class="product-function">Ultra-light frame · Anti-scratch coating · Flexible temples · Unisex</div>
-          <div class="product-price">Rs 2,700 <span>/ pair</span></div>
-          <a class="product-wa-link"
-             href="https://wa.me/9841623999?text=नमस्ते! Lenskart Air TR90 को बारेमा जानकारी चाहन्छु।"
-             target="_blank">📲 WhatsApp गर्नुहोस्</a>
-        </div>
-      </div>
-
-      <!--
-      ══════════════════════════════════════════════════
-      TO ADD MORE PRODUCTS — copy the block below and
-      paste it just above this comment. Then fill in:
-        • src="your-photo.jpg"
-        • product name, features, price
-        • WhatsApp message text
-      ══════════════════════════════════════════════════
-
-      <div class="product-card">
-        <div class="product-badge">NEW</div>
-        <div class="product-img-wrap">
-          <img src="PHOTO_FILENAME.jpg" alt="PRODUCT NAME"
-               onerror="this.parentElement.innerHTML='<div class=\'product-img-placeholder\'><div class=\'ph-icon\'>🕶️</div></div>'"/>
-        </div>
-        <div class="product-info">
-          <div class="product-name">PRODUCT NAME</div>
-          <div class="product-function">FEATURE 1 · FEATURE 2 · FEATURE 3</div>
-          <div class="product-price">Rs PRICE <span>/ pair</span></div>
-          <a class="product-wa-link"
-             href="https://wa.me/9841623999?text=नमस्ते! PRODUCT NAME को बारेमा जानकारी चाहन्छु।"
-             target="_blank">📲 WhatsApp गर्नुहोस्</a>
-        </div>
-      </div>
-
-      -->
-
+      <!-- Populated dynamically by loadProducts() below.
+           Falls back to a loading skeleton, then an error+retry
+           state or an empty state if there's nothing to show. -->
     </div><!-- /productsGrid -->
 
   </section>
@@ -2733,11 +2705,16 @@ body {
           <div class="ph-add-text">Tap to upload image</div>
         </div>
         <input type="file" id="imgFile" accept="image/*" style="display:none" onchange="previewImg(event)">
+        <div style="font-size:9px;color:var(--t3);margin-top:6px;line-height:1.5;">
+          Image storage isn't connected yet on the backend — the product will still be created, just without a photo for now.
+        </div>
       </div>
+
+      <div class="modal-error" id="addModalErr" style="color:#ff6b6b;font-size:11px;margin-top:4px;"></div>
 
       <div class="modal-actions">
         <button class="modal-btn-cancel" onclick="closeAddModal()">Cancel</button>
-        <button class="modal-btn-save" onclick="addNewProduct()">✓ Add Product</button>
+        <button class="modal-btn-save" onclick="addNewProduct(this)">✓ Add Product</button>
       </div>
     </div>
   </div>
@@ -2755,83 +2732,7 @@ body {
     </div>
 
     <div class="blog-grid" id="blogGrid">
-
-      <!-- ══════════════════════════════════════════════
-           POST 1
-           Cover image file: blog1.jpg  (root folder)
-           ══════════════════════════════════════════════ -->
-      <div class="blog-card"
-           data-img="blog1.jpg"
-           data-cat="Eye Care Tips"
-           data-date="2025-06-08"
-           data-title="How to Clean Your Eyeglasses Properly"
-           data-excerpt="Dirty lenses strain your eyes. Here is the right way to clean glasses without scratching them."
-           data-content="Clean glasses are not just about looks. Dirty lenses force your eyes to work harder, causing eye strain and headaches.
-
-How to clean your glasses the right way:
-1. Rinse under lukewarm running water to remove dust.
-2. Apply a small drop of dish soap on each lens.
-3. Gently rub both sides with your fingertips for 20 seconds.
-4. Rinse thoroughly and dry with a clean microfiber cloth.
-
-Common mistakes to avoid:
-- Never use your shirt or paper tissue — these scratch lenses.
-- Avoid household glass cleaners — they strip coatings.
-- Never use hot water — it damages anti-reflective coatings.
-
-Bring your glasses to Shreekunja Optical for a free ultrasonic cleaning anytime!">
-      </div>
-
-      <!-- ══════════════════════════════════════════════
-           POST 2
-           Cover image file: blog2.jpg
-           ══════════════════════════════════════════════ -->
-      <div class="blog-card"
-           data-img="blog2.jpg"
-           data-cat="Lens Guide"
-           data-date="2025-06-05"
-           data-title="Blue Cut Lenses: Do You Really Need Them?"
-           data-excerpt="Screen time is rising. Blue cut lenses promise relief — but what does the science say?"
-           data-content="If you spend more than 4 hours a day on a phone, computer, or TV, blue light blocking lenses can genuinely help you.
-
-Symptoms of too much screen blue light:
-- Tired or dry eyes by evening
-- Difficulty falling asleep at night
-- Mild headaches after long screen sessions
-
-How blue cut lenses help:
-Blue cut lenses have a special coating that blocks 30 to 40 percent of high-energy blue light before it reaches your retina. Many customers report sleeping better and less eye fatigue within the first week.
-
-Who should get blue cut lenses:
-- Office workers and students
-- Gamers and content creators
-- Anyone on a phone more than 3 hours daily
-- Children — their eyes are more sensitive
-
-Visit Shreekunja Optical to see our full range of blue cut options, available as an add-on for any prescription or zero-power frame.">
-      </div>
-
-      <!--
-      ════════════════════════════════════════════════════════
-      TO ADD A NEW POST — copy this block and paste it above
-      this comment. Fill in all the data- fields.
-      ════════════════════════════════════════════════════════
-
-      <div class="blog-card"
-           data-img="YOUR-COVER-IMAGE.jpg"
-           data-cat="Eye Care Tips"
-           data-date="YYYY-MM-DD"
-           data-title="YOUR POST TITLE HERE"
-           data-excerpt="One or two sentences shown on the card preview."
-           data-content="Your full article text goes here.
-
-Use blank lines to create paragraphs.
-
-Keep writing as much as you want — it all shows in the reader.">
-      </div>
-
-      -->
-
+      <!-- Populated dynamically by loadBlogPosts() below. -->
     </div><!-- /blogGrid -->
   </section>
 
@@ -2883,9 +2784,105 @@ Keep writing as much as you want — it all shows in the reader.">
     </div>
   </nav>
 
+  <!-- ══ CART FAB ══ -->
+  <button class="cart-fab" onclick="openCart()">
+    🛒
+    <span class="cart-fab-badge" id="cartBadge" style="display:none;">0</span>
+  </button>
+
+  <!-- ══ CART DRAWER ══ -->
+  <div class="cart-drawer-overlay" id="cartOverlay" onclick="if(event.target===this) closeCart()">
+    <div class="cart-drawer">
+      <div class="cart-drawer-title">
+        <span>🛒 Your Cart</span>
+        <button onclick="closeCart()" style="background:none;border:none;color:var(--t2);font-size:20px;cursor:pointer;">✕</button>
+      </div>
+      <div class="cart-items" id="cartItemsList"></div>
+      <div class="cart-summary" id="cartSummary"></div>
+    </div>
+  </div>
+
+  <!-- ══ CHECKOUT MODAL ══ -->
+  <div class="modal-overlay" id="checkoutModal" onclick="if(event.target===this) closeCheckout()">
+    <div class="modal-sheet" onclick="event.stopPropagation()" style="max-width:400px;">
+      <div class="modal-handle"></div>
+      <div class="modal-title" id="checkoutTitle">📦 Checkout</div>
+
+      <div id="checkoutForm">
+        <div class="checkout-field">
+          <label class="checkout-label">Full Name *</label>
+          <input class="checkout-input" id="coName" placeholder="Your name"/>
+        </div>
+        <div class="checkout-field">
+          <label class="checkout-label">Phone *</label>
+          <input class="checkout-input" id="coPhone" placeholder="98XXXXXXXX"/>
+        </div>
+        <div class="checkout-field">
+          <label class="checkout-label">City *</label>
+          <input class="checkout-input" id="coCity" placeholder="Kathmandu / Bhaktapur"/>
+        </div>
+        <div class="checkout-field">
+          <label class="checkout-label">Area</label>
+          <input class="checkout-input" id="coArea" placeholder="e.g. Baneshwor"/>
+        </div>
+        <div class="checkout-field">
+          <label class="checkout-label">Delivery Address *</label>
+          <textarea class="checkout-textarea" id="coAddress" placeholder="Full delivery address"></textarea>
+        </div>
+        <div class="checkout-field">
+          <label class="checkout-label">Notes (optional)</label>
+          <textarea class="checkout-textarea" id="coNotes" placeholder="Any special instructions"></textarea>
+        </div>
+        <div class="checkout-field" style="font-size:10px;color:var(--t3);">
+          Payment: Cash on Delivery. Online payment is coming soon.
+        </div>
+        <div class="modal-error" id="checkoutErr" style="color:#ff6b6b;font-size:11px;margin-bottom:8px;"></div>
+        <button class="cart-checkout-btn" id="checkoutSubmitBtn" onclick="submitOrder(this)">Place Order</button>
+      </div>
+
+      <div id="checkoutSuccess" style="display:none;">
+        <div class="order-success">
+          <div class="order-success-icon">✅</div>
+          <div style="font-size:13px;color:var(--t1);margin-bottom:6px;">Order placed successfully!</div>
+          <div class="order-success-number" id="orderNumberDisplay"></div>
+          <div style="font-size:11px;color:var(--t3);margin-top:10px;">We'll contact you shortly to confirm.</div>
+          <button class="cart-checkout-btn" style="margin-top:16px;" onclick="closeCheckout()">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div><!-- /phone -->
 
 <script>
+// ═══════════════════════════════════════
+//  API CONFIG
+//  Points at the Shreekunja Optical 2.0 backend (see /backend).
+//  Swap API_BASE per environment — never hardcode secrets here,
+//  the browser only ever talks to this REST API, never to a
+//  database or the Gemini key directly.
+// ═══════════════════════════════════════
+const API_BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+  ? 'http://localhost:5050/api'
+  : 'https://shreekunja-optical.onrender.com/api';
+
+async function apiFetch(path, options = {}) {
+  const res = await fetch(`${API_BASE}${path}`, {
+    credentials: 'include', // sends/receives the httpOnly session cookie
+    headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
+    ...options
+  });
+
+  let body = null;
+  try { body = await res.json(); } catch (e) { /* non-JSON response */ }
+
+  if (!res.ok) {
+    const message = body?.error?.message || `Request failed (${res.status})`;
+    throw new Error(message);
+  }
+  return body;
+}
+
 // ═══════════════════════════════════════
 //  PARTICLES
 // ═══════════════════════════════════════
@@ -2895,6 +2892,318 @@ for (let i = 0; i < 18; i++) {
   p.className = 'particle';
   p.style.cssText = `left:${Math.random()*100}%;--dur:${5+Math.random()*8}s;--del:${Math.random()*8}s;`;
   pWrap.appendChild(p);
+}
+
+// ═══════════════════════════════════════
+//  PRODUCTS — fetched from the backend (GET /api/products)
+//  Replaces the old hardcoded product-card markup. Renders a
+//  loading skeleton, then either the real cards, a friendly
+//  bilingual error state with a retry button, or an empty state.
+// ═══════════════════════════════════════
+
+function productWaLink(p) {
+  const msg = `नमस्ते! ${p.name_en} को बारेमा जानकारी चाहन्छु।`;
+  return `https://wa.me/9841623999?text=${encodeURIComponent(msg)}`;
+}
+
+function productImageHtml(p) {
+  const primary = Array.isArray(p.images) ? p.images.find(i => i.is_primary) || p.images[0] : null;
+  if (primary?.url) {
+    return `<img src="${primary.url}" alt="${escapeHtml(p.name_en)}"
+             onerror="this.parentElement.innerHTML='<div class=\\'product-img-placeholder\\'><div class=\\'ph-icon\\'>🕶️</div></div>'"/>`;
+  }
+  return `<div class="product-img-placeholder"><div class="ph-icon">🕶️</div></div>`;
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str == null ? '' : String(str);
+  return div.innerHTML;
+}
+
+function formatRs(amount) {
+  return 'Rs ' + Number(amount).toLocaleString('en-IN');
+}
+
+function renderProductCard(p) {
+  const badge = p.new_arrival ? '<div class="product-badge">NEW</div>'
+    : (p.discount_percent > 0 ? '<div class="product-badge sale">SALE</div>' : '');
+
+  const priceHtml = p.compare_at_price && Number(p.compare_at_price) > Number(p.price)
+    ? `<div class="product-price">${formatRs(p.price)} <span>/ pair</span> &nbsp; <s style="opacity:.5;font-size:.85em;">${formatRs(p.compare_at_price)}</s></div>`
+    : `<div class="product-price">${formatRs(p.price)} <span>/ pair</span></div>`;
+
+  const features = Array.isArray(p.features_en) && p.features_en.length
+    ? p.features_en.join(' · ')
+    : (p.brand || '');
+
+  const outOfStock = p.stock_status === 'out_of_stock';
+  const cartBtn = outOfStock
+    ? `<button class="product-wa-link" style="opacity:.5;cursor:not-allowed;border:none;width:100%;" disabled>Out of Stock</button>`
+    : `<button class="product-wa-link" style="border:none;width:100%;cursor:pointer;" onclick='addToCart(${JSON.stringify({ id: p.id, name: p.name_en, price: Number(p.price), image: (p.images && p.images[0]) ? p.images[0].url : null }).replace(/'/g, "&#39;")})'>🛒 Add to Cart</button>`;
+
+  return `
+    <div class="product-card">
+      ${badge}
+      <div class="product-img-wrap">${productImageHtml(p)}</div>
+      <div class="product-info">
+        <div class="product-name">${escapeHtml(p.name_en)}</div>
+        <div class="product-function">${escapeHtml(features)}</div>
+        ${priceHtml}
+        ${cartBtn}
+        <a class="product-wa-link" style="margin-top:6px;" href="${productWaLink(p)}" target="_blank">📲 Ask on WhatsApp</a>
+      </div>
+    </div>`;
+}
+
+let currentCategoryFilter = null;
+
+async function loadProducts(categorySlug) {
+  if (categorySlug !== undefined) currentCategoryFilter = categorySlug;
+  const grid = document.getElementById('productsGrid');
+  if (!grid) return;
+
+  grid.innerHTML = `
+    <div class="products-state" style="grid-column:1/-1;text-align:center;padding:24px;color:var(--t3);font-size:12px;">
+      Loading products… / उत्पादनहरू लोड हुँदैछ…
+    </div>`;
+
+  try {
+    const catParam = currentCategoryFilter ? `&category=${encodeURIComponent(currentCategoryFilter)}` : '';
+    const result = await apiFetch(`/products?limit=24&sort=newest${catParam}`);
+    const items = result?.data || [];
+
+    if (items.length === 0) {
+      grid.innerHTML = `
+        <div class="products-state" style="grid-column:1/-1;text-align:center;padding:24px;color:var(--t3);font-size:12px;">
+          No products yet. / अहिलेसम्म कुनै उत्पादन छैन।
+        </div>`;
+      return;
+    }
+
+    grid.innerHTML = items.map(renderProductCard).join('');
+  } catch (err) {
+    grid.innerHTML = `
+      <div class="products-state" style="grid-column:1/-1;text-align:center;padding:24px;color:var(--t3);font-size:12px;">
+        Couldn't load products right now. / उत्पादनहरू लोड गर्न सकिएन।<br>
+        <button onclick="loadProducts()" style="margin-top:10px;padding:8px 18px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--t1);font-size:11px;cursor:pointer;">
+          ↻ Retry
+        </button>
+      </div>`;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', loadProducts);
+
+// ═══════════════════════════════════════
+//  CATEGORIES — filter chips above the product grid
+// ═══════════════════════════════════════
+async function loadCategories() {
+  const wrap = document.getElementById('catChips');
+  if (!wrap) return;
+
+  try {
+    const result = await apiFetch('/categories');
+    const categories = result?.data || [];
+
+    let html = `<div class="cat-chip active" onclick="selectCategory(null, this)">All</div>`;
+    html += categories.map(c =>
+      `<div class="cat-chip" onclick="selectCategory('${c.slug}', this)">${escapeHtml(c.name_en)}</div>`
+    ).join('');
+
+    wrap.innerHTML = html;
+  } catch (err) {
+    wrap.innerHTML = ''; // fail quietly — the "All" implicit state still works via loadProducts()
+  }
+}
+
+function selectCategory(slug, el) {
+  document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  loadProducts(slug);
+}
+
+document.addEventListener('DOMContentLoaded', loadCategories);
+
+// ═══════════════════════════════════════
+//  CART
+//  Guest carts persist in localStorage. Checkout works for guests
+//  (no login required — matches the backend's guest-checkout support);
+//  syncing a cart to a logged-in customer account is a follow-up once
+//  customer login exists on the storefront (only admin login exists today).
+// ═══════════════════════════════════════
+const CART_KEY = 'sko_cart_v1';
+
+function getCart() {
+  try { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); } catch (e) { return []; }
+}
+
+function setCart(items) {
+  localStorage.setItem(CART_KEY, JSON.stringify(items));
+  updateCartBadge();
+}
+
+function updateCartBadge() {
+  const items = getCart();
+  const count = items.reduce((sum, i) => sum + i.quantity, 0);
+  const badge = document.getElementById('cartBadge');
+  if (!badge) return;
+  if (count > 0) {
+    badge.textContent = count > 99 ? '99+' : count;
+    badge.style.display = 'flex';
+  } else {
+    badge.style.display = 'none';
+  }
+}
+
+function addToCart(product) {
+  const items = getCart();
+  const existing = items.find(i => i.id === product.id);
+  if (existing) {
+    existing.quantity += 1;
+  } else {
+    items.push({ id: product.id, name: product.name, price: product.price, image: product.image, quantity: 1 });
+  }
+  setCart(items);
+  openCart();
+}
+
+function updateCartQty(productId, delta) {
+  const items = getCart();
+  const item = items.find(i => i.id === productId);
+  if (!item) return;
+  item.quantity += delta;
+  if (item.quantity <= 0) {
+    setCart(items.filter(i => i.id !== productId));
+  } else {
+    setCart(items);
+  }
+  renderCart();
+}
+
+function removeCartItem(productId) {
+  setCart(getCart().filter(i => i.id !== productId));
+  renderCart();
+}
+
+function cartTotal() {
+  return getCart().reduce((sum, i) => sum + i.price * i.quantity, 0);
+}
+
+function renderCart() {
+  const items = getCart();
+  const listEl = document.getElementById('cartItemsList');
+  const summaryEl = document.getElementById('cartSummary');
+
+  if (items.length === 0) {
+    listEl.innerHTML = `<div class="cart-empty">Your cart is empty.<br>Add some frames to get started!</div>`;
+    summaryEl.innerHTML = '';
+    return;
+  }
+
+  listEl.innerHTML = items.map(i => `
+    <div class="cart-item">
+      <div class="cart-item-img">${i.image ? `<img src="${i.image}" alt="${escapeHtml(i.name)}"/>` : '🕶️'}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${escapeHtml(i.name)}</div>
+        <div class="cart-item-price">${formatRs(i.price)}</div>
+        <div class="cart-qty-row">
+          <button class="cart-qty-btn" onclick="updateCartQty('${i.id}', -1)">−</button>
+          <span style="font-size:12px;color:var(--t1);">${i.quantity}</span>
+          <button class="cart-qty-btn" onclick="updateCartQty('${i.id}', 1)">+</button>
+        </div>
+      </div>
+      <button class="cart-item-remove" onclick="removeCartItem('${i.id}')">✕</button>
+    </div>`).join('');
+
+  const total = cartTotal();
+  summaryEl.innerHTML = `
+    <div class="cart-summary-row"><span>Subtotal</span><span>${formatRs(total)}</span></div>
+    <div class="cart-summary-row cart-summary-total"><span>Total</span><span>${formatRs(total)}</span></div>
+    <button class="cart-checkout-btn" onclick="openCheckout()">Proceed to Checkout</button>`;
+}
+
+function openCart() {
+  renderCart();
+  document.getElementById('cartOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCart() {
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('DOMContentLoaded', updateCartBadge);
+
+// ═══════════════════════════════════════
+//  CHECKOUT
+// ═══════════════════════════════════════
+function openCheckout() {
+  if (getCart().length === 0) return;
+  closeCart();
+  document.getElementById('checkoutErr').textContent = '';
+  document.getElementById('checkoutForm').style.display = 'block';
+  document.getElementById('checkoutSuccess').style.display = 'none';
+  document.getElementById('checkoutModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCheckout() {
+  document.getElementById('checkoutModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+async function submitOrder(btn) {
+  const errEl = document.getElementById('checkoutErr');
+  errEl.textContent = '';
+
+  const name    = document.getElementById('coName').value.trim();
+  const phone   = document.getElementById('coPhone').value.trim();
+  const city    = document.getElementById('coCity').value.trim();
+  const area    = document.getElementById('coArea').value.trim();
+  const address = document.getElementById('coAddress').value.trim();
+  const notes   = document.getElementById('coNotes').value.trim();
+
+  if (!name || !phone || !city || !address) {
+    errEl.textContent = 'Please fill in name, phone, city, and address.';
+    return;
+  }
+
+  const items = getCart();
+  if (items.length === 0) {
+    errEl.textContent = 'Your cart is empty.';
+    return;
+  }
+
+  const originalLabel = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Placing order…';
+
+  try {
+    const result = await apiFetch('/orders', {
+      method: 'POST',
+      body: JSON.stringify({
+        customerName: name,
+        customerPhone: phone,
+        shippingAddress: { city, area, address_line: address, delivery_notes: notes },
+        items: items.map(i => ({ productId: i.id, quantity: i.quantity })),
+        paymentMethod: 'cod',
+        customerNote: notes || null
+      })
+    });
+
+    setCart([]);
+    document.getElementById('checkoutForm').style.display = 'none';
+    document.getElementById('checkoutSuccess').style.display = 'block';
+    document.getElementById('orderNumberDisplay').textContent = result.data.order_number;
+    loadProducts(currentCategoryFilter); // stock changed — refresh grid
+  } catch (err) {
+    errEl.textContent = err.message || 'Could not place order. Please try again.';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = originalLabel;
+  }
 }
 
 // ═══════════════════════════════════════
@@ -3188,6 +3497,151 @@ function closeAddModal(e) {
   if (!e || e.target === document.getElementById('addModal')) {
     document.getElementById('addModal').classList.remove('open');
     document.body.style.overflow = '';
+  }
+}
+
+let newImgFile = null;
+
+function openAddModal() {
+  document.getElementById('newName').value = '';
+  document.getElementById('newPrice').value = '';
+  document.getElementById('newFeatures').value = '';
+  document.getElementById('addModalErr').textContent = '';
+  newImgFile = null;
+  newImgDataUrl = null;
+  document.getElementById('imgPreview').innerHTML =
+    '<div class="ph-add">📷</div><div class="ph-add-text">Tap to upload image</div>';
+  document.getElementById('addModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function previewImg(event) {
+  const file = event.target.files?.[0];
+  if (!file) return;
+  newImgFile = file;
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    newImgDataUrl = e.target.result;
+    document.getElementById('imgPreview').innerHTML =
+      `<img src="${newImgDataUrl}" alt="Preview" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"/>`;
+  };
+  reader.readAsDataURL(file);
+}
+
+function slugifyClient(text) {
+  return String(text).toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+
+async function addNewProduct(btn) {
+  const errEl = document.getElementById('addModalErr');
+  errEl.textContent = '';
+
+  const name  = document.getElementById('newName').value.trim();
+  const price = parseFloat(document.getElementById('newPrice').value);
+  const featuresRaw = document.getElementById('newFeatures').value.trim();
+
+  if (!name) { errEl.textContent = 'Product name is required.'; return; }
+  if (!price || price <= 0) { errEl.textContent = 'Enter a valid price.'; return; }
+
+  const originalLabel = btn ? btn.textContent : '';
+  if (btn) { btn.disabled = true; btn.textContent = 'Adding…'; }
+
+  try {
+    // Auto-generate a SKU — admin can rename it later once a proper
+    // SKU field/scanner workflow exists; this just needs to be unique.
+    const sku = 'SKO-' + Date.now().toString(36).toUpperCase();
+
+    const created = await apiFetch('/products', {
+      method: 'POST',
+      body: JSON.stringify({
+        sku,
+        nameEn: name,
+        slug: slugifyClient(name) + '-' + sku.toLowerCase(),
+        price,
+        stock: 1,
+        featuresEn: featuresRaw ? featuresRaw.split('·').map(s => s.trim()).filter(Boolean) : [],
+        newArrival: true
+      })
+    });
+
+    // Image upload is best-effort: storageService isn't wired to a
+    // provider yet on the backend, so this is expected to fail until
+    // that's configured — the product itself is still created either way.
+    if (newImgFile) {
+      try {
+        const formData = new FormData();
+        formData.append('file', newImgFile);
+        formData.append('folder', 'products');
+
+        const uploadRes = await fetch(`${API_BASE}/uploads`, {
+          method: 'POST',
+          credentials: 'include',
+          body: formData
+        });
+        const uploadBody = await uploadRes.json();
+
+        if (uploadRes.ok && uploadBody?.data?.url) {
+          await apiFetch(`/products/${created.data.id}`, {
+            method: 'PATCH',
+            body: JSON.stringify({ /* image linking happens via product_images — see backend TODO */ })
+          });
+        }
+      } catch (imgErr) {
+        console.warn('Image upload skipped (storage not configured yet):', imgErr.message);
+      }
+    }
+
+    closeAddModal();
+    renderAdminProductList();
+    loadProducts(); // refresh the live storefront grid
+  } catch (err) {
+    errEl.textContent = err.message || 'Could not add product.';
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = originalLabel; }
+  }
+}
+
+async function renderAdminProductList() {
+  const list = document.getElementById('adminProductList');
+  if (!list) return;
+  list.innerHTML = "<div style='font-size:10px;color:var(--t3);'>Loading…</div>";
+
+  try {
+    const result = await apiFetch('/products?limit=100');
+    const items = result?.data || [];
+
+    if (!items.length) {
+      list.innerHTML = "<div style='font-size:10px;color:var(--t3);'>No products yet — add one above.</div>";
+      return;
+    }
+
+    list.innerHTML = '';
+    items.forEach((p) => {
+      const div = document.createElement('div');
+      div.className = 'admin-post-item';
+      const info = document.createElement('div');
+      info.className = 'admin-post-info';
+      info.innerHTML = `<div class='admin-post-title'>${escapeHtml(p.name_en)}</div><div class='admin-post-meta'>${formatRs(p.price)} · stock: ${p.stock} · ${escapeHtml(p.stock_status)}</div>`;
+      const del = document.createElement('button');
+      del.className = 'admin-post-del';
+      del.textContent = '🗑 Delete';
+      del.onclick = async () => {
+        if (!confirm(`Delete "${p.name_en}"? This cannot be undone.`)) return;
+        try {
+          await apiFetch(`/products/${p.id}`, { method: 'DELETE' });
+          renderAdminProductList();
+          loadProducts();
+        } catch (err) {
+          alert("Couldn't delete: " + err.message);
+        }
+      };
+      div.appendChild(info);
+      div.appendChild(del);
+      list.appendChild(div);
+    });
+  } catch (err) {
+    list.innerHTML = "<div style='font-size:10px;color:var(--t3);'>Couldn't load products: " + escapeHtml(err.message) + "</div>";
   }
 }
 
@@ -4065,11 +4519,13 @@ document.addEventListener("DOMContentLoaded", () => {
 // ═══════════════════════════════════════════════════════
 //  STORAGE KEYS
 // ═══════════════════════════════════════════════════════
-const SK_POSTS    = "sk_blog_posts_v1";
-const SK_PRODUCTS = "sk_products_v1";
+// Shop info and the notice banner are still admin-edited via
+// localStorage for now (spec sections 25/34 — moving these to the
+// backend `settings` table is a follow-up, not yet wired here).
+// Blog posts and products moved to the real backend API above —
+// SK_POSTS / SK_PRODUCTS / ADMIN_PW are retired.
 const SK_SHOPINFO = "sk_shopinfo_v1";
 const SK_NOTICE   = "sk_notice_v1";
-const ADMIN_PW    = "optical2025";   // ← change this password here
 
 function skGet(key)      { try { return JSON.parse(localStorage.getItem(key) || "null"); } catch(e) { return null; } }
 function skSet(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
@@ -4083,84 +4539,102 @@ function openBlog() {
   if (section) section.scrollIntoView({ behavior: "smooth" });
 }
 
-// Build blog cards from the data-* attributes on each .blog-card div
-function renderBlogGrid() {
-  const cards = document.querySelectorAll("#blogGrid .blog-card[data-title]");
-  cards.forEach((card, i) => {
-    const img     = card.dataset.img     || "";
-    const cat     = card.dataset.cat     || "Eye Care Tips";
-    const date    = card.dataset.date    || "";
-    const title   = card.dataset.title   || "";
-    const excerpt = card.dataset.excerpt || "";
+// In-memory cache of the currently-rendered posts, keyed by id, so the
+// reader modal (openBlogPost) can look up full content without a second
+// network round-trip.
+let blogPostsCache = {};
 
-    // Format date nicely
-    let dateStr = "";
-    if (date) {
-      try {
-        dateStr = new Date(date).toLocaleDateString("en-NP", { year:"numeric", month:"short", day:"numeric" });
-      } catch(e) { dateStr = date; }
+async function loadBlogPosts() {
+  const grid = document.getElementById("blogGrid");
+  if (!grid) return;
+
+  grid.innerHTML = `
+    <div class="blog-state" style="grid-column:1/-1;text-align:center;padding:24px;color:var(--t3);font-size:12px;">
+      Loading posts… / पोस्टहरू लोड हुँदैछ…
+    </div>`;
+
+  try {
+    const result = await apiFetch('/blog?limit=12');
+    const posts = result?.data || [];
+
+    if (posts.length === 0) {
+      grid.innerHTML = `
+        <div class="blog-state" style="grid-column:1/-1;text-align:center;padding:24px;color:var(--t3);font-size:12px;">
+          No blog posts yet. / अहिलेसम्म कुनै पोस्ट छैन।
+        </div>`;
+      return;
     }
 
-    // Build card inner HTML
-    let imgHtml = "";
-    if (img) {
-      const im = document.createElement("img");
-      im.className = "blog-card-img";
-      im.alt = title;
-      im.src = img;
-      im.onerror = function() {
-        this.parentElement.innerHTML = "<div class='blog-card-img-placeholder'>📰</div>";
-      };
-      const wrap = document.createElement("div");
-      wrap.appendChild(im);
-      imgHtml = wrap.innerHTML;
-    } else {
-      imgHtml = "<div class='blog-card-img-placeholder'>📰</div>";
-    }
+    blogPostsCache = {};
+    posts.forEach(p => { blogPostsCache[p.id] = p; });
 
-    card.innerHTML =
-      imgHtml +
-      "<div class='blog-card-body'>" +
-        "<div class='blog-cat'>" + cat + "</div>" +
-        "<div class='blog-card-title'>" + title + "</div>" +
-        "<div class='blog-card-excerpt'>" + excerpt + "</div>" +
-        "<div class='blog-card-meta'>" +
-          "<span class='blog-card-date'>" + dateStr + "</span>" +
-          "<span class='blog-read-btn'>Read More →</span>" +
-        "</div>" +
-      "</div>";
-
-    card.onclick = () => openBlogPost(card);
-  });
+    grid.innerHTML = posts.map(renderBlogCard).join('');
+  } catch (err) {
+    grid.innerHTML = `
+      <div class="blog-state" style="grid-column:1/-1;text-align:center;padding:24px;color:var(--t3);font-size:12px;">
+        Couldn't load blog posts right now. / पोस्टहरू लोड गर्न सकिएन।<br>
+        <button onclick="loadBlogPosts()" style="margin-top:10px;padding:8px 18px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--t1);font-size:11px;cursor:pointer;">
+          ↻ Retry
+        </button>
+      </div>`;
+  }
 }
 
-function openBlogPost(card) {
-  const img     = card.dataset.img     || "";
-  const cat     = card.dataset.cat     || "";
-  const date    = card.dataset.date    || "";
-  const title   = card.dataset.title   || "";
-  const content = card.dataset.content || "";
+function renderBlogCard(post) {
+  let dateStr = "";
+  if (post.published_at) {
+    try {
+      dateStr = new Date(post.published_at).toLocaleDateString("en-NP", { year: "numeric", month: "short", day: "numeric" });
+    } catch (e) { dateStr = ""; }
+  }
+
+  const imgHtml = post.cover_image
+    ? `<img class="blog-card-img" alt="${escapeHtml(post.title_en)}" src="${post.cover_image}"
+         onerror="this.parentElement.innerHTML='<div class=\\'blog-card-img-placeholder\\'>📰</div>'"/>`
+    : `<div class="blog-card-img-placeholder">📰</div>`;
+
+  return `
+    <div class="blog-card" onclick="openBlogPost('${post.id}')">
+      ${imgHtml}
+      <div class="blog-card-body">
+        <div class="blog-cat">${escapeHtml(post.category || 'Eye Care Tips')}</div>
+        <div class="blog-card-title">${escapeHtml(post.title_en)}</div>
+        <div class="blog-card-excerpt">${escapeHtml(post.excerpt_en || '')}</div>
+        <div class="blog-card-meta">
+          <span class="blog-card-date">${dateStr}</span>
+          <span class="blog-read-btn">Read More →</span>
+        </div>
+      </div>
+    </div>`;
+}
+
+function openBlogPost(postId) {
+  const post = blogPostsCache[postId];
+  if (!post) return;
 
   let dateStr = "";
-  if (date) {
+  if (post.published_at) {
     try {
-      dateStr = new Date(date).toLocaleDateString("en-NP", { year:"numeric", month:"long", day:"numeric" });
-    } catch(e) { dateStr = date; }
+      dateStr = new Date(post.published_at).toLocaleDateString("en-NP", { year: "numeric", month: "long", day: "numeric" });
+    } catch (e) { dateStr = ""; }
   }
 
   const hero = document.getElementById("blogReaderHero");
-  if (img) {
-    hero.src = img;
+  if (post.cover_image) {
+    hero.src = post.cover_image;
     hero.style.display = "block";
     hero.onerror = () => { hero.style.display = "none"; };
   } else {
     hero.style.display = "none";
   }
 
-  document.getElementById("blogReaderCat").textContent   = cat;
-  document.getElementById("blogReaderTitle").textContent = title;
+  document.getElementById("blogReaderCat").textContent   = post.category || "";
+  document.getElementById("blogReaderTitle").textContent = post.title_en;
   document.getElementById("blogReaderMeta").textContent  = dateStr + "  ·  Shreekunja Optical";
-  document.getElementById("blogReaderContent").textContent = content;
+  // content_en is sanitized server-side before storage (see backend
+  // blogController.js) — safe to render as text content here regardless,
+  // since this reader shows plain text, not rendered HTML.
+  document.getElementById("blogReaderContent").textContent = post.content_en || post.excerpt_en || "";
 
   document.getElementById("blogReader").classList.add("open");
   document.body.style.overflow = "hidden";
@@ -4171,50 +4645,7 @@ function closeBlogReader() {
   document.body.style.overflow = "";
 }
 
-// Admin blog functions (kept for admin panel compatibility — posts go to localStorage
-//  but won't appear on main site unless added via code. Admin panel is for drafting only.)
-function adminPublishPost() {
-  const title   = document.getElementById("bpTitle").value.trim();
-  const content = document.getElementById("bpContent").value.trim();
-  if (!title || !content) { alert("Title and content are required."); return; }
-  const posts = skGet(SK_POSTS) || [];
-  posts.unshift({ title, cat: document.getElementById("bpCat").value, excerpt: document.getElementById("bpExcerpt").value.trim(), content, img: document.getElementById("bpImg").value.trim(), date: new Date().toISOString(), author: "Shreekunja Optical" });
-  skSet(SK_POSTS, posts);
-  ["bpTitle","bpExcerpt","bpContent","bpImg"].forEach(id => document.getElementById(id).value = "");
-  const s = document.getElementById("bpSuccess");
-  s.innerHTML = "✓ Saved as draft! To publish: copy the post text into the HTML blog-card data-content attribute.";
-  s.classList.add("show");
-  setTimeout(() => s.classList.remove("show"), 5000);
-  renderAdminPostList();
-}
-
-function renderAdminPostList() {
-  const list  = document.getElementById("adminPostList");
-  if (!list) return;
-  const posts = skGet(SK_POSTS) || [];
-  list.innerHTML = "";
-  if (!posts.length) { list.innerHTML = "<div style='font-size:10px;color:var(--t3);'>No drafts saved yet.</div>"; return; }
-  posts.forEach((p, i) => {
-    const div = document.createElement("div");
-    div.className = "admin-post-item";
-    const dateStr = p.date ? new Date(p.date).toLocaleDateString("en-NP",{year:"numeric",month:"short",day:"numeric"}) : "";
-    const info = document.createElement("div");
-    info.className = "admin-post-info";
-    info.innerHTML = "<div class='admin-post-title'>" + p.title + "</div><div class='admin-post-meta'>" + p.cat + " · " + dateStr + " · DRAFT</div>";
-    const del = document.createElement("button");
-    del.className = "admin-post-del";
-    del.textContent = "🗑 Delete";
-    del.onclick = () => {
-      const ps = skGet(SK_POSTS) || [];
-      ps.splice(i, 1);
-      skSet(SK_POSTS, ps);
-      renderAdminPostList();
-    };
-    div.appendChild(info);
-    div.appendChild(del);
-    list.appendChild(div);
-  });
-}
+document.addEventListener("DOMContentLoaded", loadBlogPosts);
 
 // ═══════════════════════════════════════════════════════
 //  NOTICE BANNER
@@ -4232,13 +4663,17 @@ loadNoticeBanner();
 
 // ═══════════════════════════════════════════════════════
 //  ADMIN PANEL
+//  Backed by real admin accounts (POST /api/admin/login) — the old
+//  single shared ADMIN_PW is gone. Session lives in an HTTP-only
+//  cookie set by the backend; adminSession here just mirrors who's
+//  logged in for the UI.
 // ═══════════════════════════════════════════════════════
-let adminAuthed = false;
+let adminSession = null; // { id, name, email, role } | null
 
 function openAdminPanel() {
   document.getElementById("adminOverlay").classList.add("open");
   document.body.style.overflow = "hidden";
-  if (adminAuthed) {
+  if (adminSession) {
     showAdminDashboard();
   } else {
     document.getElementById("adminLogin").style.display = "flex";
@@ -4251,16 +4686,27 @@ function closeAdminPanel() {
   document.body.style.overflow = "";
 }
 
-function adminLogin() {
-  const pw = document.getElementById("adminPwInput").value;
-  const err = document.getElementById("adminPwErr");
-  if (pw === ADMIN_PW) {
-    adminAuthed = true;
+async function adminLogin() {
+  const email = document.getElementById("adminEmailInput").value.trim();
+  const pw    = document.getElementById("adminPwInput").value;
+  const err   = document.getElementById("adminPwErr");
+
+  if (!email || !pw) {
+    err.textContent = "Enter both email and password.";
+    return;
+  }
+
+  try {
+    const result = await apiFetch('/admin/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password: pw })
+    });
+    adminSession = result.data;
     err.textContent = "";
     document.getElementById("adminPwInput").value = "";
     showAdminDashboard();
-  } else {
-    err.textContent = "Wrong password. Try again.";
+  } catch (e) {
+    err.textContent = e.message || "Login failed.";
     document.getElementById("adminPwInput").value = "";
     document.getElementById("adminPwInput").focus();
   }
@@ -4271,8 +4717,9 @@ document.addEventListener("DOMContentLoaded", () => {
   if (pi) pi.addEventListener("keydown", e => { if (e.key === "Enter") adminLogin(); });
 });
 
-function adminLogout() {
-  adminAuthed = false;
+async function adminLogout() {
+  try { await apiFetch('/admin/logout', { method: 'POST' }); } catch (e) { /* ignore — clear local state regardless */ }
+  adminSession = null;
   document.getElementById("adminLogin").style.display = "flex";
   document.getElementById("adminDashboard").style.display = "none";
 }
@@ -4280,6 +4727,8 @@ function adminLogout() {
 function showAdminDashboard() {
   document.getElementById("adminLogin").style.display = "none";
   document.getElementById("adminDashboard").style.display = "flex";
+  const nameEl = document.getElementById("adminSessionName");
+  if (nameEl && adminSession) nameEl.textContent = `${adminSession.name} · ${adminSession.role}`;
   switchAdminTab(0);
   loadAdminShopInfo();
 }
@@ -4292,61 +4741,92 @@ function switchAdminTab(i) {
     if (panel) panel.style.display = j === i ? "block" : "none";
   });
   if (i === 0) renderAdminPostList();
+  if (i === 2) renderAdminProductList();
   if (i === 3) loadAdminNotice();
 }
 
 // ── Blog admin ──
-function adminPublishPost() {
+// Publishes straight to the real backend (POST /api/blog then
+// PATCH .../publish) — no more localStorage drafts that never made
+// it to the live site. Requires an active admin session (adminLogin()).
+async function adminPublishPost(btn) {
   const title   = document.getElementById("bpTitle").value.trim();
   const content = document.getElementById("bpContent").value.trim();
   if (!title || !content) { alert("Title and content are required."); return; }
 
-  const posts = skGet(SK_POSTS) || [];
-  posts.unshift({
-    title,
-    cat:     document.getElementById("bpCat").value,
-    excerpt: document.getElementById("bpExcerpt").value.trim(),
-    content,
-    img:     document.getElementById("bpImg").value.trim(),
-    date:    new Date().toISOString(),
-    author:  "Shreekunja Optical"
-  });
-  skSet(SK_POSTS, posts);
+  const originalLabel = btn ? btn.textContent : "";
+  if (btn) { btn.disabled = true; btn.textContent = "Publishing…"; }
 
-  ["bpTitle","bpExcerpt","bpContent","bpImg"].forEach(id => document.getElementById(id).value = "");
-  const s = document.getElementById("bpSuccess");
-  s.classList.add("show");
-  setTimeout(() => s.classList.remove("show"), 3000);
-  renderAdminPostList();
-  renderBlogGrid();
+  try {
+    const created = await apiFetch('/blog', {
+      method: 'POST',
+      body: JSON.stringify({
+        titleEn: title,
+        category: document.getElementById("bpCat").value,
+        excerptEn: document.getElementById("bpExcerpt").value.trim(),
+        contentEn: content,
+        coverImage: document.getElementById("bpImg").value.trim() || null,
+        author: "Shreekunja Optical"
+      })
+    });
+
+    await apiFetch(`/blog/${created.data.id}/publish`, {
+      method: 'PATCH',
+      body: JSON.stringify({ published: true })
+    });
+
+    ["bpTitle","bpExcerpt","bpContent","bpImg"].forEach(id => document.getElementById(id).value = "");
+    const s = document.getElementById("bpSuccess");
+    s.classList.add("show");
+    setTimeout(() => s.classList.remove("show"), 3000);
+
+    renderAdminPostList();
+    loadBlogPosts(); // refresh the live storefront grid too
+  } catch (err) {
+    alert("Couldn't publish: " + err.message);
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = originalLabel; }
+  }
 }
 
-function renderAdminPostList() {
-  const list  = document.getElementById("adminPostList");
-  const posts = skGet(SK_POSTS) || [];
-  list.innerHTML = "";
-  if (!posts.length) { list.innerHTML = "<div style='font-size:10px;color:var(--t3);'>No posts yet.</div>"; return; }
-  posts.forEach((p, i) => {
-    const div = document.createElement("div");
-    div.className = "admin-post-item";
-    const dateStr = p.date ? new Date(p.date).toLocaleDateString("en-NP",{year:"numeric",month:"short",day:"numeric"}) : "";
-    const info = document.createElement("div");
-    info.className = "admin-post-info";
-    info.innerHTML = "<div class='admin-post-title'>" + p.title + "</div><div class='admin-post-meta'>" + p.cat + " · " + dateStr + "</div>";
-    const del = document.createElement("button");
-    del.className = "admin-post-del";
-    del.textContent = "🗑 Delete";
-    del.onclick = () => {
-      const ps = skGet(SK_POSTS) || [];
-      ps.splice(i, 1);
-      skSet(SK_POSTS, ps);
-      renderAdminPostList();
-      renderBlogGrid();
-    };
-    div.appendChild(info);
-    div.appendChild(del);
-    list.appendChild(div);
-  });
+async function renderAdminPostList() {
+  const list = document.getElementById("adminPostList");
+  if (!list) return;
+  list.innerHTML = "<div style='font-size:10px;color:var(--t3);'>Loading…</div>";
+
+  try {
+    const result = await apiFetch('/blog/admin');
+    const posts = result?.data || [];
+
+    if (!posts.length) { list.innerHTML = "<div style='font-size:10px;color:var(--t3);'>No posts yet.</div>"; return; }
+
+    list.innerHTML = "";
+    posts.forEach((p) => {
+      const div = document.createElement("div");
+      div.className = "admin-post-item";
+      const dateStr = p.published_at ? new Date(p.published_at).toLocaleDateString("en-NP",{year:"numeric",month:"short",day:"numeric"}) : "draft";
+      const info = document.createElement("div");
+      info.className = "admin-post-info";
+      info.innerHTML = "<div class='admin-post-title'>" + escapeHtml(p.title_en) + "</div><div class='admin-post-meta'>" + escapeHtml(p.category || '') + " · " + dateStr + (p.published ? "" : " · DRAFT") + "</div>";
+      const del = document.createElement("button");
+      del.className = "admin-post-del";
+      del.textContent = "🗑 Delete";
+      del.onclick = async () => {
+        try {
+          await apiFetch(`/blog/${p.id}`, { method: 'DELETE' });
+          renderAdminPostList();
+          loadBlogPosts();
+        } catch (err) {
+          alert("Couldn't delete: " + err.message);
+        }
+      };
+      div.appendChild(info);
+      div.appendChild(del);
+      list.appendChild(div);
+    });
+  } catch (err) {
+    list.innerHTML = "<div style='font-size:10px;color:var(--t3);'>Couldn't load posts: " + escapeHtml(err.message) + "</div>";
+  }
 }
 
 // ── Shop Info admin ──
@@ -4421,8 +4901,8 @@ function adminSaveNotice() {
   s.classList.add("show"); setTimeout(() => s.classList.remove("show"), 3000);
 }
 
-// Load blog on startup
-renderBlogGrid();
+// Blog and products both auto-load via their own DOMContentLoaded
+// listeners (see loadBlogPosts() / loadProducts() above).
 
 </script>
 
@@ -4455,7 +4935,8 @@ renderBlogGrid();
       <div class="admin-login-icon">🔐</div>
       <div class="admin-login-title">Admin Access</div>
       <div class="admin-login-sub">Shreekunja Optical — Staff Only</div>
-      <input class="admin-pw-input" id="adminPwInput" type="password" placeholder="••••••••" maxlength="20"/>
+      <input class="admin-pw-input" id="adminEmailInput" type="email" placeholder="admin@shreekunjaoptical.com" maxlength="120" style="margin-bottom:8px;"/>
+      <input class="admin-pw-input" id="adminPwInput" type="password" placeholder="••••••••" maxlength="60"/>
       <div class="admin-pw-err" id="adminPwErr"></div>
       <button class="admin-pw-btn" onclick="adminLogin()">Unlock Panel</button>
     </div>
@@ -4463,10 +4944,13 @@ renderBlogGrid();
     <!-- DASHBOARD (shown after login) -->
     <div id="adminDashboard" style="display:none; flex-direction:column; flex:1;">
 
+      <div id="adminSessionName" style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3);padding:4px 20px 0;"></div>
+
       <!-- Tabs -->
       <div class="admin-tabs">
         <div class="admin-tab active" id="atab0" onclick="switchAdminTab(0)">📰 Blog</div>
         <div class="admin-tab" id="atab1" onclick="switchAdminTab(1)">🏬 Shop Info</div>
+        <div class="admin-tab" id="atab2" onclick="switchAdminTab(2)">🕶️ Products</div>
         <div class="admin-tab" id="atab3" onclick="switchAdminTab(3)">📢 Notice</div>
       </div>
 
@@ -4502,7 +4986,7 @@ renderBlogGrid();
             <label class="admin-label">Full Article Content</label>
             <textarea class="admin-textarea" id="bpContent" rows="8" placeholder="Write the full post here. Use blank lines to separate paragraphs."></textarea>
           </div>
-          <button class="admin-save-btn" onclick="adminPublishPost()">📤 Publish Post</button>
+          <button class="admin-save-btn" onclick="adminPublishPost(this)">📤 Publish Post</button>
           <div class="admin-success" id="bpSuccess">✓ Post published successfully!</div>
           <div class="admin-divider"></div>
           <div class="admin-section-title">📂 Published Posts</div>
@@ -4550,6 +5034,15 @@ renderBlogGrid();
           </div>
           <button class="admin-save-btn" onclick="adminSaveShopInfo()">💾 Save Shop Info</button>
           <div class="admin-success" id="siSuccess">✓ Shop info updated!</div>
+        </div>
+      </div>
+
+      <!-- ─── TAB 2: PRODUCTS ─── -->
+      <div id="apanel2" style="display:none;">
+        <div class="admin-body">
+          <div class="admin-section-title">🕶️ Products</div>
+          <button class="admin-save-btn" onclick="openAddModal()" style="margin-bottom:14px;">＋ Add New Product</button>
+          <div id="adminProductList"></div>
         </div>
       </div>
 
