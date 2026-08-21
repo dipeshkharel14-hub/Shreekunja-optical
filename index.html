@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shreekunja Optical — श्रीकुञ्ज अप्टिकल | Premium Eyewear, Kathmandu</title>
+<meta name="description" content="Premium prescription glasses, sunglasses & contact lenses in Kathmandu. Shop online or visit us — with Shreekunja AI to help you choose.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════
+   DESIGN TOKENS
+   Dark = graphite tinted toward deep emerald, not neutral black.
+   Light = cool pale sage-mist, not warm cream/paper white.
+   Two accents (emerald + brass) so no single acid color carries
+   the whole page. Fraunces is a genuinely "optical-sized" serif —
+   a font family literally named for an optics concept — used
+   only for the acuity-chart hero and section titles.
+══════════════════════════════════════════════════════════ */
+:root {
+  --ink:        #0c100e;
+  --panel:      #141b17;
+  --panel-2:    #1a2320;
+  --line:       rgba(233,238,234,0.10);
+  --line-strong:rgba(233,238,234,0.18);
+  --text-1:     #eef2ef;
+  --text-2:     #a7b3ac;
+  --text-3:     #66756c;
+  --emerald:    #24b871;
+  --emerald-deep:#15794a;
+  --emerald-glow:rgba(36,184,113,0.14);
+  --brass:      #c79a56;
+  --brass-deep: #93732f;
+  --danger:     #e06a5f;
+  --shadow:     0 20px 50px rgba(0,0,0,0.35);
+  --r-sm: 10px; --r-md: 16px; --r-lg: 26px;
+  --nav-h: 72px;
+}
+html[data-theme="light"] {
+  --ink:        #eef3ee;
+  --panel:      #ffffff;
+  --panel-2:    #e6ede7;
+  --line:       rgba(15,26,19,0.09);
+  --line-strong:rgba(15,26,19,0.16);
+  --text-1:     #10201a;
+  --text-2:     #48594e;
+  --text-3:     #7c8b7f;
+  --emerald:    #178a53;
+  --emerald-deep:#0d6a3e;
+  --emerald-glow:rgba(23,138,83,0.10);
+  --brass:      #a1793a;
+  --brass-deep: #7a5a29;
+  --shadow:     0 20px 50px rgba(20,40,30,0.10);
+}
+
+* , *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background: var(--ink); color: var(--text-1);
+  font-family: 'Inter', 'Noto Sans Devanagari', sans-serif;
+  font-size: 15px; line-height: 1.5;
+  transition: background .35s ease, color .35s ease;
+  overflow-x: hidden;
+}
+.font-display { font-family: 'Fraunces', 'Noto Sans Devanagari', serif; font-optical-sizing: auto; }
+.font-mono { font-family: 'JetBrains Mono', monospace; }
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font-family: inherit; }
+img { max-width: 100%; display: block; }
+.wrap { max-width: 1240px; margin: 0 auto; padding: 0 28px; }
+@media (max-width: 720px) { .wrap { padding: 0 18px; } }
+
+::selection { background: var(--emerald-glow); color: var(--text-1); }
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 5px; }
+
+:focus-visible { outline: 2px solid var(--emerald); outline-offset: 3px; border-radius: 4px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   NAV
+══════════════════════════════════════════════════════════ */
+.nav {
+  position: sticky; top: 0; z-index: 500; height: var(--nav-h);
+  display: flex; align-items: center;
+  background: color-mix(in srgb, var(--ink) 88%, transparent);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-inner { width: 100%; display: flex; align-items: center; gap: 28px; }
+.brand { display: flex; align-items: center; gap: 10px; flex: none; }
+.brand-mark {
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 1.5px solid var(--emerald); position: relative; flex: none;
+}
+.brand-mark::before {
+  content:''; position:absolute; inset: 8px; border-radius:50%;
+  border: 1.5px solid var(--brass);
+}
+.brand-name { font-family:'Fraunces',serif; font-weight:700; font-size:17px; letter-spacing:.2px; line-height:1.1; }
+.brand-name small { display:block; font-family:'Noto Sans Devanagari',sans-serif; font-size:10px; font-weight:500; color:var(--text-3); letter-spacing:1px; }
+
+.nav-links { display: flex; align-items: center; gap: 4px; flex: 1; }
+.nav-link {
+  padding: 9px 13px; border-radius: 20px; font-size: 13px; font-weight: 500;
+  color: var(--text-2); white-space: nowrap; cursor: pointer;
+}
+.nav-link:hover, .nav-link.active { color: var(--text-1); background: var(--panel-2); }
+
+.nav-utils { display: flex; align-items: center; gap: 6px; flex: none; }
+.util-btn {
+  width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line);
+  background: var(--panel); color: var(--text-1); font-size: 15px;
+  display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;
+}
+.util-btn:hover { border-color: var(--line-strong); }
+.util-btn.pill { width: auto; padding: 0 12px; border-radius: 20px; font-size: 11px; font-weight: 700; font-family: 'JetBrains Mono', monospace; letter-spacing: .5px; }
+.cart-count {
+  position: absolute; top: -3px; right: -3px; min-width: 17px; height: 17px; padding: 0 4px;
+  border-radius: 9px; background: var(--danger); color: #fff; font-size: 9px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center; border: 2px solid var(--ink);
+}
+.nav-burger { display: none; }
+
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .nav-burger { display: flex; }
+}
+
+/* Mobile nav drawer */
+.mnav-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:600; }
+.mnav-overlay.open { display:block; }
+.mnav {
+  position:absolute; top:0; right:0; bottom:0; width:min(80vw,320px);
+  background:var(--panel); border-left:1px solid var(--line); padding:24px 22px; overflow-y:auto;
+}
+.mnav-link { display:block; padding: 13px 4px; font-size:15px; border-bottom:1px solid var(--line); color:var(--text-1); }
+
+/* ══════════════════════════════════════════════════════════
+   HERO — the "acuity chart" signature.
+   Lines shrink like a Snellen eye chart; a slow-rotating aperture
+   ring sits behind it, and a small "tumbling E" rotates through
+   four orientations — the literal test target used in a real eye
+   exam — as the one deliberate motion moment on the page.
+══════════════════════════════════════════════════════════ */
+.hero { position: relative; padding: 64px 0 70px; overflow: hidden; }
+.aperture {
+  position: absolute; top: 50%; left: 50%; width: 780px; height: 780px;
+  transform: translate(-50%,-52%); border-radius: 50%;
+  border: 1px solid var(--line); pointer-events: none;
+}
+.aperture::before, .aperture::after {
+  content:''; position:absolute; border-radius:50%; border:1px solid var(--line);
+}
+.aperture::before { inset: 90px; }
+.aperture::after { inset: 180px; border-color: var(--emerald-glow); animation: spin-slow 60s linear infinite; }
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+
+.hero-inner { position: relative; z-index: 2; max-width: 720px; }
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1.5px;
+  color: var(--emerald); text-transform: uppercase; margin-bottom: 22px;
+}
+.tumbling-e {
+  display: inline-block; font-family: 'JetBrains Mono', monospace; font-weight: 700;
+  animation: tumble 6s steps(1) infinite;
+}
+@keyframes tumble { 0%{transform:rotate(0deg)} 25%{transform:rotate(90deg)} 50%{transform:rotate(180deg)} 75%{transform:rotate(270deg)} 100%{transform:rotate(360deg)} }
+
+.acuity-line {
+  font-family: 'Fraunces', 'Noto Sans Devanagari', serif; font-weight: 700; letter-spacing: -0.5px;
+  line-height: 1.02;
+}
+.acuity-line.l1 { font-size: clamp(38px, 7vw, 68px); }
+.acuity-line.l2 { font-size: clamp(30px, 5.4vw, 52px); color: var(--text-2); margin-top: 2px; }
+.acuity-line.l3 { font-size: clamp(22px, 4vw, 36px); color: var(--text-3); margin-top: 2px; }
+
+.hero-sub {
+  margin-top: 26px; max-width: 480px; color: var(--text-2); font-size: 14.5px; line-height: 1.7;
+}
+.hero-actions { display: flex; gap: 12px; margin-top: 30px; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 13px 24px; border-radius: 30px;
+  font-size: 13px; font-weight: 700; border: none; cursor: pointer; white-space: nowrap;
+}
+.btn-solid { background: var(--emerald); color: #06150d; }
+.btn-solid:hover { background: var(--emerald-deep); color:#fff; }
+.btn-outline { background: transparent; border: 1px solid var(--line-strong); color: var(--text-1); }
+.btn-outline:hover { border-color: var(--emerald); }
+
+.hero-strip { display:flex; gap:26px; margin-top:44px; flex-wrap:wrap; }
+.hero-stat { }
+.hero-stat-val { font-family:'Fraunces',serif; font-weight:700; font-size:22px; }
+.hero-stat-lbl { font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--text-3); margin-top:2px; }
+
+/* ══════════════════════════════════════════════════════════
+   SECTION SHELL
+══════════════════════════════════════════════════════════ */
+.section { padding: 58px 0; border-top: 1px solid var(--line); }
+.section-head { display:flex; justify-content:space-between; align-items:flex-end; gap:16px; margin-bottom:28px; flex-wrap:wrap; }
+.eyebrow {
+  font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:2px; text-transform:uppercase;
+  color: var(--brass); margin-bottom: 8px; display:block;
+}
+.section-title { font-family:'Fraunces',serif; font-weight:700; font-size: clamp(22px,3.4vw,30px); }
+.section-link { font-size:12px; font-weight:600; color:var(--emerald); white-space:nowrap; }
+
+/* ══════════════════════════════════════════════════════════
+   CATEGORY RAIL
+══════════════════════════════════════════════════════════ */
+.cat-rail { display:flex; gap:10px; overflow-x:auto; padding-bottom:6px; scrollbar-width:none; }
+.cat-rail::-webkit-scrollbar{ display:none; }
+.cat-chip {
+  flex:none; padding: 9px 18px; border-radius: 24px; border:1px solid var(--line);
+  background: var(--panel); color: var(--text-2); font-size: 12.5px; font-weight:600; cursor:pointer;
+}
+.cat-chip.active, .cat-chip:hover { border-color: var(--emerald); color: var(--text-1); background: var(--emerald-glow); }
+
+/* ══════════════════════════════════════════════════════════
+   CATEGORY TILE GRID — Daraz-style "shop by category" icons
+══════════════════════════════════════════════════════════ */
+.cat-tile-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(96px,1fr)); gap:14px; }
+.cat-tile {
+  display:flex; flex-direction:column; align-items:center; gap:9px; padding:16px 8px;
+  border:1px solid var(--line); border-radius: var(--r-md); background:var(--panel); cursor:pointer; text-align:center;
+}
+.cat-tile:hover { border-color: var(--emerald); }
+.cat-tile-icon {
+  width:48px; height:48px; border-radius:50%; background:var(--emerald-glow);
+  display:flex; align-items:center; justify-content:center; font-size:21px;
+}
+.cat-tile-name { font-size:11.5px; font-weight:600; line-height:1.3; }
+
+/* ══════════════════════════════════════════════════════════
+   PRODUCT SCROLL ROW — curated rails (Deals / Best Sellers / New)
+══════════════════════════════════════════════════════════ */
+.scroll-row { display:flex; gap:16px; overflow-x:auto; padding-bottom:10px; scroll-snap-type:x proximity; scrollbar-width:none; }
+.scroll-row::-webkit-scrollbar { display:none; }
+.scroll-row .product-card { flex:none; width:190px; scroll-snap-align:start; }
+.countdown-pill {
+  display:inline-flex; align-items:center; gap:6px; padding:6px 13px; border-radius:20px;
+  background: rgba(224,106,95,0.12); border:1px solid rgba(224,106,95,0.3); color:var(--danger);
+  font-family:'JetBrains Mono',monospace; font-size:11.5px; font-weight:700;
+}
+
+/* ══════════════════════════════════════════════════════════
+   PRODUCTS
+══════════════════════════════════════════════════════════ */
+.shop-toolbar { display:flex; gap:10px; margin: 18px 0 24px; flex-wrap:wrap; align-items:center; }
+.search-box { position:relative; flex:1; min-width:200px; }
+.search-box input {
+  width:100%; padding:11px 16px 11px 38px; border-radius:24px; border:1px solid var(--line);
+  background: var(--panel); color: var(--text-1); font-size:13px;
+}
+.search-box::before { content:'⌕'; position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--text-3); font-size:16px; }
+.sort-select {
+  padding:11px 14px; border-radius:24px; border:1px solid var(--line); background:var(--panel);
+  color:var(--text-1); font-size:12.5px; font-weight:500;
+}
+
+.product-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(190px,1fr)); gap:18px; }
+.product-card {
+  background: var(--panel); border:1px solid var(--line); border-radius: var(--r-md);
+  overflow:hidden; cursor:pointer; transition: transform .18s ease, border-color .18s ease;
+  display:flex; flex-direction:column;
+}
+.product-card:hover { transform: translateY(-3px); border-color: var(--line-strong); }
+.product-thumb { aspect-ratio: 1/1; background: var(--panel-2); position:relative; overflow:hidden; }
+.product-thumb img { width:100%; height:100%; object-fit:cover; }
+.product-thumb-ph { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:30px; color:var(--text-3); }
+.product-tag {
+  position:absolute; top:10px; left:10px; padding:4px 9px; border-radius:12px;
+  font-size:9px; font-weight:800; letter-spacing:.5px; text-transform:uppercase;
+  background: var(--ink); color: var(--emerald); border:1px solid var(--emerald);
+}
+.product-tag.sale { color: var(--danger); border-color: var(--danger); }
+.product-body { padding: 13px 14px 15px; display:flex; flex-direction:column; gap:6px; flex:1; }
+.product-name { font-size:13px; font-weight:600; line-height:1.3; }
+.product-meta { font-size:11px; color:var(--text-3); }
+.product-price-row { display:flex; align-items:baseline; gap:7px; margin-top:2px; font-family:'JetBrains Mono',monospace; }
+.product-price { font-size:14px; font-weight:700; color: var(--emerald); }
+.product-price-was { font-size:11px; color:var(--text-3); text-decoration:line-through; }
+.product-cart-btn {
+  margin-top:8px; padding:9px; border-radius:10px; border:1px solid var(--line-strong);
+  background:transparent; color:var(--text-1); font-size:11.5px; font-weight:700; cursor:pointer;
+}
+.product-cart-btn:hover { border-color: var(--emerald); color:var(--emerald); }
+.product-cart-btn:disabled { opacity:.4; cursor:not-allowed; }
+.state-msg { grid-column:1/-1; text-align:center; padding:50px 20px; color:var(--text-3); font-size:13px; }
+.state-msg button { margin-top:14px; }
+
+/* ══════════════════════════════════════════════════════════
+   AI BAND
+══════════════════════════════════════════════════════════ */
+.ai-band {
+  border-radius: var(--r-lg); border:1px solid var(--line); background: linear-gradient(135deg, var(--panel), var(--panel-2));
+  padding: 36px 32px; display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap;
+  position: relative; overflow: hidden;
+}
+.ai-band::after {
+  content:''; position:absolute; right:-60px; top:-60px; width:220px; height:220px; border-radius:50%;
+  background: radial-gradient(circle, var(--emerald-glow), transparent 70%);
+}
+.ai-band-title { font-family:'Fraunces',serif; font-weight:700; font-size:22px; position:relative; }
+.ai-band-sub { color:var(--text-2); font-size:13px; margin-top:6px; max-width:420px; position:relative; }
+
+/* ══════════════════════════════════════════════════════════
+   SERVICES
+══════════════════════════════════════════════════════════ */
+.service-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(210px,1fr)); gap:14px; }
+.service-card { padding:20px; border:1px solid var(--line); border-radius: var(--r-md); background:var(--panel); }
+.service-icon { width:38px; height:38px; border-radius:10px; background:var(--emerald-glow); display:flex; align-items:center; justify-content:center; font-size:17px; margin-bottom:12px; }
+.service-name { font-weight:700; font-size:13.5px; margin-bottom:5px; }
+.service-desc { font-size:12px; color:var(--text-2); line-height:1.6; }
+
+/* ══════════════════════════════════════════════════════════
+   TRUST STRIP
+══════════════════════════════════════════════════════════ */
+.trust-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap:22px; }
+.trust-item { display:flex; gap:14px; }
+.trust-num { font-family:'JetBrains Mono',monospace; color:var(--brass); font-size:12px; font-weight:700; flex:none; padding-top:2px; }
+.trust-copy-title { font-weight:700; font-size:13.5px; margin-bottom:4px; }
+.trust-copy-desc { font-size:12px; color:var(--text-2); line-height:1.6; }
+
+/* ══════════════════════════════════════════════════════════
+   BLOG
+══════════════════════════════════════════════════════════ */
+.blog-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap:18px; }
+.blog-card { background:var(--panel); border:1px solid var(--line); border-radius: var(--r-md); overflow:hidden; cursor:pointer; }
+.blog-thumb { aspect-ratio: 16/10; background:var(--panel-2); display:flex; align-items:center; justify-content:center; font-size:24px; color:var(--text-3); overflow:hidden; }
+.blog-thumb img { width:100%; height:100%; object-fit:cover; }
+.blog-body { padding:16px; }
+.blog-cat { font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--brass); }
+.blog-title { font-weight:700; font-size:14.5px; margin: 7px 0 6px; line-height:1.35; }
+.blog-excerpt { font-size:12px; color:var(--text-2); line-height:1.6; }
+.blog-date { font-size:10.5px; color:var(--text-3); margin-top:10px; font-family:'JetBrains Mono',monospace; }
+
+/* ══════════════════════════════════════════════════════════
+   VISIT / FOOTER
+══════════════════════════════════════════════════════════ */
+.visit-grid { display:grid; grid-template-columns: 1.1fr 1fr; gap:34px; }
+@media (max-width: 780px) { .visit-grid { grid-template-columns: 1fr; } }
+.visit-line { display:flex; gap:12px; padding:12px 0; border-bottom:1px solid var(--line); font-size:13px; }
+.visit-line b { color: var(--text-3); font-weight:600; width:90px; flex:none; font-size:11px; text-transform:uppercase; letter-spacing:.5px; }
+.map-frame { border-radius: var(--r-md); overflow:hidden; border:1px solid var(--line); height:100%; min-height:260px; }
+.map-frame iframe { width:100%; height:100%; border:0; filter: grayscale(0.3) contrast(1.05); }
+
+footer { border-top:1px solid var(--line); padding: 40px 0 26px; }
+.foot-grid { display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap; margin-bottom: 28px; }
+.foot-links { display:flex; gap:34px; flex-wrap:wrap; }
+.foot-col-title { font-size:10.5px; letter-spacing:1px; text-transform:uppercase; color:var(--text-3); margin-bottom:12px; }
+.foot-col a, .foot-col div { display:block; font-size:13px; color:var(--text-2); padding:4px 0; }
+.foot-col a:hover { color: var(--emerald); }
+.foot-bottom { display:flex; justify-content:space-between; align-items:center; gap:12px; padding-top:20px; border-top:1px solid var(--line); font-size:11.5px; color:var(--text-3); flex-wrap:wrap; }
+
+/* ══════════════════════════════════════════════════════════
+   FLOATING: AI CHAT + CART
+══════════════════════════════════════════════════════════ */
+.fab-stack { position:fixed; right:24px; bottom:24px; z-index: 800; display:flex; flex-direction:column; gap:12px; align-items:flex-end; }
+.fab {
+  width:56px; height:56px; border-radius:50%; border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; font-size:22px; box-shadow: var(--shadow); position:relative;
+}
+.fab-ai { background: linear-gradient(135deg, var(--emerald), var(--emerald-deep)); color:#06150d; }
+.fab-cart { background: var(--panel); color: var(--text-1); border:1px solid var(--line-strong); }
+.fab-badge {
+  position:absolute; top:-4px; right:-4px; min-width:20px; height:20px; padding:0 5px; border-radius:10px;
+  background: var(--danger); color:#fff; font-size:10px; font-weight:800; display:flex; align-items:center; justify-content:center;
+  border:2px solid var(--ink);
+}
+
+/* ── AI Chat Panel ── */
+.ai-panel {
+  display:none; position:fixed; right:24px; bottom:92px; z-index:800;
+  width: min(94vw, 380px); height: min(70vh, 560px);
+  background: var(--panel); border:1px solid var(--line-strong); border-radius: var(--r-lg);
+  flex-direction: column; overflow:hidden; box-shadow: var(--shadow);
+}
+.ai-panel.open { display:flex; }
+.ai-panel-head { padding:16px 18px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; }
+.ai-panel-title { font-family:'Fraunces',serif; font-weight:700; font-size:15px; }
+.ai-panel-sub { font-size:10.5px; color:var(--text-3); margin-top:2px; }
+.ai-panel-close { background:none; border:none; color:var(--text-2); font-size:18px; cursor:pointer; }
+.ai-messages { flex:1; overflow-y:auto; padding:16px 18px; display:flex; flex-direction:column; gap:12px; }
+.ai-msg { max-width:85%; padding:10px 13px; border-radius:14px; font-size:12.5px; line-height:1.55; }
+.ai-msg.user { align-self:flex-end; background: var(--emerald); color:#06150d; border-bottom-right-radius:4px; }
+.ai-msg.bot { align-self:flex-start; background: var(--panel-2); color:var(--text-1); border-bottom-left-radius:4px; white-space:pre-wrap; }
+.ai-msg.bot.typing::after { content:'▍'; animation: blink 1s step-start infinite; }
+@keyframes blink { 50% { opacity:0; } }
+.ai-input-row { display:flex; gap:8px; padding:14px; border-top:1px solid var(--line); }
+.ai-input-row input {
+  flex:1; padding:10px 14px; border-radius:20px; border:1px solid var(--line); background:var(--panel-2); color:var(--text-1); font-size:12.5px;
+}
+.ai-send-btn { width:38px; height:38px; border-radius:50%; border:none; background:var(--emerald); color:#06150d; font-size:15px; flex:none; cursor:pointer; }
+.ai-send-btn:disabled { opacity:.5; cursor:not-allowed; }
+
+/* ── Cart Drawer ── */
+.drawer-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:850; }
+.drawer-overlay.open { display:block; }
+.drawer {
+  position:absolute; right:0; top:0; bottom:0; width:min(92vw,400px); background:var(--panel);
+  border-left:1px solid var(--line-strong); display:flex; flex-direction:column; padding:22px;
+}
+.drawer-title { font-family:'Fraunces',serif; font-weight:700; font-size:17px; display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
+.cart-items { flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:10px; }
+.cart-item { display:flex; gap:11px; padding:11px; border:1px solid var(--line); border-radius:14px; }
+.cart-item-thumb { width:54px; height:54px; border-radius:10px; background:var(--panel-2); flex:none; overflow:hidden; display:flex; align-items:center; justify-content:center; font-size:18px; }
+.cart-item-thumb img { width:100%; height:100%; object-fit:cover; }
+.cart-item-info { flex:1; min-width:0; }
+.cart-item-name { font-size:12.5px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.cart-item-price { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--emerald); margin-top:2px; }
+.qty-row { display:flex; align-items:center; gap:8px; margin-top:7px; }
+.qty-btn { width:22px; height:22px; border-radius:6px; border:1px solid var(--line-strong); background:var(--panel-2); color:var(--text-1); cursor:pointer; }
+.cart-item-remove { background:none; border:none; color:var(--text-3); font-size:14px; cursor:pointer; align-self:flex-start; }
+.cart-summary { border-top:1px solid var(--line); padding-top:14px; margin-top:14px; }
+.summary-row { display:flex; justify-content:space-between; font-size:12.5px; color:var(--text-2); margin-bottom:6px; }
+.summary-total { font-weight:800; color:var(--text-1); font-size:15px; font-family:'JetBrains Mono',monospace; }
+.empty-note { text-align:center; color:var(--text-3); font-size:12.5px; padding:50px 0; white-space: pre-line; }
+
+/* ── Generic modal (checkout, quick view) ── */
+.modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:900; align-items:center; justify-content:center; padding:18px; }
+.modal-overlay.open { display:flex; }
+.modal-box { width:100%; max-width:460px; max-height:88vh; overflow-y:auto; background:var(--panel); border:1px solid var(--line-strong); border-radius: var(--r-lg); padding:26px; }
+.modal-box.wide { max-width:680px; }
+.modal-title { font-family:'Fraunces',serif; font-weight:700; font-size:18px; margin-bottom:16px; }
+.field { margin-bottom:13px; }
+.field-label { display:block; font-size:10.5px; letter-spacing:1px; text-transform:uppercase; color:var(--text-3); margin-bottom:6px; }
+.field input, .field textarea, .field select {
+  width:100%; padding:10px 13px; border-radius:10px; border:1px solid var(--line); background:var(--panel-2); color:var(--text-1); font-size:13px;
+}
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.err-text { color: var(--danger); font-size:11.5px; min-height:14px; margin: 4px 0; }
+.rx-toggle { display:flex; gap:8px; margin-bottom:12px; }
+.rx-opt { flex:1; padding:9px; border-radius:10px; border:1px solid var(--line); text-align:center; font-size:11.5px; cursor:pointer; }
+.rx-opt.active { border-color:var(--emerald); background:var(--emerald-glow); color:var(--emerald); font-weight:700; }
+.success-box { text-align:center; padding:20px 0; }
+.success-icon { font-size:44px; margin-bottom:12px; }
+.order-num { font-family:'JetBrains Mono',monospace; font-size:16px; font-weight:700; color:var(--emerald); }
+
+/* ── Quick view ── */
+.qv-grid { display:grid; grid-template-columns: 1fr 1fr; gap:22px; }
+@media (max-width:560px) { .qv-grid { grid-template-columns:1fr; } }
+.qv-thumb { aspect-ratio:1/1; background:var(--panel-2); border-radius: var(--r-md); overflow:hidden; display:flex; align-items:center; justify-content:center; font-size:40px; color:var(--text-3); }
+.qv-thumb img { width:100%; height:100%; object-fit:cover; }
+.qv-feature-list { display:flex; flex-wrap:wrap; gap:6px; margin: 10px 0 14px; }
+.qv-feature-tag { font-size:10.5px; padding:4px 9px; border-radius:10px; background:var(--panel-2); color:var(--text-2); }
+.qty-stepper { display:flex; align-items:center; gap:12px; margin: 14px 0; }
+.qty-stepper .qty-btn { width:32px; height:32px; }
+
+.skeleton { background: linear-gradient(90deg, var(--panel), var(--panel-2), var(--panel)); background-size:200% 100%; animation: shimmer 1.4s infinite; border-radius:12px; }
+@keyframes shimmer { to { background-position: -200% 0; } }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════
+     NAV
+══════════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <div class="brand">
+      <div class="brand-mark"></div>
+      <div class="brand-name">Shreekunja<small>श्रीकुञ्ज अप्टिकल</small></div>
+    </div>
+
+    <div class="nav-links" id="navLinks">
+      <div class="nav-link active" onclick="scrollToSection('shop')" data-i18n="nav.shop">Shop</div>
+      <div class="nav-link" onclick="scrollToSection('services')" data-i18n="nav.services">Services</div>
+      <div class="nav-link" onclick="scrollToSection('blog')" data-i18n="nav.journal">Journal</div>
+      <div class="nav-link" onclick="scrollToSection('visit')" data-i18n="nav.visit">Visit Us</div>
+    </div>
+
+    <div class="nav-utils">
+      <button class="util-btn pill" onclick="toggleLang()" id="langToggleBtn" title="Language / भाषा">EN</button>
+      <button class="util-btn" onclick="toggleTheme()" id="themeToggleBtn" title="Theme">🌙</button>
+      <button class="util-btn" onclick="openCart()" title="Cart">
+        🛍️<span class="cart-count" id="cartCount" style="display:none;">0</span>
+      </button>
+      <button class="util-btn nav-burger" onclick="toggleMobileNav(true)" title="Menu">☰</button>
+    </div>
+  </div>
+</nav>
+
+<div class="mnav-overlay" id="mnavOverlay" onclick="if(event.target===this) toggleMobileNav(false)">
+  <div class="mnav">
+    <div class="mnav-link" onclick="scrollToSection('shop'); toggleMobileNav(false)" data-i18n="nav.shop">Shop</div>
+    <div class="mnav-link" onclick="scrollToSection('services'); toggleMobileNav(false)" data-i18n="nav.services">Services</div>
+    <div class="mnav-link" onclick="scrollToSection('blog'); toggleMobileNav(false)" data-i18n="nav.journal">Journal</div>
+    <div class="mnav-link" onclick="scrollToSection('visit'); toggleMobileNav(false)" data-i18n="nav.visit">Visit Us</div>
+    <div class="mnav-link" onclick="openAiPanel(); toggleMobileNav(false)" data-i18n="nav.askAi">Ask Shreekunja AI</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════════════════ -->
+<header class="hero">
+  <div class="aperture" aria-hidden="true"></div>
+  <div class="wrap hero-inner">
+    <div class="hero-eyebrow">
+      <span class="tumbling-e">⊢</span>
+      <span data-i18n="hero.eyebrow">VISION, IN FOCUS</span>
+    </div>
+    <div class="acuity-line l1" data-i18n="hero.line1">See clearly.</div>
+    <div class="acuity-line l2" data-i18n="hero.line2">Look sharper.</div>
+    <div class="acuity-line l3" data-i18n="hero.line3">Shreekunja Optical.</div>
+
+    <p class="hero-sub" data-i18n="hero.sub">Prescription glasses, sunglasses, and contact lenses — fitted with care in Kathmandu, backed by Shreekunja AI to help you choose the right pair.</p>
+
+    <div class="hero-actions">
+      <button class="btn btn-solid" onclick="scrollToSection('shop')" data-i18n="hero.ctaShop">Shop the Collection</button>
+      <button class="btn btn-outline" onclick="openAiPanel()" data-i18n="hero.ctaAi">✦ Ask Shreekunja AI</button>
+    </div>
+
+    <div class="hero-strip">
+      <div class="hero-stat"><div class="hero-stat-val" id="statProducts">—</div><div class="hero-stat-lbl" data-i18n="hero.statFrames">Frames in Stock</div></div>
+      <div class="hero-stat"><div class="hero-stat-val">24h</div><div class="hero-stat-lbl" data-i18n="hero.statTurnaround">Lens Turnaround</div></div>
+      <div class="hero-stat"><div class="hero-stat-val">2</div><div class="hero-stat-lbl" data-i18n="hero.statCities">Delivery Cities</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════════════════════
+     SHOP BY CATEGORY (visual tile grid)
+══════════════════════════════════════════════════════════ -->
+<section class="section" style="padding-top:0;border-top:none;">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow" data-i18n="catGrid.eyebrow">BROWSE</span>
+        <div class="section-title" data-i18n="catGrid.title">Shop by Category</div>
+      </div>
+    </div>
+    <div class="cat-tile-grid" id="catTileGrid">
+      <div class="skeleton" style="height:96px;"></div>
+      <div class="skeleton" style="height:96px;"></div>
+      <div class="skeleton" style="height:96px;"></div>
+      <div class="skeleton" style="height:96px;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     FEATURED DEALS ROW
+══════════════════════════════════════════════════════════ -->
+<section class="section" id="deals">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow" data-i18n="deals.eyebrow">HAND-PICKED</span>
+        <div class="section-title" data-i18n="deals.title">Featured Deals</div>
+      </div>
+      <span class="section-link" onclick="scrollToSection('shop')" data-i18n="deals.viewAll">View All →</span>
+    </div>
+    <div class="scroll-row" id="dealsRow">
+      <div class="skeleton" style="height:260px;width:190px;flex:none;"></div>
+      <div class="skeleton" style="height:260px;width:190px;flex:none;"></div>
+      <div class="skeleton" style="height:260px;width:190px;flex:none;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     BEST SELLERS ROW
+══════════════════════════════════════════════════════════ -->
+<section class="section" id="bestsellers">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow" data-i18n="best.eyebrow">CUSTOMER FAVORITES</span>
+        <div class="section-title" data-i18n="best.title">Best Sellers</div>
+      </div>
+      <span class="section-link" onclick="scrollToSection('shop')" data-i18n="deals.viewAll">View All →</span>
+    </div>
+    <div class="scroll-row" id="bestsellersRow">
+      <div class="skeleton" style="height:260px;width:190px;flex:none;"></div>
+      <div class="skeleton" style="height:260px;width:190px;flex:none;"></div>
+      <div class="skeleton" style="height:260px;width:190px;flex:none;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     NEW ARRIVALS ROW
+══════════════════════════════════════════════════════════ -->
+<section class="section" id="newarrivals">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow" data-i18n="newr.eyebrow">JUST IN</span>
+        <div class="section-title" data-i18n="newr.title">New Arrivals</div>
+      </div>
+      <span class="section-link" onclick="scrollToSection('shop')" data-i18n="deals.viewAll">View All →</span>
+    </div>
+    <div class="scroll-row" id="newArrivalsRow">
+      <div class="skeleton" style="height:260px;width:190px;flex:none;"></div>
+      <div class="skeleton" style="height:260px;width:190px;flex:none;"></div>
+      <div class="skeleton" style="height:260px;width:190px;flex:none;"></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SHOP
+══════════════════════════════════════════════════════════ -->
+<section class="section" id="shop">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow" data-i18n="shop.eyebrow">CATALOG</span>
+        <div class="section-title" data-i18n="shop.title">Shop Eyewear</div>
+      </div>
+    </div>
+
+    <div class="cat-rail" id="catRail"></div>
+
+    <div class="shop-toolbar">
+      <div class="search-box">
+        <input id="searchInput" placeholder="Search frames, brands…" data-i18n-ph="shop.searchPh" oninput="debouncedSearch()"/>
+      </div>
+      <select class="sort-select" id="sortSelect" onchange="loadProducts()">
+        <option value="newest" data-i18n="shop.sortNewest">Newest</option>
+        <option value="price_low" data-i18n="shop.sortPriceLow">Price: Low to High</option>
+        <option value="price_high" data-i18n="shop.sortPriceHigh">Price: High to Low</option>
+        <option value="best_selling" data-i18n="shop.sortPopular">Best Selling</option>
+      </select>
+    </div>
+
+    <div class="product-grid" id="productsGrid">
+      <div class="skeleton" style="height:260px;"></div>
+      <div class="skeleton" style="height:260px;"></div>
+      <div class="skeleton" style="height:260px;"></div>
+      <div class="skeleton" style="height:260px;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     AI BAND
+══════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="ai-band">
+      <div>
+        <div class="ai-band-title" data-i18n="aiBand.title">Not sure which frame suits you?</div>
+        <div class="ai-band-sub" data-i18n="aiBand.sub">Tell Shreekunja AI your face shape, budget, or how you'll use them — it checks real stock and prices before it answers.</div>
+      </div>
+      <button class="btn btn-solid" onclick="openAiPanel()" style="position:relative;" data-i18n="aiBand.cta">✦ Start Chatting</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     SERVICES
+══════════════════════════════════════════════════════════ -->
+<section class="section" id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow" data-i18n="services.eyebrow">IN-STORE</span>
+        <div class="section-title" data-i18n="services.title">Services</div>
+      </div>
+    </div>
+    <div class="service-grid" id="servicesGrid">
+      <div class="skeleton" style="height:120px;"></div>
+      <div class="skeleton" style="height:120px;"></div>
+      <div class="skeleton" style="height:120px;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     TRUST
+══════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow" data-i18n="trust.eyebrow">WHY SHREEKUNJA</span>
+        <div class="section-title" data-i18n="trust.title">Built on trust, fitted with care</div>
+      </div>
+    </div>
+    <div class="trust-grid">
+      <div class="trust-item">
+        <div class="trust-num">01</div>
+        <div><div class="trust-copy-title" data-i18n="trust.t1">Genuine lenses</div><div class="trust-copy-desc" data-i18n="trust.d1">UV-protected, anti-reflective, and blue-cut options — always disclosed, never assumed.</div></div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-num">02</div>
+        <div><div class="trust-copy-title" data-i18n="trust.t2">Fitted in person</div><div class="trust-copy-desc" data-i18n="trust.d2">Every online order can be adjusted and verified at our Bhaktapur counter, free of charge.</div></div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-num">03</div>
+        <div><div class="trust-copy-title" data-i18n="trust.t3">Real stock, real prices</div><div class="trust-copy-desc" data-i18n="trust.d3">What you see — including on Shreekunja AI — comes straight from our live inventory.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     BLOG
+══════════════════════════════════════════════════════════ -->
+<section class="section" id="blog">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow" data-i18n="blog.eyebrow">JOURNAL</span>
+        <div class="section-title" data-i18n="blog.title">Eye Care & Style Notes</div>
+      </div>
+    </div>
+    <div class="blog-grid" id="blogGrid">
+      <div class="skeleton" style="height:220px;"></div>
+      <div class="skeleton" style="height:220px;"></div>
+      <div class="skeleton" style="height:220px;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     VISIT / CONTACT
+══════════════════════════════════════════════════════════ -->
+<section class="section" id="visit">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow" data-i18n="visit.eyebrow">FIND US</span>
+        <div class="section-title" data-i18n="visit.title">Visit the Store</div>
+      </div>
+    </div>
+    <div class="visit-grid">
+      <div>
+        <div class="visit-line"><b data-i18n="visit.address">Address</b><span data-i18n="visit.addressVal">Suryabinayak, Bhaktapur, Nepal</span></div>
+        <div class="visit-line"><b data-i18n="visit.hours">Hours</b><span data-i18n="visit.hoursVal">Sun–Fri 8:30–21:00 · Sat 10:00–21:00</span></div>
+        <div class="visit-line"><b data-i18n="visit.phone">Phone</b><span>+977 984-1623999</span></div>
+        <div class="visit-line"><b data-i18n="visit.delivery">Delivery</b><span data-i18n="visit.deliveryVal">Kathmandu & Bhaktapur only</span></div>
+        <div style="margin-top:20px;">
+          <a class="btn btn-solid" href="https://wa.me/9841623999" target="_blank" rel="noopener">📲 <span data-i18n="visit.whatsapp">Message on WhatsApp</span></a>
+        </div>
+      </div>
+      <div class="map-frame">
+        <iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=Suryabinayak,Bhaktapur,Nepal&output=embed"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand-name" style="margin-bottom:8px;">Shreekunja<small>श्रीकुञ्ज अप्टिकल</small></div>
+        <div style="font-size:12px;color:var(--text-3);max-width:240px;line-height:1.6;" data-i18n="footer.tagline">Your intelligent optical partner in Kathmandu.</div>
+      </div>
+      <div class="foot-links">
+        <div class="foot-col">
+          <div class="foot-col-title" data-i18n="footer.shopCol">Shop</div>
+          <a onclick="scrollToSection('shop')" data-i18n="nav.shop">Shop</a>
+          <a onclick="scrollToSection('services')" data-i18n="nav.services">Services</a>
+          <a onclick="scrollToSection('blog')" data-i18n="nav.journal">Journal</a>
+        </div>
+        <div class="foot-col">
+          <div class="foot-col-title" data-i18n="footer.contactCol">Contact</div>
+          <div>+977 984-1623999</div>
+          <a href="https://wa.me/9841623999" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+        <div class="foot-col">
+          <div class="foot-col-title" data-i18n="footer.staffCol">Staff</div>
+          <a href="admin.html" data-i18n="footer.adminLink">Admin Console →</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© <span id="yearNow"></span> Shreekunja Optical · श्रीकुञ्ज अप्टिकल</div>
+      <div data-i18n="footer.builtWith">Built with Shreekunja AI</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════════════════════════
+     FLOATING: AI + CART
+══════════════════════════════════════════════════════════ -->
+<div class="fab-stack">
+  <button class="fab fab-cart" onclick="openCart()" title="Cart">
+    🛍️<span class="fab-badge" id="cartFabBadge" style="display:none;">0</span>
+  </button>
+  <button class="fab fab-ai" onclick="openAiPanel()" title="Shreekunja AI">✦</button>
+</div>
+
+<div class="ai-panel" id="aiPanel">
+  <div class="ai-panel-head">
+    <div>
+      <div class="ai-panel-title">Shreekunja AI</div>
+      <div class="ai-panel-sub" data-i18n="ai.subtitle">Your intelligent optical assistant</div>
+    </div>
+    <button class="ai-panel-close" onclick="closeAiPanel()">✕</button>
+  </div>
+  <div class="ai-messages" id="aiMessages"></div>
+  <div class="ai-input-row">
+    <input id="aiInput" placeholder="Ask about frames, lenses, prices…" data-i18n-ph="ai.inputPh" onkeydown="if(event.key==='Enter') sendAiMessage();"/>
+    <button class="ai-send-btn" id="aiSendBtn" onclick="sendAiMessage()">➤</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CART DRAWER
+══════════════════════════════════════════════════════════ -->
+<div class="drawer-overlay" id="cartOverlay" onclick="if(event.target===this) closeCart()">
+  <div class="drawer">
+    <div class="drawer-title">
+      <span data-i18n="cart.title">Your Cart</span>
+      <button class="ai-panel-close" onclick="closeCart()">✕</button>
+    </div>
+    <div class="cart-items" id="cartItemsList"></div>
+    <div id="cartSummary"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     PRODUCT QUICK VIEW MODAL
+══════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="quickViewModal" onclick="if(event.target===this) closeQuickView()">
+  <div class="modal-box wide" id="quickViewBody"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHECKOUT MODAL
+══════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="checkoutModal" onclick="if(event.target===this) closeCheckout()">
+  <div class="modal-box">
+    <div id="checkoutFormWrap">
+      <div class="modal-title" data-i18n="checkout.title">Checkout</div>
+      <div class="field"><label class="field-label" data-i18n="checkout.name">Full Name *</label><input id="coName"/></div>
+      <div class="grid-2">
+        <div class="field"><label class="field-label" data-i18n="checkout.phone">Phone *</label><input id="coPhone"/></div>
+        <div class="field"><label class="field-label" data-i18n="checkout.city">City *</label><input id="coCity" placeholder="Kathmandu / Bhaktapur"/></div>
+      </div>
+      <div class="field"><label class="field-label" data-i18n="checkout.area">Area</label><input id="coArea"/></div>
+      <div class="field"><label class="field-label" data-i18n="checkout.address">Delivery Address *</label><textarea id="coAddress"></textarea></div>
+
+      <div class="field">
+        <label class="field-label" data-i18n="checkout.rx">Prescription</label>
+        <div class="rx-toggle">
+          <div class="rx-opt active" data-rx="later" onclick="setRxMode('later', this)" data-i18n="checkout.rxLater">Provide Later</div>
+          <div class="rx-opt" data-rx="manual" onclick="setRxMode('manual', this)" data-i18n="checkout.rxManual">Enter Manually</div>
+        </div>
+        <div id="rxManualFields" style="display:none;">
+          <div class="grid-2">
+            <input id="rxOdSph" placeholder="OD SPH"/>
+            <input id="rxOsSph" placeholder="OS SPH"/>
+            <input id="rxOdCyl" placeholder="OD CYL" style="margin-top:8px;"/>
+            <input id="rxOsCyl" placeholder="OS CYL" style="margin-top:8px;"/>
+            <input id="rxPd" placeholder="PD" style="margin-top:8px;"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="field"><label class="field-label" data-i18n="checkout.notes">Notes (optional)</label><textarea id="coNotes"></textarea></div>
+      <div style="font-size:11px;color:var(--text-3);margin-bottom:10px;" data-i18n="checkout.paymentNote">Payment: Cash on Delivery. Online payment coming soon.</div>
+      <div class="err-text" id="checkoutErr"></div>
+      <button class="btn btn-solid" style="width:100%;justify-content:center;" onclick="submitOrder(this)" data-i18n="checkout.submit">Place Order</button>
+    </div>
+    <div id="checkoutSuccessWrap" style="display:none;">
+      <div class="success-box">
+        <div class="success-icon">✅</div>
+        <div style="font-size:14px;margin-bottom:8px;" data-i18n="checkout.successTitle">Order placed successfully!</div>
+        <div class="order-num" id="orderNumberOut"></div>
+        <div style="font-size:11.5px;color:var(--text-3);margin-top:12px;" data-i18n="checkout.successSub">We'll contact you shortly to confirm.</div>
+        <button class="btn btn-outline" style="margin-top:18px;" onclick="closeCheckout()" data-i18n="checkout.done">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+//  API CONFIG
+// ═══════════════════════════════════════
+const API_BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+  ? 'http://localhost:5050/api'
+  : 'https://shreekunja-optical.onrender.com/api';
+
+async function apiFetch(path, options = {}) {
+  const res = await fetch(`${API_BASE}${path}`, {
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
+    ...options
+  });
+  let body = null;
+  try { body = await res.json(); } catch (e) { /* non-JSON */ }
+  if (!res.ok) throw new Error(body?.error?.message || `Request failed (${res.status})`);
+  return body;
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str == null ? '' : String(str);
+  return div.innerHTML;
+}
+function formatRs(amount) { return 'रु ' + Number(amount).toLocaleString('en-IN'); }
+function formatDate(d, locale) { if (!d) return ''; try { return new Date(d).toLocaleDateString(locale || 'en-NP', { year:'numeric', month:'short', day:'numeric' }); } catch(e) { return ''; } }
+
+document.getElementById('yearNow').textContent = new Date().getFullYear();
+
+// ═══════════════════════════════════════
+//  THEME — "aesthetic dark" / "aesthetic light", never pure black/white.
+//  Detects system preference on first visit, then remembers the choice.
+// ═══════════════════════════════════════
+const THEME_KEY = 'sko_theme_v1';
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  document.getElementById('themeToggleBtn').textContent = theme === 'dark' ? '🌙' : '☀️';
+  localStorage.setItem(THEME_KEY, theme);
+}
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme');
+  applyTheme(current === 'dark' ? 'light' : 'dark');
+}
+(function initTheme() {
+  const saved = localStorage.getItem(THEME_KEY);
+  if (saved) { applyTheme(saved); return; }
+  const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+  applyTheme(prefersLight ? 'light' : 'dark');
+})();
+
+// ═══════════════════════════════════════
+//  LANGUAGE — EN / नेपाली. One UI, translated data (not duplicate pages).
+// ═══════════════════════════════════════
+const LANG_KEY = 'sko_lang_v1';
+
+const I18N = {
+  en: {
+    'nav.shop':'Shop', 'nav.services':'Services', 'nav.journal':'Journal', 'nav.visit':'Visit Us', 'nav.askAi':'Ask Shreekunja AI',
+    'hero.eyebrow':'VISION, IN FOCUS', 'hero.line1':'See clearly.', 'hero.line2':'Look sharper.', 'hero.line3':'Shreekunja Optical.',
+    'hero.sub':"Prescription glasses, sunglasses, and contact lenses — fitted with care in Kathmandu, backed by Shreekunja AI to help you choose the right pair.",
+    'hero.ctaShop':'Shop the Collection', 'hero.ctaAi':'✦ Ask Shreekunja AI',
+    'hero.statFrames':'Frames in Stock', 'hero.statTurnaround':'Lens Turnaround', 'hero.statCities':'Delivery Cities',
+    'shop.eyebrow':'CATALOG', 'shop.title':'Shop Eyewear', 'shop.searchPh':'Search frames, brands…',
+    'shop.sortNewest':'Newest', 'shop.sortPriceLow':'Price: Low to High', 'shop.sortPriceHigh':'Price: High to Low', 'shop.sortPopular':'Best Selling',
+    'shop.all':'All', 'shop.addToCart':'Add to Cart', 'shop.outOfStock':'Out of Stock', 'shop.empty':'No products yet.', 'shop.error':"Couldn't load products.", 'shop.retry':'↻ Retry',
+    'aiBand.title':'Not sure which frame suits you?', 'aiBand.sub':"Tell Shreekunja AI your face shape, budget, or how you'll use them — it checks real stock and prices before it answers.", 'aiBand.cta':'✦ Start Chatting',
+    'services.eyebrow':'IN-STORE', 'services.title':'Services', 'services.empty':'Services coming soon.',
+    'trust.eyebrow':'WHY SHREEKUNJA', 'trust.title':'Built on trust, fitted with care',
+    'trust.t1':'Genuine lenses', 'trust.d1':'UV-protected, anti-reflective, and blue-cut options — always disclosed, never assumed.',
+    'trust.t2':'Fitted in person', 'trust.d2':'Every online order can be adjusted and verified at our Bhaktapur counter, free of charge.',
+    'trust.t3':'Real stock, real prices', 'trust.d3':'What you see — including on Shreekunja AI — comes straight from our live inventory.',
+    'blog.eyebrow':'JOURNAL', 'blog.title':'Eye Care & Style Notes', 'blog.empty':'No articles yet.',
+    'visit.eyebrow':'FIND US', 'visit.title':'Visit the Store', 'visit.address':'Address', 'visit.addressVal':'Suryabinayak, Bhaktapur, Nepal',
+    'visit.hours':'Hours', 'visit.hoursVal':'Sun–Fri 8:30–21:00 · Sat 10:00–21:00', 'visit.phone':'Phone', 'visit.delivery':'Delivery',
+    'visit.deliveryVal':'Kathmandu & Bhaktapur only', 'visit.whatsapp':'Message on WhatsApp',
+    'footer.tagline':'Your intelligent optical partner in Kathmandu.', 'footer.shopCol':'Shop', 'footer.contactCol':'Contact', 'footer.staffCol':'Staff',
+    'footer.adminLink':'Admin Console →', 'footer.builtWith':'Built with Shreekunja AI',
+    'ai.subtitle':'Your intelligent optical assistant', 'ai.inputPh':'Ask about frames, lenses, prices…',
+    'ai.greeting':"Namaste! I'm Shreekunja AI. Ask me about frames, lenses, prices, or our services — I'll check real stock before I answer.",
+    'ai.error':"Sorry, I couldn't respond right now. Please try again in a moment.",
+    'cart.title':'Your Cart', 'cart.empty':'Your cart is empty.\nAdd some frames to get started!', 'cart.subtotal':'Subtotal', 'cart.total':'Total', 'cart.checkout':'Proceed to Checkout',
+    'checkout.title':'Checkout', 'checkout.name':'Full Name *', 'checkout.phone':'Phone *', 'checkout.city':'City *', 'checkout.area':'Area',
+    'checkout.address':'Delivery Address *', 'checkout.rx':'Prescription', 'checkout.rxLater':'Provide Later', 'checkout.rxManual':'Enter Manually',
+    'checkout.notes':'Notes (optional)', 'checkout.paymentNote':'Payment: Cash on Delivery. Online payment coming soon.', 'checkout.submit':'Place Order',
+    'checkout.successTitle':'Order placed successfully!', 'checkout.successSub':"We'll contact you shortly to confirm.", 'checkout.done':'Done',
+    'qv.addToCart':'Add to Cart', 'qv.askAi':'✦ Ask Shreekunja AI About This',
+    'catGrid.eyebrow':'BROWSE', 'catGrid.title':'Shop by Category',
+    'deals.eyebrow':'HAND-PICKED', 'deals.title':'Featured Deals', 'deals.viewAll':'View All →', 'deals.empty':'No featured deals right now.',
+    'best.eyebrow':'CUSTOMER FAVORITES', 'best.title':'Best Sellers', 'best.empty':'No best sellers yet.',
+    'newr.eyebrow':'JUST IN', 'newr.title':'New Arrivals', 'newr.empty':'No new arrivals yet.'
+  },
+  ne: {
+    'nav.shop':'पसल', 'nav.services':'सेवाहरू', 'nav.journal':'जर्नल', 'nav.visit':'हामीलाई भेट्नुहोस्', 'nav.askAi':'श्रीकुञ्ज AI लाई सोध्नुहोस्',
+    'hero.eyebrow':'दृष्टि, स्पष्ट', 'hero.line1':'स्पष्ट देख्नुहोस्।', 'hero.line2':'तीखो हेर्नुहोस्।', 'hero.line3':'श्रीकुञ्ज अप्टिकल।',
+    'hero.sub':'प्रेस्क्रिप्शन चश्मा, घामको चश्मा, र कन्ट्याक्ट लेन्स — काठमाडौंमा हेरचाहका साथ फिट गरिएको, श्रीकुञ्ज AI को सहयोगमा।',
+    'hero.ctaShop':'सङ्ग्रह हेर्नुहोस्', 'hero.ctaAi':'✦ श्रीकुञ्ज AI लाई सोध्नुहोस्',
+    'hero.statFrames':'स्टकमा फ्रेमहरू', 'hero.statTurnaround':'लेन्स समय', 'hero.statCities':'डेलिभरी शहरहरू',
+    'shop.eyebrow':'सूची', 'shop.title':'चश्मा किन्नुहोस्', 'shop.searchPh':'फ्रेम, ब्रान्ड खोज्नुहोस्…',
+    'shop.sortNewest':'नयाँ', 'shop.sortPriceLow':'मूल्य: कम देखि बढी', 'shop.sortPriceHigh':'मूल्य: बढी देखि कम', 'shop.sortPopular':'बेस्ट सेलिङ',
+    'shop.all':'सबै', 'shop.addToCart':'कार्टमा थप्नुहोस्', 'shop.outOfStock':'स्टक छैन', 'shop.empty':'अहिलेसम्म कुनै उत्पादन छैन।', 'shop.error':'उत्पादनहरू लोड गर्न सकिएन।', 'shop.retry':'↻ फेरि प्रयास गर्नुहोस्',
+    'aiBand.title':'कुन फ्रेम तपाईंलाई सुहाउँछ थाहा छैन?', 'aiBand.sub':'श्रीकुञ्ज AI लाई आफ्नो अनुहारको आकार, बजेट बताउनुहोस् — यसले जवाफ दिनु अघि वास्तविक स्टक जाँच गर्छ।', 'aiBand.cta':'✦ कुराकानी सुरु गर्नुहोस्',
+    'services.eyebrow':'पसलमा', 'services.title':'सेवाहरू', 'services.empty':'सेवाहरू चाँडै आउँदैछन्।',
+    'trust.eyebrow':'किन श्रीकुञ्ज', 'trust.title':'विश्वासमा निर्मित, हेरचाहका साथ फिट गरिएको',
+    'trust.t1':'वास्तविक लेन्स', 'trust.d1':'UV-सुरक्षित, एन्टी-रिफ्लेक्टिभ, र ब्लू-कट विकल्पहरू — सधैं स्पष्ट रूपमा बताइएको।',
+    'trust.t2':'व्यक्तिगत रूपमा फिट गरिएको', 'trust.d2':'हरेक अनलाइन अर्डर हाम्रो भक्तपुर काउन्टरमा नि:शुल्क समायोजन गर्न सकिन्छ।',
+    'trust.t3':'वास्तविक स्टक, वास्तविक मूल्य', 'trust.d3':'श्रीकुञ्ज AI मा देखाइएको जानकारी हाम्रो लाइभ इन्भेन्टरीबाट सिधै आउँछ।',
+    'blog.eyebrow':'जर्नल', 'blog.title':'आँखाको हेरचाह र शैली टिप्स', 'blog.empty':'अहिलेसम्म कुनै लेख छैन।',
+    'visit.eyebrow':'हामीलाई भेट्टाउनुहोस्', 'visit.title':'पसल भ्रमण गर्नुहोस्', 'visit.address':'ठेगाना', 'visit.addressVal':'सूर्यविनायक, भक्तपुर, नेपाल',
+    'visit.hours':'समय', 'visit.hoursVal':'आइत–शुक्र ८:३०–२१:०० · शनि १०:००–२१:००', 'visit.phone':'फोन', 'visit.delivery':'डेलिभरी',
+    'visit.deliveryVal':'काठमाडौं र भक्तपुर मात्र', 'visit.whatsapp':'WhatsApp मा सन्देश पठाउनुहोस्',
+    'footer.tagline':'काठमाडौंमा तपाईंको बुद्धिमान अप्टिकल साझेदार।', 'footer.shopCol':'पसल', 'footer.contactCol':'सम्पर्क', 'footer.staffCol':'स्टाफ',
+    'footer.adminLink':'एडमिन कन्सोल →', 'footer.builtWith':'श्रीकुञ्ज AI सँग निर्मित',
+    'ai.subtitle':'तपाईंको बुद्धिमान अप्टिकल सहायक', 'ai.inputPh':'फ्रेम, लेन्स, मूल्यको बारेमा सोध्नुहोस्…',
+    'ai.greeting':'नमस्ते! म श्रीकुञ्ज AI हुँ। फ्रेम, लेन्स, मूल्य, वा हाम्रा सेवाहरूको बारेमा सोध्नुहोस्।',
+    'ai.error':'माफ गर्नुहोस्, अहिले जवाफ दिन सकिएन। पछि फेरि प्रयास गर्नुहोस्।',
+    'cart.title':'तपाईंको कार्ट', 'cart.empty':'तपाईंको कार्ट खाली छ।\nसुरु गर्न केही फ्रेमहरू थप्नुहोस्!', 'cart.subtotal':'उप-जम्मा', 'cart.total':'जम्मा', 'cart.checkout':'चेकआउट गर्नुहोस्',
+    'checkout.title':'चेकआउट', 'checkout.name':'पूरा नाम *', 'checkout.phone':'फोन *', 'checkout.city':'शहर *', 'checkout.area':'क्षेत्र',
+    'checkout.address':'डेलिभरी ठेगाना *', 'checkout.rx':'प्रेस्क्रिप्शन', 'checkout.rxLater':'पछि दिनुहोस्', 'checkout.rxManual':'म्यानुअल रूपमा प्रविष्ट गर्नुहोस्',
+    'checkout.notes':'टिप्पणीहरू (वैकल्पिक)', 'checkout.paymentNote':'भुक्तानी: डेलिभरीमा नगद। अनलाइन भुक्तानी चाँडै आउँदैछ।', 'checkout.submit':'अर्डर गर्नुहोस्',
+    'checkout.successTitle':'अर्डर सफलतापूर्वक राखियो!', 'checkout.successSub':'हामी चाँडै पुष्टि गर्न सम्पर्क गर्नेछौं।', 'checkout.done':'सम्पन्न',
+    'qv.addToCart':'कार्टमा थप्नुहोस्', 'qv.askAi':'✦ यसको बारेमा श्रीकुञ्ज AI लाई सोध्नुहोस्',
+    'catGrid.eyebrow':'ब्राउज गर्नुहोस्', 'catGrid.title':'श्रेणी अनुसार किन्नुहोस्',
+    'deals.eyebrow':'छानिएका', 'deals.title':'विशेष अफरहरू', 'deals.viewAll':'सबै हेर्नुहोस् →', 'deals.empty':'अहिले कुनै विशेष अफर छैन।',
+    'best.eyebrow':'ग्राहकका मनपर्ने', 'best.title':'बेस्ट सेलरहरू', 'best.empty':'अहिलेसम्म कुनै बेस्ट सेलर छैन।',
+    'newr.eyebrow':'भर्खरै आएको', 'newr.title':'नयाँ आगमन', 'newr.empty':'अहिलेसम्म कुनै नयाँ उत्पादन छैन।'
+  }
+};
+
+function t(key) {
+  const lang = document.documentElement.getAttribute('data-lang');
+  return (I18N[lang] && I18N[lang][key]) || I18N.en[key] || key;
+}
+
+function applyTranslations() {
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
+}
+
+function applyLang(lang) {
+  document.documentElement.setAttribute('data-lang', lang);
+  document.documentElement.setAttribute('lang', lang === 'ne' ? 'ne' : 'en');
+  document.getElementById('langToggleBtn').textContent = lang === 'ne' ? 'नेपा' : 'EN';
+  localStorage.setItem(LANG_KEY, lang);
+  applyTranslations();
+  // Re-render dynamic (API-backed) content in the new language.
+  loadProducts(); loadCategories(); loadCategoryTiles(); loadServices(); loadBlogPosts();
+  loadDeals(); loadBestSellersRow(); loadNewArrivalsRow();
+}
+function toggleLang() {
+  const current = document.documentElement.getAttribute('data-lang');
+  applyLang(current === 'en' ? 'ne' : 'en');
+}
+(function initLang() {
+  const saved = localStorage.getItem(LANG_KEY) || 'en';
+  document.documentElement.setAttribute('data-lang', saved);
+  document.getElementById('langToggleBtn').textContent = saved === 'ne' ? 'नेपा' : 'EN';
+  applyTranslations();
+})();
+
+function currentLang() { return document.documentElement.getAttribute('data-lang'); }
+function pick(obj, enField, neField) {
+  const lang = currentLang();
+  if (lang === 'ne' && obj[neField]) return obj[neField];
+  return obj[enField] || obj[neField] || '';
+}
+
+// ═══════════════════════════════════════
+//  NAV HELPERS
+// ═══════════════════════════════════════
+function scrollToSection(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+}
+function toggleMobileNav(open) {
+  document.getElementById('mnavOverlay').classList.toggle('open', open);
+}
+
+// ═══════════════════════════════════════
+//  CATEGORIES
+// ═══════════════════════════════════════
+let currentCategoryFilter = null;
+
+async function loadCategories() {
+  const wrap = document.getElementById('catRail');
+  try {
+    const result = await apiFetch('/categories');
+    const categories = result?.data || [];
+    let html = `<div class="cat-chip ${!currentCategoryFilter ? 'active' : ''}" onclick="selectCategory(null,this)">${t('shop.all')}</div>`;
+    html += categories.map(c => `<div class="cat-chip ${currentCategoryFilter === c.slug ? 'active' : ''}" onclick="selectCategory('${c.slug}',this)">${escapeHtml(pick(c,'name_en','name_ne'))}</div>`).join('');
+    wrap.innerHTML = html;
+  } catch (err) {
+    wrap.innerHTML = '';
+  }
+}
+function selectCategory(slug, el) {
+  currentCategoryFilter = slug;
+  document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  loadProducts();
+  scrollToSection('shop');
+}
+
+function categoryIcon(cat) {
+  const key = (cat.slug || '').toLowerCase();
+  if (key.includes('sunglass')) return '🕶️';
+  if (key.includes('contact')) return '👁️';
+  if (key.includes('lens')) return '🔎';
+  if (key.includes('kid')) return '🧒';
+  if (key.includes('accessor')) return '🎒';
+  if (key.includes('frame')) return '👓';
+  return '🕶️';
+}
+
+async function loadCategoryTiles() {
+  const wrap = document.getElementById('catTileGrid');
+  if (!wrap) return;
+  try {
+    const result = await apiFetch('/categories');
+    const categories = result?.data || [];
+    if (!categories.length) { wrap.innerHTML = ''; return; }
+    wrap.innerHTML = categories.map(c => `
+      <div class="cat-tile" onclick="selectCategoryFromTile('${c.slug}')">
+        <div class="cat-tile-icon">${categoryIcon(c)}</div>
+        <div class="cat-tile-name">${escapeHtml(pick(c,'name_en','name_ne'))}</div>
+      </div>`).join('');
+  } catch (err) {
+    wrap.innerHTML = '';
+  }
+}
+function selectCategoryFromTile(slug) {
+  currentCategoryFilter = slug;
+  document.querySelectorAll('.cat-chip').forEach(c => c.classList.toggle('active', c.dataset.slug === slug));
+  loadProducts();
+  scrollToSection('shop');
+}
+
+// ═══════════════════════════════════════
+//  CURATED ROWS — Featured Deals / Best Sellers / New Arrivals.
+//  Each pulls from the same real /api/products endpoint with the
+//  matching boolean flag, so there is no separate "fake" dataset —
+//  a product only shows here if it's actually flagged that way in
+//  the database (set from the admin panel).
+// ═══════════════════════════════════════
+async function loadCuratedRow(rowId, flagParam, emptyKey) {
+  const row = document.getElementById(rowId);
+  if (!row) return;
+  try {
+    const result = await apiFetch(`/products?limit=10&sort=newest&${flagParam}=true`);
+    const items = result?.data || [];
+    items.forEach(p => { productCache[p.id] = p; });
+    if (!items.length) {
+      row.innerHTML = `<div class="state-msg" style="width:100%;">${t(emptyKey)}</div>`;
+      return;
+    }
+    row.innerHTML = items.map(renderProductCard).join('');
+  } catch (err) {
+    row.innerHTML = `<div class="state-msg" style="width:100%;">${t(emptyKey)}</div>`;
+  }
+}
+function loadDeals() { loadCuratedRow('dealsRow', 'featured', 'deals.empty'); }
+function loadBestSellersRow() { loadCuratedRow('bestsellersRow', 'bestSeller', 'best.empty'); }
+function loadNewArrivalsRow() { loadCuratedRow('newArrivalsRow', 'newArrival', 'newr.empty'); }
+
+// ═══════════════════════════════════════
+//  PRODUCTS
+// ═══════════════════════════════════════
+let productCache = {};
+let searchDebounceTimer = null;
+function debouncedSearch() {
+  clearTimeout(searchDebounceTimer);
+  searchDebounceTimer = setTimeout(loadProducts, 350);
+}
+
+function productImageHtml(p) {
+  const primary = Array.isArray(p.images) ? (p.images.find(i => i.is_primary) || p.images[0]) : null;
+  if (primary?.url) return `<img src="${primary.url}" alt="${escapeHtml(pick(p,'name_en','name_ne'))}" onerror="this.parentElement.innerHTML='<div class=&quot;product-thumb-ph&quot;>🕶️</div>'"/>`;
+  return `<div class="product-thumb-ph">🕶️</div>`;
+}
+
+function renderProductCard(p) {
+  const tag = p.new_arrival ? `<div class="product-tag">NEW</div>` : (Number(p.discount_percent) > 0 ? `<div class="product-tag sale">SALE</div>` : '');
+  const wasPrice = (p.compare_at_price && Number(p.compare_at_price) > Number(p.price)) ? `<span class="product-price-was">${formatRs(p.compare_at_price)}</span>` : '';
+  const outOfStock = p.stock_status === 'out_of_stock';
+  const cartBtn = outOfStock
+    ? `<button class="product-cart-btn" disabled>${t('shop.outOfStock')}</button>`
+    : `<button class="product-cart-btn" onclick="event.stopPropagation(); addToCart('${p.id}')">${t('shop.addToCart')}</button>`;
+
+  return `
+    <div class="product-card" onclick="openQuickView('${p.id}')">
+      <div class="product-thumb">${tag}${productImageHtml(p)}</div>
+      <div class="product-body">
+        <div class="product-name">${escapeHtml(pick(p,'name_en','name_ne'))}</div>
+        <div class="product-meta">${escapeHtml(p.brand || pick(p,'category_name_en','category_name_ne') || '')}</div>
+        <div class="product-price-row"><span class="product-price">${formatRs(p.price)}</span>${wasPrice}</div>
+        ${cartBtn}
+      </div>
+    </div>`;
+}
+
+async function loadProducts() {
+  const grid = document.getElementById('productsGrid');
+  const keyword = document.getElementById('searchInput')?.value.trim() || '';
+  const sort = document.getElementById('sortSelect')?.value || 'newest';
+
+  try {
+    const params = new URLSearchParams({ limit: '24', sort });
+    if (keyword) params.set('q', keyword);
+    if (currentCategoryFilter) params.set('category', currentCategoryFilter);
+
+    const result = await apiFetch(`/products?${params.toString()}`);
+    const items = result?.data || [];
+
+    document.getElementById('statProducts').textContent = result?.meta?.total ?? items.length;
+
+    if (items.length === 0) {
+      grid.innerHTML = `<div class="state-msg">${t('shop.empty')}</div>`;
+      return;
+    }
+
+    productCache = {};
+    items.forEach(p => { productCache[p.id] = p; });
+    grid.innerHTML = items.map(renderProductCard).join('');
+  } catch (err) {
+    grid.innerHTML = `<div class="state-msg">${t('shop.error')}<br><button class="btn btn-outline" onclick="loadProducts()">${t('shop.retry')}</button></div>`;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadProducts(); loadCategories(); loadCategoryTiles(); loadDeals(); loadBestSellersRow(); loadNewArrivalsRow();
+});
+
+// ═══════════════════════════════════════
+//  PRODUCT QUICK VIEW
+// ═══════════════════════════════════════
+function openQuickView(id) {
+  const p = productCache[id];
+  if (!p) return;
+
+  const features = Array.isArray(p.features_en) && p.features_en.length
+    ? p.features_en.map(f => `<span class="qv-feature-tag">${escapeHtml(f)}</span>`).join('')
+    : '';
+
+  const outOfStock = p.stock_status === 'out_of_stock';
+
+  document.getElementById('quickViewBody').innerHTML = `
+    <div class="qv-grid">
+      <div class="qv-thumb">${productImageHtml(p)}</div>
+      <div>
+        <div class="modal-title" style="margin-bottom:6px;">${escapeHtml(pick(p,'name_en','name_ne'))}</div>
+        <div style="font-size:12px;color:var(--text-3);margin-bottom:10px;">${escapeHtml(p.brand || '')}</div>
+        <div class="product-price-row" style="font-size:18px;"><span class="product-price" style="font-size:18px;">${formatRs(p.price)}</span></div>
+        <div class="qv-feature-list">${features}</div>
+        <p style="font-size:12.5px;color:var(--text-2);line-height:1.6;">${escapeHtml(pick(p,'description_en','description_ne') || '')}</p>
+
+        <div class="qty-stepper">
+          <button class="qty-btn" onclick="qvChangeQty(-1)">−</button>
+          <span id="qvQty" style="font-family:'JetBrains Mono',monospace;">1</span>
+          <button class="qty-btn" onclick="qvChangeQty(1)">+</button>
+        </div>
+
+        <button class="btn btn-solid" style="width:100%;justify-content:center;margin-bottom:8px;" ${outOfStock ? 'disabled' : ''} onclick="addToCart('${p.id}', qvQtyValue()); closeQuickView();">
+          ${outOfStock ? t('shop.outOfStock') : t('qv.addToCart')}
+        </button>
+        <a class="btn btn-outline" style="width:100%;justify-content:center;" href="https://wa.me/9841623999?text=${encodeURIComponent('Namaste! I want to ask about: ' + p.name_en)}" target="_blank">${t('qv.askAi')}</a>
+      </div>
+    </div>`;
+  document.getElementById('quickViewModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function qvChangeQty(delta) {
+  const el = document.getElementById('qvQty');
+  const next = Math.max(1, parseInt(el.textContent, 10) + delta);
+  el.textContent = next;
+}
+function qvQtyValue() { return parseInt(document.getElementById('qvQty')?.textContent || '1', 10); }
+function closeQuickView() {
+  document.getElementById('quickViewModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ═══════════════════════════════════════
+//  SERVICES
+// ═══════════════════════════════════════
+async function loadServices() {
+  const grid = document.getElementById('servicesGrid');
+  try {
+    const result = await apiFetch('/services');
+    const items = result?.data || [];
+    if (!items.length) { grid.innerHTML = `<div class="state-msg" style="grid-column:1/-1;">${t('services.empty')}</div>`; return; }
+    grid.innerHTML = items.map(s => `
+      <div class="service-card">
+        <div class="service-icon">${s.icon || '🔧'}</div>
+        <div class="service-name">${escapeHtml(pick(s,'name_en','name_ne'))}</div>
+        <div class="service-desc">${escapeHtml(pick(s,'description_en','description_ne') || '')}</div>
+      </div>`).join('');
+  } catch (err) {
+    grid.innerHTML = `<div class="state-msg" style="grid-column:1/-1;">${t('services.empty')}</div>`;
+  }
+}
+document.addEventListener('DOMContentLoaded', loadServices);
+
+// ═══════════════════════════════════════
+//  BLOG
+// ═══════════════════════════════════════
+async function loadBlogPosts() {
+  const grid = document.getElementById('blogGrid');
+  try {
+    const result = await apiFetch('/blog?limit=6');
+    const posts = result?.data || [];
+    if (!posts.length) { grid.innerHTML = `<div class="state-msg" style="grid-column:1/-1;">${t('blog.empty')}</div>`; return; }
+    grid.innerHTML = posts.map(p => `
+      <div class="blog-card" onclick="window.open('https://wa.me/9841623999?text=${encodeURIComponent('I want to read: ' + p.title_en)}','_blank')">
+        <div class="blog-thumb">${p.cover_image ? `<img src="${p.cover_image}" alt=""/>` : '📰'}</div>
+        <div class="blog-body">
+          <div class="blog-cat">${escapeHtml(p.category || 'Eye Care')}</div>
+          <div class="blog-title">${escapeHtml(pick(p,'title_en','title_ne'))}</div>
+          <div class="blog-excerpt">${escapeHtml((pick(p,'excerpt_en','excerpt_ne') || '').slice(0,90))}</div>
+          <div class="blog-date">${formatDate(p.published_at)}</div>
+        </div>
+      </div>`).join('');
+  } catch (err) {
+    grid.innerHTML = `<div class="state-msg" style="grid-column:1/-1;">${t('blog.empty')}</div>`;
+  }
+}
+document.addEventListener('DOMContentLoaded', loadBlogPosts);
+
+// ═══════════════════════════════════════
+//  CART
+// ═══════════════════════════════════════
+const CART_KEY = 'sko_cart_v2';
+function getCart() { try { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); } catch(e) { return []; } }
+function setCart(items) { localStorage.setItem(CART_KEY, JSON.stringify(items)); updateCartBadges(); }
+
+function updateCartBadges() {
+  const count = getCart().reduce((s,i) => s + i.quantity, 0);
+  [document.getElementById('cartCount'), document.getElementById('cartFabBadge')].forEach(badge => {
+    if (!badge) return;
+    if (count > 0) { badge.textContent = count > 99 ? '99+' : count; badge.style.display = 'flex'; }
+    else { badge.style.display = 'none'; }
+  });
+}
+
+function addToCart(productId, quantity) {
+  const p = productCache[productId];
+  if (!p) return;
+  const qty = quantity || 1;
+  const items = getCart();
+  const existing = items.find(i => i.id === productId);
+  if (existing) existing.quantity += qty;
+  else {
+    const img = Array.isArray(p.images) ? (p.images.find(i=>i.is_primary) || p.images[0]) : null;
+    items.push({ id: p.id, name: p.name_en, price: Number(p.price), image: img ? img.url : null, quantity: qty });
+  }
+  setCart(items);
+  openCart();
+}
+function updateCartQty(id, delta) {
+  const items = getCart();
+  const item = items.find(i => i.id === id);
+  if (!item) return;
+  item.quantity += delta;
+  setCart(item.quantity <= 0 ? items.filter(i => i.id !== id) : items);
+  renderCart();
+}
+function removeCartItem(id) { setCart(getCart().filter(i => i.id !== id)); renderCart(); }
+function cartTotal() { return getCart().reduce((s,i) => s + i.price * i.quantity, 0); }
+
+function renderCart() {
+  const items = getCart();
+  const listEl = document.getElementById('cartItemsList');
+  const summaryEl = document.getElementById('cartSummary');
+
+  if (items.length === 0) {
+    listEl.innerHTML = `<div class="empty-note">${t('cart.empty')}</div>`;
+    summaryEl.innerHTML = '';
+    return;
+  }
+
+  listEl.innerHTML = items.map(i => `
+    <div class="cart-item">
+      <div class="cart-item-thumb">${i.image ? `<img src="${i.image}" alt=""/>` : '🕶️'}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${escapeHtml(i.name)}</div>
+        <div class="cart-item-price">${formatRs(i.price)}</div>
+        <div class="qty-row">
+          <button class="qty-btn" onclick="updateCartQty('${i.id}',-1)">−</button>
+          <span style="font-size:12px;">${i.quantity}</span>
+          <button class="qty-btn" onclick="updateCartQty('${i.id}',1)">+</button>
+        </div>
+      </div>
+      <button class="cart-item-remove" onclick="removeCartItem('${i.id}')">✕</button>
+    </div>`).join('');
+
+  const total = cartTotal();
+  summaryEl.innerHTML = `
+    <div class="cart-summary">
+      <div class="summary-row"><span>${t('cart.subtotal')}</span><span>${formatRs(total)}</span></div>
+      <div class="summary-row summary-total"><span>${t('cart.total')}</span><span>${formatRs(total)}</span></div>
+      <button class="btn btn-solid" style="width:100%;justify-content:center;margin-top:8px;" onclick="openCheckout()">${t('cart.checkout')}</button>
+    </div>`;
+}
+function openCart() { renderCart(); document.getElementById('cartOverlay').classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeCart() { document.getElementById('cartOverlay').classList.remove('open'); document.body.style.overflow = ''; }
+document.addEventListener('DOMContentLoaded', updateCartBadges);
+
+// ═══════════════════════════════════════
+//  CHECKOUT (with lightweight prescription capture)
+// ═══════════════════════════════════════
+let rxMode = 'later';
+function setRxMode(mode, el) {
+  rxMode = mode;
+  document.querySelectorAll('.rx-opt').forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('rxManualFields').style.display = mode === 'manual' ? 'block' : 'none';
+}
+
+function openCheckout() {
+  if (getCart().length === 0) return;
+  closeCart();
+  document.getElementById('checkoutErr').textContent = '';
+  document.getElementById('checkoutFormWrap').style.display = 'block';
+  document.getElementById('checkoutSuccessWrap').style.display = 'none';
+  document.getElementById('checkoutModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCheckout() { document.getElementById('checkoutModal').classList.remove('open'); document.body.style.overflow = ''; }
+
+async function submitOrder(btn) {
+  const errEl = document.getElementById('checkoutErr');
+  errEl.textContent = '';
+
+  const name = document.getElementById('coName').value.trim();
+  const phone = document.getElementById('coPhone').value.trim();
+  const city = document.getElementById('coCity').value.trim();
+  const area = document.getElementById('coArea').value.trim();
+  const address = document.getElementById('coAddress').value.trim();
+  let notes = document.getElementById('coNotes').value.trim();
+
+  if (!name || !phone || !city || !address) { errEl.textContent = 'Please fill in name, phone, city, and address.'; return; }
+
+  const items = getCart();
+  if (items.length === 0) { errEl.textContent = 'Your cart is empty.'; return; }
+
+  // Prescription capture: the backend's `prescriptions` table isn't wired
+  // into order creation yet (see backend orderService.js), so manual Rx
+  // values are appended to the order note for now rather than silently
+  // dropped or falsely stored as structured data.
+  if (rxMode === 'manual') {
+    const rx = `Rx — OD SPH:${document.getElementById('rxOdSph').value} CYL:${document.getElementById('rxOdCyl').value} | OS SPH:${document.getElementById('rxOsSph').value} CYL:${document.getElementById('rxOsCyl').value} | PD:${document.getElementById('rxPd').value}`;
+    notes = notes ? `${notes}\n${rx}` : rx;
+  }
+
+  const originalLabel = btn.textContent;
+  btn.disabled = true; btn.textContent = '…';
+
+  try {
+    const result = await apiFetch('/orders', {
+      method: 'POST',
+      body: JSON.stringify({
+        customerName: name, customerPhone: phone,
+        shippingAddress: { city, area, address_line: address, delivery_notes: notes },
+        items: items.map(i => ({ productId: i.id, quantity: i.quantity })),
+        paymentMethod: 'cod', customerNote: notes || null
+      })
+    });
+
+    setCart([]);
+    document.getElementById('checkoutFormWrap').style.display = 'none';
+    document.getElementById('checkoutSuccessWrap').style.display = 'block';
+    document.getElementById('orderNumberOut').textContent = result.data.order_number;
+    loadProducts();
+  } catch (err) {
+    errEl.textContent = err.message || 'Could not place order. Please try again.';
+  } finally {
+    btn.disabled = false; btn.textContent = originalLabel;
+  }
+}
+
+// ═══════════════════════════════════════
+//  SHREEKUNJA AI — real streaming chat against POST /api/ai/chat
+//  (NDJSON: {"type":"chunk"/"done"/"error"}) exactly as the backend emits.
+// ═══════════════════════════════════════
+let aiHistory = [];
+let aiGreeted = false;
+
+function openAiPanel() {
+  document.getElementById('aiPanel').classList.add('open');
+  if (!aiGreeted) {
+    appendAiMessage('bot', t('ai.greeting'));
+    aiGreeted = true;
+  }
+  document.getElementById('aiInput').focus();
+}
+function closeAiPanel() { document.getElementById('aiPanel').classList.remove('open'); }
+
+function appendAiMessage(role, text) {
+  const el = document.createElement('div');
+  el.className = `ai-msg ${role === 'user' ? 'user' : 'bot'}`;
+  el.textContent = text;
+  document.getElementById('aiMessages').appendChild(el);
+  document.getElementById('aiMessages').scrollTop = document.getElementById('aiMessages').scrollHeight;
+  return el;
+}
+
+async function sendAiMessage() {
+  const input = document.getElementById('aiInput');
+  const message = input.value.trim();
+  if (!message) return;
+
+  input.value = '';
+  document.getElementById('aiSendBtn').disabled = true;
+  appendAiMessage('user', message);
+  aiHistory.push({ role: 'user', text: message });
+
+  const botEl = appendAiMessage('bot', '');
+  botEl.classList.add('typing');
+
+  try {
+    const res = await fetch(`${API_BASE}/ai/chat`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message, history: aiHistory.slice(-20) })
+    });
+
+    if (!res.ok || !res.body) {
+      const body = await res.json().catch(() => null);
+      throw new Error(body?.error?.message || `Request failed (${res.status})`);
+    }
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+    let fullText = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n');
+      buffer = lines.pop(); // last (possibly incomplete) line stays in buffer
+
+      for (const line of lines) {
+        if (!line.trim()) continue;
+        let msg;
+        try { msg = JSON.parse(line); } catch (e) { continue; }
+
+        if (msg.type === 'chunk') {
+          fullText += msg.text;
+          botEl.textContent = fullText;
+          document.getElementById('aiMessages').scrollTop = document.getElementById('aiMessages').scrollHeight;
+        } else if (msg.type === 'error') {
+          throw new Error(msg.error);
+        }
+        // 'done' just carries sources/searched — nothing further to render here.
+      }
+    }
+
+    botEl.classList.remove('typing');
+    if (!fullText) botEl.textContent = t('ai.error');
+    aiHistory.push({ role: 'model', text: fullText || t('ai.error') });
+  } catch (err) {
+    botEl.classList.remove('typing');
+    botEl.textContent = t('ai.error');
+    console.warn('Shreekunja AI error:', err.message);
+  } finally {
+    document.getElementById('aiSendBtn').disabled = false;
+  }
+}
+</script>
+</body>
+</html>
