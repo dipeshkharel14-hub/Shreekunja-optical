@@ -19,6 +19,38 @@ function slugify(text) {
     .replace(/(^-|-$)/g, '');
 }
 
+// Maps the camelCase field names the API accepts (matching create()'s
+// input shape) to the actual snake_case database columns. Needed because
+// ProductModel.update() builds `SET <col> = $n` directly from whatever
+// keys it's given — passing camelCase straight through silently fails
+// (Postgres folds unquoted identifiers to lowercase: "nameEn" -> "nameen",
+// which doesn't exist), so every field accepted here MUST be mapped.
+const PRODUCT_FIELD_MAP = {
+  nameEn: 'name_en', nameNe: 'name_ne', descriptionEn: 'description_en', descriptionNe: 'description_ne',
+  categoryId: 'category_id', subcategory: 'subcategory', brand: 'brand', gender: 'gender',
+  frameType: 'frame_type', frameMaterial: 'frame_material', frameShape: 'frame_shape', color: 'color',
+  size: 'size', lensType: 'lens_type', featuresEn: 'features_en', featuresNe: 'features_ne',
+  price: 'price', compareAtPrice: 'compare_at_price', discountPercent: 'discount_percent',
+  stock: 'stock', lowStockThreshold: 'low_stock_threshold',
+  prescriptionSupported: 'prescription_supported', lensIndex: 'lens_index', uvProtection: 'uv_protection',
+  blueCut: 'blue_cut', antiReflective: 'anti_reflective', photochromic: 'photochromic', polarized: 'polarized',
+  progressive: 'progressive', waterRepellent: 'water_repellent', scratchResistant: 'scratch_resistant',
+  featured: 'featured', bestSeller: 'best_seller', newArrival: 'new_arrival', active: 'active',
+  seoTitle: 'seo_title', seoDescription: 'seo_description', slug: 'slug'
+};
+
+function mapProductFields(body) {
+  const mapped = {};
+  for (const [key, value] of Object.entries(body)) {
+    const column = PRODUCT_FIELD_MAP[key] || (Object.values(PRODUCT_FIELD_MAP).includes(key) ? key : null);
+    if (column) mapped[column] = value;
+    // Unknown keys are silently dropped rather than passed through —
+    // the alternative (forwarding unmapped keys as-is) is what caused
+    // this bug in the first place.
+  }
+  return mapped;
+}
+
 // ---------------- Public ----------------
 
 async function list(req, res, next) {
@@ -108,9 +140,19 @@ async function update(req, res, next) {
     const existing = await ProductModel.findById(req.params.id);
     if (!existing) throw new ApiError(404, 'NOT_FOUND', 'Product not found.');
 
-    const fields = { ...req.body };
+    const fields = mapProductFields(req.body || {});
     delete fields.id;
     delete fields.created_at;
+
+    // Recompute stock_status whenever stock is set directly through this
+    // generic PATCH — otherwise it goes stale (e.g. stock:15 would keep
+    // whatever stock_status the row happened to have before, even
+    // "out_of_stock"). adjustStock() already does this correctly for
+    // delta-based changes; this covers the "set an absolute value" path.
+    if (fields.stock !== undefined) {
+      const threshold = fields.low_stock_threshold ?? existing.low_stock_threshold;
+      fields.stock_status = ProductModel.computeStockStatus(fields.stock, threshold);
+    }
 
     const priceChanged = fields.price !== undefined && Number(fields.price) !== Number(existing.price);
 
