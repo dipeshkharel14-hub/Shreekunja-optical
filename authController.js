@@ -7,14 +7,14 @@
  * never get a "customer" token and vice versa.
  */
 
-const AdminModel = require('../models/Admin');
-const UserModel = require('../models/User');
-const AuditLogModel = require('../models/AuditLog');
-const { hashPassword, comparePassword, isPasswordStrongEnough, signToken } = require('../utils/security');
-const { setSessionCookie, clearSessionCookie } = require('../middleware/auth');
-const { ApiError } = require('../middleware/errorHandler');
-const { EMAIL_PATTERN } = require('../middleware/validation');
-const config = require('../config/env');
+const AdminModel = require('./Admin');
+const UserModel = require('./User');
+const AuditLogModel = require('.AuditLog');
+const { hashPassword, comparePassword, isPasswordStrongEnough, signToken } = require('./security');
+const { setSessionCookie, clearSessionCookie } = require('./auth');
+const { ApiError } = require('./errorHandler');
+const { EMAIL_PATTERN } = require('./validation');
+const config = require('./env');
 
 // ---------------------------------------------------------------
 // ADMIN AUTH
