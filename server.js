@@ -15,7 +15,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 
-const { healthCheck } = require('.database');
+const { healthCheck } = require('./database');
 const logger = require('./utils/logger');
 const { apiLimiter } = require('./middleware/rateLimit');
 const { notFoundHandler, errorHandler } = require('./middleware/errorHandler');
