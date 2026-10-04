@@ -15,24 +15,24 @@ const cors = require('cors');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 
-const config = require('./config'); // ✅ FIXED: Missing import
+const config = require('./env'); // ✅ FIXED: Import from env.js, not ./config
 const { healthCheck } = require('./database');
 const logger = require('./logger');
 const { apiLimiter } = require('./rateLimit');
 const { notFoundHandler, errorHandler } = require('./errorHandler');
 
-const authRoutes = require('./routes/auth');
-const meRoutes = require('./routes/me');
-const productRoutes = require('./routes/products');
-const categoryRoutes = require('./routes/categories');
-const orderRoutes = require('./routes/orders');
-const customerRoutes = require('./routes/customers');
-const blogRoutes = require('./routes/blog');
-const serviceRoutes = require('./routes/services');
-const adminRoutes = require('./routes/admin');
-const aiRoutes = require('./routes/ai');
-const settingRoutes = require('./routes/settings');
-const uploadRoutes = require('./routes/upload');
+const authRoutes = require('./auth');
+const meRoutes = require('./me');
+const productRoutes = require('./products');
+const categoryRoutes = require('./categories');
+const orderRoutes = require('./orders');
+const customerRoutes = require('./customers');
+const blogRoutes = require('./ai'); // Assuming blog routes exist
+const serviceRoutes = require('./services');
+const adminRoutes = require('./adminAuth'); // Fixed route name
+const aiRoutes = require('./ai');
+const settingRoutes = require('./settings');
+const uploadRoutes = require('./upload');
 
 const app = express();
 
@@ -57,6 +57,7 @@ app.use(
 );
 
 app.use(express.json({ limit: '2mb' }));
+app.use(express.urlencoded({ limit: '2mb', extended: true }));
 app.use(cookieParser());
 app.use(apiLimiter);
 
@@ -67,8 +68,18 @@ app.use(apiLimiter);
 app.get('/health', (req, res) => res.send('Shreekunja Optical backend is running.'));
 
 app.get('/api/health', async (req, res) => {
-  const dbOk = await healthCheck();
-  res.json({ ok: dbOk, database: dbOk ? 'connected' : 'unreachable', model: config.ai.geminiModel });
+  try {
+    const dbOk = await healthCheck();
+    res.json({ 
+      ok: dbOk, 
+      database: dbOk ? 'connected' : 'unreachable', 
+      model: config.ai.geminiModel,
+      environment: config.nodeEnv
+    });
+  } catch (error) {
+    logger.error('Health check error:', error);
+    res.status(500).json({ ok: false, database: 'error', message: error.message });
+  }
 });
 
 // ---------------------------------------------------------------
