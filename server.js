@@ -15,6 +15,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 
+const config = require('./config'); // ✅ FIXED: Missing import
 const { healthCheck } = require('./database');
 const logger = require('./logger');
 const { apiLimiter } = require('./rateLimit');
@@ -116,5 +117,17 @@ function shutdown(signal) {
 
 process.on('SIGTERM', () => shutdown('SIGTERM'));
 process.on('SIGINT', () => shutdown('SIGINT'));
+
+// ✅ ADDED: Handle unhandled promise rejections
+process.on('unhandledRejection', (reason, promise) => {
+  logger.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  process.exit(1);
+});
+
+// ✅ ADDED: Handle uncaught exceptions
+process.on('uncaughtException', (error) => {
+  logger.error('Uncaught Exception:', error);
+  process.exit(1);
+});
 
 module.exports = app;
