@@ -17,8 +17,8 @@ const cookieParser = require('cookie-parser');
 
 const { healthCheck } = require('./database');
 const logger = require('./logger');
-const { apiLimiter } = require('./middleware/rateLimit');
-const { notFoundHandler, errorHandler } = require('./middleware/errorHandler');
+const { apiLimiter } = require('./rateLimit');
+const { notFoundHandler, errorHandler } = require('./errorHandler');
 
 const authRoutes = require('./routes/auth');
 const meRoutes = require('./routes/me');
