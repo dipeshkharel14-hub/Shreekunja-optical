@@ -15,7 +15,6 @@ const cors = require('cors');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 
-const config = require('.dotenv');
 const { healthCheck } = require('./config/database');
 const logger = require('./utils/logger');
 const { apiLimiter } = require('./middleware/rateLimit');
