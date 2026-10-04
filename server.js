@@ -17,6 +17,7 @@ const cookieParser = require('cookie-parser');
 
 const config = require('./env'); // ✅ FIXED: Import from env.js, not ./config
 const { healthCheck } = require('./database');
+const { healthcheck } = require('./controllers/authController');
 const logger = require('./logger');
 const { apiLimiter } = require('./rateLimit');
 const { notFoundHandler, errorHandler } = require('./errorHandler');
