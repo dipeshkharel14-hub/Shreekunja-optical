@@ -16,7 +16,7 @@ const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 
 const { healthCheck } = require('./database');
-const logger = require('./utils/logger');
+const logger = require('./logger');
 const { apiLimiter } = require('./middleware/rateLimit');
 const { notFoundHandler, errorHandler } = require('./middleware/errorHandler');
 
