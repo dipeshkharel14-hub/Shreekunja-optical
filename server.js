@@ -11,6 +11,7 @@
  */
 
 const express = require('express');
+const express = require('./models/Admin');
 const cors = require('cors');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
