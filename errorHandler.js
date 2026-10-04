@@ -1,5 +1,5 @@
 /**
- * middleware/errorHandler.js
+ * errorHandler.js
  *
  * Centralized error handling. Every controller should either handle
  * its own errors or call `next(err)` — this is the single place that
@@ -11,7 +11,7 @@
  * Stack traces are NEVER sent to the client in production.
  */
 
-const logger = require('../utils/logger');
+const logger = require('./logger'); // ✅ FIXED: Root directory import
 
 /**
  * Small helper for controllers: throw new ApiError(404, 'NOT_FOUND', 'Product not found.')
