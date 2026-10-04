@@ -6,7 +6,7 @@
 const express = require('express');
 const router = express.Router();
 
-const authController = require('../controllers/authController');
+const authController = require('../authController');
 const { identify, requireCustomer } = require('../middleware/auth');
 
 router.get('/', identify, requireCustomer, authController.me);
