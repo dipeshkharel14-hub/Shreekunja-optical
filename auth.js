@@ -11,7 +11,7 @@
  * record from the database at the point authorization is checked.
  */
 
-const { verifyToken } = require('../utils/security');
+const { verifyToken } = require('./security'); // ✅ FIXED: Root directory import
 
 const COOKIE_NAME = 'sko_session';
 

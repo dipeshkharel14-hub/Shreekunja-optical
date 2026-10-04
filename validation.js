@@ -8,7 +8,7 @@
  * replacement for `validateBody`.
  */
 
-const { ApiError } = require('./errorHandler');
+const { ApiError } = require('./errorHandler'); // ✅ FIXED: Root directory import
 
 /**
  * validateBody({

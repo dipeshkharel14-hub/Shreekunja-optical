@@ -9,7 +9,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
-const config = require('../config/env');
+const config = require('./env'); // ✅ FIXED: Root directory import
 
 const BCRYPT_ROUNDS = 12;
 
